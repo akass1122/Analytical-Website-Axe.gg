@@ -1,11 +1,15 @@
 {
-  "name": "azure",
+  "name": "proj1",
   "version": "1.0.0",
   "description": "",
-  "main": "test.js",
+  "main": "expressJuly30.js",
   "scripts": {
-    "start": "node test.js"
+    "start": "node expressJuly30.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Andrei Kassiantchouk",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.4.1",
+    "express": "^4.15.3"
+  }
 }
