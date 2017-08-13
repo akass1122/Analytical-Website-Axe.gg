@@ -100,7 +100,7 @@ setInterval(serverCall1,1000*60*60,http,true);
 setInterval(function(){console.log("test setInterval");
 }, 30000);
 
-app.use("/public", express.static(__dirname + '/public'));
+//app.use("/public", express.static(__dirname + '/public'));
 app.use("/bower_components", express.static(__dirname + '/bower_components'));
 //================================================
 
