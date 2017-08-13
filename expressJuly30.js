@@ -81,7 +81,7 @@ callback1 = function(response) {
 
     //console.log("DONE ");
     if (!started) {
-      app.listen(3000);
+      app.listen(process.env.PORT || 3000);
     }
     
   });
