@@ -4,12 +4,15 @@
   "description": "",
   "main": "expressJuly30.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node expressJuly30.js"
+
   },
   "author": "Andrei Kassiantchouk",
   "license": "ISC",
   "dependencies": {
     "async": "^2.4.1",
+    "body-parser": "*",
     "express": "^4.15.3"
   }
 }

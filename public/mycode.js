@@ -29,7 +29,6 @@ var champHashes, runeHashes, masteryHashes;
 var currentChampId = "";
 var currentChampName;
 var currentRole = "";
-var currentRoleIndex;
 
 google.charts.load('current', {'packages':['corechart']});
 // google.charts.setOnLoadCallback(drawChart);
@@ -157,7 +156,7 @@ function makeDmgChart() {
 				  // backgroundColor: 'rgba(217, 217, 217, 0.85);',
 				  // backgroundColor: 'transparent',
 	             'width':221,
-	             colors: ['#b30000', 'purple', 'gray'],
+	             colors: ['rgb(172, 57, 57)', 'purple', 'gray'],
 	             'height':235};
 
 	// Instantiate and draw our chart, passing in some options.
@@ -204,18 +203,6 @@ function makeBanRateArray(id, role) {
 };
 
 //=================================================
-function findCurrentRoleIndex() {
-	var currentRoleConverted = roleNameConvert(currentRole);	
-	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion		
-		if (matchData[i].role == currentRoleConverted) {
-			currentRoleIndex = i;
-			break;
-		}
-	}
-}
-
-
-//===================================
 
 // function makeDateArray() {
 // 	for (var i = 0; i < arrayChampFive.length; i++) {
@@ -479,6 +466,32 @@ function findCurrentRoleIndex() {
 function removePreviousChampInfo() {
 	removePreviousRoleInfo();
 	$(".roleTable").remove();
+
+//======================================
+	// $("#loadingNameTable").remove();
+	// $("#titleWinSkillOrderTable").remove();
+	// $("#titleFreqSkillOrderTable").remove();
+	// $("#freqMaster").remove();
+	// $("#winMaster").remove();
+	// $('#winTrinketTable').remove();
+	// $('#freqTrinketTable').remove();
+	// $('#titleWinFinalItemsTable').remove();
+	// $('#titleFreqFinalItemsTable').remove();
+
+	// $('#titleFreqRuneTable').remove();
+	// $('#titleWinRuneTable').remove();
+	// $('#titleWinSummsTable').remove();
+	
+
+
+	// $(".divRole").remove();
+	// $(".roleTable").remove();
+	// $(".divMatch").remove();
+	// $(".bigMatchTable").remove();
+	// $(".showMore").remove();
+	// $(".champInput1").remove();
+	// $(".champDataTable").remove();
+	// $(".smallChampTable").remove();
 }
 
 function removePreviousRoleInfo() {
@@ -515,12 +528,41 @@ function removePreviousRoleInfo() {
 
 function fillInCurrentChampInfo () {
 	$('#roleTable1').append(makeRoleTable()); 
-	fillInCurrentRoleInfo ();   
+	fillInCurrentRoleInfo ();
+	
+
+    //===================================================
+
+// 	$('#roleTable1').append(makeRoleTable());
+// 	makeChampFilter();
+// 	makeBanRateChart(currentChampId);
+// 	makeWinRateChart(currentChampId);
+// 	makePickRateChart(currentChampId);
+// 	makeDamgeChart();
+	
+// 	$('#loadingName').append(loadingName());
+// 	$('#winSkill_div').append(winSkillOrderTableGen());
+// 	$('#freqSkill_div').append(skillOrderTableGen());
+// 	$('#winTrinket_div').append(winTrinket());
+// 	$('#freqTrinket_div').append(freqTrinket());
+
+// 	$('#winFinalItem_div').append(winFinalItems());
+// 	$('#freqFinalItem_div').append(freqFinalItems());
+// 	$('#winSumms_div').append(winSumms());
+
+	
+// 	$('#champDT').append(makeChampDataTable());
+// 	makeAllMatchTables(currentRole);
+	
+
+// 	$('#winRune_div').append(winRuneTable());
+// 	$('#freqRune_div').append(freqRuneTable());
+// 	$('#winMaster_div').append(makeWinMasteryTable());
+// 	$('#freqMaster_div').append(makeMasteryTable());
 }
 
 
-function fillInCurrentRoleInfo () {
-	findCurrentRoleIndex();
+function fillInCurrentRoleInfo () {	
 	makeChampFilter();
 	makeBanRateChart();
 	makeWinRateChart();
@@ -610,14 +652,14 @@ function makeChampPg() {
 }
 
 function winSkillOrderTableGen() {
-	//var currentRole1 = roleNameConvert(currentRole);	
-	// var currentRoleIndex;
-	// for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion		
-	// 	if (matchData[i].role == currentRole1) {
-	// 		currentRoleIndex = i;
-	// 		break;
-	// 	}
-	// }
+	var currentRole1 = roleNameConvert(currentRole);	
+	var currentRoleIndex;
+	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion		
+		if (matchData[i].role == currentRole1) {
+			currentRoleIndex = i;
+			break;
+		}
+	}
 	var skillString = champHashes[currentRoleIndex].hashes.skillorderhash.highestWinrate.hash;
 	var skillArray = skillString.split("-");	
 	var $titleSkillTable = $('<table id = "titleWinSkillOrderTable" class = "left winTable table3">');
@@ -696,14 +738,14 @@ function winSkillOrderTableGen() {
 //==========================================
 
 function skillOrderTableGen() {	
-	// var currentRole1 = roleNameConvert(currentRole);	
-	// var currentRoleIndex;
-	// for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion		
-	// 	if (matchData[i].role == currentRole1) {
-	// 		currentRoleIndex = i;
-	// 		break;
-	// 	}
-	// }
+	var currentRole1 = roleNameConvert(currentRole);	
+	var currentRoleIndex;
+	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion		
+		if (matchData[i].role == currentRole1) {
+			currentRoleIndex = i;
+			break;
+		}
+	}
 	var skillString = champHashes[currentRoleIndex].hashes.skillorderhash.highestCount.hash;
 	var skillArray = skillString.split("-");
 	// alert(skillArray[1]);
@@ -780,7 +822,7 @@ function skillOrderTableGen() {
 }
 
 function loadingSplash(){
-	//var champ1 = champFullObj.keys[champHashes[currentRoleIndex].championId];
+	//var champ1 = champFullObj.keys[champHashes[0].championId];
 	
 	//var champ1 = currentChampName;
 	var $loadingSplashImg = $('<img id="loadSplash">');
@@ -810,64 +852,60 @@ function loadingName(){
 
 function winTrinket(){
 	//var champ1 = champFullObj.keys[champHashes[0].championId];
-
-
-	// for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
-	// 	if (matchData[i].role == roleNameConvert(currentRole)) {
-
-
+	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
+		if (matchData[i].role == roleNameConvert(currentRole)) {
 			//var champ1 = currentChampName;
 			var $trinketTable = $('<table id = "winTrinketTable" class = "left winTable table4">');
 			$row1 = $('<tr>').appendTo($trinketTable);
 			$cell1 = $('<th>Highest Win Trinket</th>').appendTo($row1);
 			$row2 = $('<tr>').appendTo($trinketTable);
-			$cell2 = $('<td>' + (champHashes[currentRoleIndex].hashes.trinkethash.highestWinrate.winrate * 100).toFixed(2) + '% over '+ champHashes[currentRoleIndex].hashes.trinkethash.highestWinrate.count +' games</td>').appendTo($row2);
+			$cell2 = $('<td>' + (champHashes[i].hashes.trinkethash.highestWinrate.winrate * 100).toFixed(2) + '% over '+ champHashes[i].hashes.trinkethash.highestWinrate.count +' games</td>').appendTo($row2);
 			$row3 = $('<tr>').appendTo($trinketTable);
 			$cell3 = $('<td class = "tooltip">').appendTo($row3);
 
-			var trinket = champHashes[currentRoleIndex].hashes.trinkethash.highestWinrate.hash;
+			var trinket = champHashes[i].hashes.trinkethash.highestWinrate.hash;
 			var trinketDescription = itemObj.data[trinket].description;
 			var trinketPlain = itemObj.data[trinket].plaintext;
 			var trinketName = itemObj.data[trinket].name;
 
 			var $div3 = $('<div class = "tooltiptext"></div>').appendTo($cell3);
-			var $nameTag = $('<p>' + trinketName + '<br>' + '<br>' + trinketPlain + '</br>' + '<br>' + trinketDescription + '</p>').appendTo($div3);
+			var $nameTag = $('<p>' + trinketName + '<br>' + '<br>' + trinketPlain + '<br>' + trinketDescription + '</p>').appendTo($div3);
 
 			var $trinketImg = $('<img id="winTrink">');
 			var trinketImgUrl = "http://ddragon.leagueoflegends.com/cdn/7.15.1/img/item/" + trinket + ".png"
 			$trinketImg.attr('src', trinketImgUrl);
 			$trinketImg.appendTo($cell3);
-			
-		
-	
+			break;
+		}
+	}
 	return $trinketTable;
 }
 
 function freqTrinket(){
 	//var champ1 = champFullObj.keys[champHashes[0].championId];
-	// for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
-	// 	if (matchData[i].role == roleNameConvert(currentRole)) {
+	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
+		if (matchData[i].role == roleNameConvert(currentRole)) {
 			//var champ1 = currentChampName;
 			var $trinketTable = $('<table id = "freqTrinketTable" class = "left table4">');
 			$row1 = $('<tr>').appendTo($trinketTable);
 			$cell1 = $('<th>Most Frequent Trinket</th>').appendTo($row1);
 			$row2 = $('<tr>').appendTo($trinketTable);
-			$cell2 = $('<td>' + (champHashes[currentRoleIndex].hashes.trinkethash.highestCount.winrate * 100).toFixed(2) + '% over '+ champHashes[currentRoleIndex].hashes.trinkethash.highestCount.count +' games</td>').appendTo($row2);
+			$cell2 = $('<td>' + (champHashes[i].hashes.trinkethash.highestCount.winrate * 100).toFixed(2) + '% over '+ champHashes[i].hashes.trinkethash.highestCount.count +' games</td>').appendTo($row2);
 			$row3 = $('<tr>').appendTo($trinketTable);
 			$cell3 = $('<td class = "tooltip">').appendTo($row3);
-			var trinket = champHashes[currentRoleIndex].hashes.trinkethash.highestCount.hash;
+			var trinket = champHashes[i].hashes.trinkethash.highestCount.hash;
 			var trinketDescription = itemObj.data[trinket].description;
 			var trinketPlain = itemObj.data[trinket].plaintext;
 			var trinketName = itemObj.data[trinket].name;
 			var $div3 = $('<div class = "tooltiptext"></div>').appendTo($cell3);
-			var $nameTag = $('<p>' + trinketName + '<br>' + '<br>' + trinketPlain + '</br>' + '<br>' + trinketDescription + '</p>').appendTo($div3);
+			var $nameTag = $('<p>' + trinketName + '<br>' + '<br>' + trinketPlain + '<br>' + trinketDescription + '</p>').appendTo($div3);
 			var $trinketImg = $('<img id="freqTrink">');
 			var trinketImgUrl = "http://ddragon.leagueoflegends.com/cdn/7.15.1/img/item/" + trinket + ".png"
 			$trinketImg.attr('src', trinketImgUrl);
 			$trinketImg.appendTo($cell3);
-	// 		break;
-	// 	}
-	// }
+			break;
+		}
+	}
 	return $trinketTable;
 }
 //===============================================================
@@ -889,16 +927,16 @@ function capitalizeFirstLetter(string) {
 
 function winSumms(){
 	//var champ1 = champFullObj.keys[champHashes[0].championId];
-	// for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
-		// if (matchData[i].role == roleNameConvert(currentRole)) {
+	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
+		if (matchData[i].role == roleNameConvert(currentRole)) {
 			var champ1 = champFullObj.keys[currentChampId];
 			var $titleSummsTable = $('<table id = "titleWinSummsTable" class = "left winTable table6">');
 			$row1 = $('<tr>').appendTo($titleSummsTable);
 			$cell1 = $('<th>Highest Win Summs</th>').appendTo($row1);
 			$row2 = $('<tr>').appendTo($titleSummsTable);
-			$cell2 = $('<td>' + (champHashes[currentRoleIndex].hashes.summonershash.highestWinrate.winrate * 100).toFixed(2) + '% over '+ champHashes[currentRoleIndex].hashes.summonershash.highestWinrate.count +' games</td>').appendTo($row2);
+			$cell2 = $('<td>' + (champHashes[i].hashes.summonershash.highestWinrate.winrate * 100).toFixed(2) + '% over '+ champHashes[i].hashes.summonershash.highestWinrate.count +' games</td>').appendTo($row2);
 
-			var summsString = champHashes[currentRoleIndex].hashes.summonershash.highestWinrate.hash;
+			var summsString = champHashes[i].hashes.summonershash.highestWinrate.hash;
 			var summsArray = summsString.split("-");
 
 			var $summsTable = $('<table id = "winSummsTable" class = "left innerItemTable table2">').appendTo($titleSummsTable);
@@ -911,12 +949,19 @@ function winSumms(){
 			var summsUrl;
 			var $summsImg;
 
+			var $div3, $nameTag;
+
 			for (var j = 0; j < summsArray.length; j++) {
 				$td = $('<td class = "tooltip">').appendTo($tr);
 				summsImgIndex = summsArray[j];
+
+				$div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
+
+
 			
-			
-			
+			// for (var w = 0; w <= 1; w++) {
+			// 	$td = $('<td class = "tooltip">').appendTo($tr);
+			// 	summsImgIndex = summsArray[w];
 
 				//=========================
 				// for (var property in summonerObj.data) {
@@ -932,6 +977,7 @@ function winSumms(){
 				for (var property in summonerObj.data) {
 					if (parseInt(summonerObj.data[property].key) == parseInt(summsImgIndex)) {
 						summsImgName = summonerObj.data[property].image.full;
+						$nameTag = $('<p>' + summonerObj.data[property].name + '<br>' + '<br>' + summonerObj.data[property].description + '<br>' + '<br>' + 'Range: ' + summonerObj.data[property].rangeBurn + '</p>').appendTo($div3);
 					}					
 				}
 
@@ -949,24 +995,24 @@ function winSumms(){
 				$summsImg.attr('src', summsUrl);
 				$summsImg.appendTo($td);
 			};
-			
-		
-	
+			break;
+		}
+	}
 	return $titleSummsTable;
 }
 
 function freqSumms(){
 	//var champ1 = champFullObj.keys[champHashes[0].championId];
-	//for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
-		//if (matchData[i].role == roleNameConvert(currentRole)) {
+	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
+		if (matchData[i].role == roleNameConvert(currentRole)) {
 			var champ1 = champFullObj.keys[currentChampId];
 			var $titleSummsTable = $('<table id = "titleFreqSummsTable" class = "left table6">');
 			$row1 = $('<tr>').appendTo($titleSummsTable);
 			$cell1 = $('<th>Most Frequent Summs</th>').appendTo($row1);
 			$row2 = $('<tr>').appendTo($titleSummsTable);
-			$cell2 = $('<td>' + (champHashes[currentRoleIndex].hashes.summonershash.highestCount.winrate * 100).toFixed(2) + '% over '+ champHashes[currentRoleIndex].hashes.summonershash.highestCount.count +' games</td>').appendTo($row2);
+			$cell2 = $('<td>' + (champHashes[i].hashes.summonershash.highestCount.winrate * 100).toFixed(2) + '% over '+ champHashes[i].hashes.summonershash.highestCount.count +' games</td>').appendTo($row2);
 
-			var summsString = champHashes[currentRoleIndex].hashes.summonershash.highestCount.hash;
+			var summsString = champHashes[i].hashes.summonershash.highestCount.hash;
 			var summsArray = summsString.split("-");
 
 			var $summsTable = $('<table id = "freqSummsTable" class = "left innerItemTable table2">').appendTo($titleSummsTable);
@@ -979,10 +1025,13 @@ function freqSumms(){
 			var summsUrl;
 			var $summsImg;
 			
+			var $div3, $nameTag;			
 			
 			for (var w = 0; w <= 1; w++) {
 				$td = $('<td class = "tooltip">').appendTo($tr);
 				summsImgIndex = summsArray[w];
+
+				$div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
 
 				//=========================
 				// for (var property in summonerObj.data) {
@@ -998,6 +1047,7 @@ function freqSumms(){
 				for (var property in summonerObj.data) {
 					if (parseInt(summonerObj.data[property].key) == parseInt(summsImgIndex)) {
 						summsImgName = summonerObj.data[property].image.full;
+						$nameTag = $('<p>' + summonerObj.data[property].name + '<br>' + '<br>' + summonerObj.data[property].description + '<br>' + '<br>' + 'Range: ' + summonerObj.data[property].rangeBurn + '</p>').appendTo($div3);
 					}					
 				}
 
@@ -1015,78 +1065,112 @@ function freqSumms(){
 				$summsImg.attr('src', summsUrl);
 				$summsImg.appendTo($td);
 			};
-			
-		
-	
+			break;
+		}
+	}
 	return $titleSummsTable;
 }
 
-function winStartItems(){	
-	var $titleItemTable = $('<table id = "titleWinStartItemsTable" class = "left winTable itemTab table5">');
-	$row1 = $('<tr>').appendTo($titleItemTable);
-	$cell1 = $('<th>Highest Win Start Items</th>').appendTo($row1);
-	$row2 = $('<tr>').appendTo($titleItemTable);
-	$cell2 = $('<td>' + (champHashes[currentRoleIndex].hashes.firstitemshash.highestWinrate.winrate * 100).toFixed(2) + '% over '+ champHashes[currentRoleIndex].hashes.firstitemshash.highestWinrate.count +' games</td>').appendTo($row2);
-	var itemString = champHashes[currentRoleIndex].hashes.firstitemshash.highestWinrate.hash;
-	var itemArray = itemString.split("-");
-	var $itemTable = $('<table id = "winStartItemsTable" class = "left innerItemTable table2">').appendTo($titleItemTable);
-	var $trhead = $('<tr>').appendTo($itemTable);
-	var $th, $tr, $td;			
-	$tr = $('<tr>').appendTo($itemTable);
-	var itemImgIndex;
-	var itemUrl;
-	var $itemImg;
-	for (var w = 1; w < itemArray.length; w++) {
-		$td = $('<td class = "tooltip">').appendTo($tr);
-		itemImgIndex = itemArray[w];
-		itemUrl = "http://ddragon.leagueoflegends.com/cdn/7.15.1/img/item/" + itemImgIndex + ".png";		
-		$itemImg = $('<img class = "itemIcon">');
-		$itemImg.attr('src', itemUrl);
-		$itemImg.appendTo($td);
-	};
-	
+function winStartItems(){
+	//var champ1 = champFullObj.keys[champHashes[0].championId];
+	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
+		if (matchData[i].role == roleNameConvert(currentRole)) {
+			var champ1 = champFullObj.keys[currentChampId];
+			var $titleItemTable = $('<table id = "titleWinStartItemsTable" class = "left winTable itemTab table5">');
+			$row1 = $('<tr>').appendTo($titleItemTable);
+			$cell1 = $('<th>Highest Win Start Items</th>').appendTo($row1);
+			$row2 = $('<tr>').appendTo($titleItemTable);
+			$cell2 = $('<td>' + (champHashes[i].hashes.firstitemshash.highestWinrate.winrate * 100).toFixed(2) + '% over '+ champHashes[i].hashes.firstitemshash.highestWinrate.count +' games</td>').appendTo($row2);
+
+			var itemString = champHashes[i].hashes.firstitemshash.highestWinrate.hash;
+			var itemArray = itemString.split("-");
+
+			var $itemTable = $('<table id = "winStartItemsTable" class = "left innerItemTable table2">').appendTo($titleItemTable);
+			var $trhead = $('<tr>').appendTo($itemTable);
+			var $th, $tr, $td;
+			// for (var i = 0; i <= 5; i++) {
+			// 	$th = $('<th>').appendTo($trhead);
+			// 	$th.text(capitalizeFirstLetter(stringifyNumber(i + 1)));
+			// };
+
+			$tr = $('<tr>').appendTo($itemTable);
+			var itemImgIndex;
+			var itemUrl;
+			var $itemImg;
+			for (var w = 1; w < itemArray.length; w++) {
+				$td = $('<td class = "tooltip">').appendTo($tr);
+				itemImgIndex = itemArray[w];
+				itemUrl = "http://ddragon.leagueoflegends.com/cdn/7.15.1/img/item/" + itemImgIndex + ".png";
+
+				var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
+				var $nameTag = $('<p>' + itemObj.data[itemImgIndex].name + '<br>' + '<br>' + itemObj.data[itemImgIndex].description + '</p>').appendTo($div3);
+				
+				$itemImg = $('<img class = "itemIcon">');
+				$itemImg.attr('src', itemUrl);
+				$itemImg.appendTo($td);
+			};
+			break;
+		}
+	}
 	return $titleItemTable;
 }
 
 function freqStartItems(){
-	var champ1 = champFullObj.keys[currentChampId];
-	var $titleItemTable = $('<table id = "titleFreqStartItemsTable" class = "left itemTab table5">');
-	$row1 = $('<tr>').appendTo($titleItemTable);
-	$cell1 = $('<th>Most Common Start Items</th>').appendTo($row1);
-	$row2 = $('<tr>').appendTo($titleItemTable);
-	$cell2 = $('<td>' + (champHashes[currentRoleIndex].hashes.firstitemshash.highestCount.winrate * 100).toFixed(2) + '% over '+ champHashes[currentRoleIndex].hashes.firstitemshash.highestCount.count +' games</td>').appendTo($row2);
-	var itemString = champHashes[currentRoleIndex].hashes.firstitemshash.highestCount.hash;
-	var itemArray = itemString.split("-");
-	var $itemTable = $('<table id = "freqStartItemsTable" class = "left innerItemTable table2">').appendTo($titleItemTable);
-	var $trhead = $('<tr>').appendTo($itemTable);
-	var $th, $tr, $td;
-	$tr = $('<tr>').appendTo($itemTable);
-	var itemImgIndex;
-	var itemUrl;
-	var $itemImg;
-	for (var w = 1; w < itemArray.length; w++) {
-		$td = $('<td class = "tooltip">').appendTo($tr);
-		itemImgIndex = itemArray[w];
-		itemUrl = "http://ddragon.leagueoflegends.com/cdn/7.15.1/img/item/" + itemImgIndex + ".png";		
-		$itemImg = $('<img class = "itemIcon">');
-		$itemImg.attr('src', itemUrl);
-		$itemImg.appendTo($td);
-	};	
+	//var champ1 = champFullObj.keys[champHashes[0].championId];
+	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
+		if (matchData[i].role == roleNameConvert(currentRole)) {
+			var champ1 = champFullObj.keys[currentChampId];
+			var $titleItemTable = $('<table id = "titleFreqStartItemsTable" class = "left itemTab table5">');
+			$row1 = $('<tr>').appendTo($titleItemTable);
+			$cell1 = $('<th>Most Common Start Items</th>').appendTo($row1);
+			$row2 = $('<tr>').appendTo($titleItemTable);
+			$cell2 = $('<td>' + (champHashes[i].hashes.firstitemshash.highestCount.winrate * 100).toFixed(2) + '% over '+ champHashes[i].hashes.firstitemshash.highestCount.count +' games</td>').appendTo($row2);
+
+			var itemString = champHashes[i].hashes.firstitemshash.highestCount.hash;
+			var itemArray = itemString.split("-");
+
+			var $itemTable = $('<table id = "freqStartItemsTable" class = "left innerItemTable table2">').appendTo($titleItemTable);
+			var $trhead = $('<tr>').appendTo($itemTable);
+			var $th, $tr, $td;
+			// for (var i = 0; i <= 5; i++) {
+			// 	$th = $('<th>').appendTo($trhead);
+			// 	$th.text(capitalizeFirstLetter(stringifyNumber(i + 1)));
+			// };
+
+			$tr = $('<tr>').appendTo($itemTable);
+			var itemImgIndex;
+			var itemUrl;
+			var $itemImg;
+			for (var w = 1; w < itemArray.length; w++) {
+				$td = $('<td class = "tooltip">').appendTo($tr);
+				itemImgIndex = itemArray[w];
+				itemUrl = "http://ddragon.leagueoflegends.com/cdn/7.15.1/img/item/" + itemImgIndex + ".png";
+
+				var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
+				var $nameTag = $('<p>' + itemObj.data[itemImgIndex].name + '<br>' + '<br>' + itemObj.data[itemImgIndex].description + '</p>').appendTo($div3);
+				
+				$itemImg = $('<img class = "itemIcon">');
+				$itemImg.attr('src', itemUrl);
+				$itemImg.appendTo($td);
+			};
+			break;
+		}
+	}
 	return $titleItemTable;
 }
 
 function winFinalItems(){
 	//var champ1 = champFullObj.keys[champHashes[0].championId];
-	// for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
-	// 	if (matchData[i].role == roleNameConvert(currentRole)) {
+	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
+		if (matchData[i].role == roleNameConvert(currentRole)) {
 			var champ1 = champFullObj.keys[currentChampId];
 			var $titleItemTable = $('<table id = "titleWinFinalItemsTable" class = "left winTable itemTab table4">');
 			$row1 = $('<tr>').appendTo($titleItemTable);
 			$cell1 = $('<th>Highest Win Full Build</th>').appendTo($row1);
 			$row2 = $('<tr>').appendTo($titleItemTable);
-			$cell2 = $('<td>' + (champHashes[currentRoleIndex].hashes.finalitemshashfixed.highestWinrate.winrate * 100).toFixed(2) + '% over '+ champHashes[currentRoleIndex].hashes.finalitemshashfixed.highestWinrate.count +' games</td>').appendTo($row2);
+			$cell2 = $('<td>' + (champHashes[i].hashes.finalitemshashfixed.highestWinrate.winrate * 100).toFixed(2) + '% over '+ champHashes[i].hashes.finalitemshashfixed.highestWinrate.count +' games</td>').appendTo($row2);
 
-			var itemString = champHashes[currentRoleIndex].hashes.finalitemshashfixed.highestWinrate.hash;
+			var itemString = champHashes[i].hashes.finalitemshashfixed.highestWinrate.hash;
 			var itemArray = itemString.split("-");
 
 			var $itemTable = $('<table id = "winFinalItemsTable" class = "left innerItemTable table2">').appendTo($titleItemTable);
@@ -1105,29 +1189,32 @@ function winFinalItems(){
 				$td = $('<td class = "tooltip">').appendTo($tr);
 				itemImgIndex = itemArray[w + 1];
 				itemUrl = "http://ddragon.leagueoflegends.com/cdn/7.15.1/img/item/" + itemImgIndex + ".png";
+
+				var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
+				var $nameTag = $('<p>' + itemObj.data[itemImgIndex].name + '<br>' + '<br>' + itemObj.data[itemImgIndex].description + '</p>').appendTo($div3);
 				
 				$itemImg = $('<img class = "itemIcon">');
 				$itemImg.attr('src', itemUrl);
 				$itemImg.appendTo($td);
 			};
-	// 		break;
-	// 	}
-	// }
+			break;
+		}
+	}
 	return $titleItemTable;
 }
 
 function freqFinalItems(){
 	//var champ1 = champFullObj.keys[champHashes[0].championId];
-	// for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
-	// 	if (matchData[i].role == roleNameConvert(currentRole)) {
-			//var champ1 = champFullObj.keys[currentChampId];
+	for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion
+		if (matchData[i].role == roleNameConvert(currentRole)) {
+			var champ1 = champFullObj.keys[currentChampId];
 			var $titleItemTable = $('<table id = "titleFreqFinalItemsTable" class = "left itemTab table4">');
 			$row1 = $('<tr>').appendTo($titleItemTable);
 			$cell1 = $('<th>Most Frequent Full Build</th>').appendTo($row1);
 			$row2 = $('<tr>').appendTo($titleItemTable);
-			$cell2 = $('<td>' + (champHashes[currentRoleIndex].hashes.finalitemshashfixed.highestCount.winrate * 100).toFixed(2) + '% over '+ champHashes[currentRoleIndex].hashes.finalitemshashfixed.highestCount.count +' games</td>').appendTo($row2);
+			$cell2 = $('<td>' + (champHashes[i].hashes.finalitemshashfixed.highestCount.winrate * 100).toFixed(2) + '% over '+ champHashes[i].hashes.finalitemshashfixed.highestCount.count +' games</td>').appendTo($row2);
 
-			var itemString = champHashes[currentRoleIndex].hashes.finalitemshashfixed.highestCount.hash;
+			var itemString = champHashes[i].hashes.finalitemshashfixed.highestCount.hash;
 			var itemArray = itemString.split("-");
 
 			var $itemTable = $('<table id = "freqFinalItemsTable" class = "left innerItemTable table2">').appendTo($titleItemTable);
@@ -1146,14 +1233,17 @@ function freqFinalItems(){
 				$td = $('<td class = "tooltip">').appendTo($tr);
 				itemImgIndex = itemArray[w + 1];
 				itemUrl = "http://ddragon.leagueoflegends.com/cdn/7.15.1/img/item/" + itemImgIndex + ".png";
+
+				var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
+				var $nameTag = $('<p>' + itemObj.data[itemImgIndex].name + '<br>' + '<br>' + itemObj.data[itemImgIndex].description + '</p>').appendTo($div3);
 				
 				$itemImg = $('<img class = "itemIcon">');
 				$itemImg.attr('src', itemUrl);
 				$itemImg.appendTo($td);
 			};
-	// 		break;
-	// 	}
-	// }
+			break;
+		}
+	}
 	return $titleItemTable;
 }
 
@@ -1765,24 +1855,15 @@ function reverseTable(table, startingRow) {
 }
 
 function winRuneTable(){
-	// var currentRole1 = roleNameConvert(currentRole);	
-	// var currentRoleIndex;
-	// for (var i = 0; i < matchData.length; i++) {  //array of data for all roles played by this champion		
-	// 	if (matchData[i].role == currentRole1) {
-	// 		currentRoleIndex = i;
-	// 		break;
-	// 	}
-	// }
-
 	var runeArray = runeHashes.data;
-	var winRune = champHashes[currentRoleIndex].hashes.runehash.highestWinrate.hash;
+	var winRune = champHashes[0].hashes.runehash.highestWinrate.hash;
 	var winRuneArray = winRune.split("-");
 
 	var $titleRuneTable = $('<table id = "titleWinRuneTable" class = "left winTable table3">');
 	$row1 = $('<tr>').appendTo($titleRuneTable);
 	$cell1 = $('<th>Highest Win Runes</th>').appendTo($row1);
 	$row2 = $('<tr>').appendTo($titleRuneTable);
-	$cell2 = $('<td>' + (champHashes[currentRoleIndex].hashes.runehash.highestWinrate.winrate * 100).toFixed(2) + '% over '+ champHashes[currentRoleIndex].hashes.runehash.highestWinrate.count +' games</td>').appendTo($row2);
+	$cell2 = $('<td>' + (champHashes[0].hashes.runehash.highestWinrate.winrate * 100).toFixed(2) + '% over '+ champHashes[0].hashes.runehash.highestWinrate.count +' games</td>').appendTo($row2);
 
 
 	var $runeTable = $('<table id = "winRunes" class = "left runes">').appendTo($titleRuneTable);
@@ -1807,6 +1888,9 @@ function winRuneTable(){
 		// $td[0].style.width = "64px";
 		// $td[0].style.height = "64px";
 
+		var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
+		var $nameTag = $('<p>' + runeArray[winRuneArray[i*2]].description + '</p>').appendTo($div3);
+
 		$td = $('<td>').appendTo($tr);
 		$td[0].textContent = "x " + winRuneArray[i*2+1];
 
@@ -1820,14 +1904,14 @@ function winRuneTable(){
 
 function freqRuneTable(){
 	var runeArray = runeHashes.data;
-	var freqRune = champHashes[currentRoleIndex].hashes.runehash.highestCount.hash;
+	var freqRune = champHashes[0].hashes.runehash.highestCount.hash;
 	var freqRuneArray = freqRune.split("-");
 
 	var $titleRuneTable = $('<table id = "titleFreqRuneTable" class = "left table3">');
 	$row1 = $('<tr>').appendTo($titleRuneTable);
 	$cell1 = $('<th>Most Frequent Runes</th>').appendTo($row1);
 	$row2 = $('<tr>').appendTo($titleRuneTable);
-	$cell2 = $('<td>' + (champHashes[currentRoleIndex].hashes.runehash.highestCount.winrate * 100).toFixed(2) + '% over '+ champHashes[currentRoleIndex].hashes.runehash.highestCount.count +' games</td>').appendTo($row2);
+	$cell2 = $('<td>' + (champHashes[0].hashes.runehash.highestCount.winrate * 100).toFixed(2) + '% over '+ champHashes[0].hashes.runehash.highestCount.count +' games</td>').appendTo($row2);
 
 
 	var $runeTable = $('<table id = "freqRunes" class = "left runes">').appendTo($titleRuneTable);
@@ -1851,6 +1935,9 @@ function freqRuneTable(){
 		$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.15.1/img/rune/" + runeArray[freqRuneArray[i*2]].image.full +  "')";
 		// $td[0].style.width = "64px";
 		// $td[0].style.height = "64px";
+
+		var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
+		var $nameTag = $('<p>' + runeArray[freqRuneArray[i*2]].description + '</p>').appendTo($div3);
 
 		$td = $('<td>').appendTo($tr);
 		$td[0].textContent = "x " + freqRuneArray[i*2+1];
@@ -1884,7 +1971,7 @@ function freqRuneTable(){
 
 function ferocityTable(colorArray) {
 	// alert(1);
-	// var skillString = champHashes[currentRoleIndex].hashes.skillorderhash.highestCount.hash;
+	// var skillString = champHashes[0].hashes.skillorderhash.highestCount.hash;
 	// var skillArray = skillString.split("-");
 	// alert(skillArray[1]);
 	var ferocityArray = masteryHashes.tree.Ferocity;
@@ -1969,7 +2056,7 @@ function ferocityTable(colorArray) {
 
 function cunningTable(colorArray) {
 	// alert(1);
-	// var skillString = champHashes[currentRoleIndex].hashes.skillorderhash.highestCount.hash;
+	// var skillString = champHashes[0].hashes.skillorderhash.highestCount.hash;
 	// var skillArray = skillString.split("-");
 	// alert(skillArray[1]);
 	var cunningArray = masteryHashes.tree.Cunning;
@@ -2057,7 +2144,7 @@ function cunningTable(colorArray) {
 
 function resolveTable(colorArray) {
 	// alert(1);
-	// var skillString = champHashes[currentRoleIndex].hashes.skillorderhash.highestCount.hash;
+	// var skillString = champHashes[0].hashes.skillorderhash.highestCount.hash;
 	// var skillArray = skillString.split("-");
 	// alert(skillArray[1]);
 	var resolveArray = masteryHashes.tree.Resolve;
