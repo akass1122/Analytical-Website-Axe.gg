@@ -29,10 +29,11 @@
 			}
 			body {
 				background-color: rgb(172, 57, 57);
+				/*background-color: rgb(198, 83, 83);*/
 				position: fixed;
 				left: 0;
 				right: 0;
-				height: 15%;
+				height: 20%;
 				top: 0;
 				color: white;
 
@@ -42,7 +43,7 @@
 				position: fixed;
 				left: 0;
 				right: 0;
-				height: 85%;
+				height: 80%;
 				bottom: 0;
 				color: white;
 				background-size: cover;
@@ -67,11 +68,11 @@
 				cursor: pointer;
 			}
 			#centeredmenu {
-			   	float:left;
-			   	width:100%;
-			   	overflow:hidden;
-			  	position:absolute;
-			   	bottom: 10%;
+				float:left;
+				width:100%;
+				overflow:hidden;
+				position:absolute;
+				bottom: 10%;
 			}
 			#centeredmenu ul {
 				clear:left;
@@ -112,17 +113,17 @@
 			   font-weight:bold;
 			}
 			.tab{
-			    height:26px;
-			    width:80px;
-			    color:;
-			    outline: none;
-			    font-family: beaufortforlol, Verdana, sans-serif;
-			    transition-duration: 0.4s;
+				height:26px;
+				width:80px;
+				color:;
+				outline: none;
+				font-family: beaufortforlol, Verdana, sans-serif;
+				transition-duration: 0.4s;
 			}
 
 			.tab:hover {
-			    background-color: #369; /* Green */
-			    color: white;
+				background-color: #369; /* Green */
+				color: white;
 			}
 
 			.active {
@@ -142,10 +143,62 @@
 			{
 				float: left;
 			}
+
+			ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				/*background-color: rgb(191, 64, 64);*/
+				background-color: rgb(160, 52, 52);
+				/*background-color: rgb(191, 64, 64);*/
+				/*border-bottom: 1px solid rgb(160, 52, 52);*/
+			}
+
+			li {
+				float: left;
+				background-color: rgb(160, 52, 52);
+				/*border-right: 1px solid #bbb;*/
+			}
+
+			li:first-child {
+				border-right: 1px solid rgb(172, 57, 57);
+			}
+
+			li a {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 10px 30px;
+				text-decoration: none;
+			}
+
+			li a:hover:not(.active) {
+				background-color: rgb(191, 64, 64);
+			}
+
+			.active {
+				background-color: rgb(172, 57, 57);
+				/*border-bottom: 1px solid transparent;*/
+			}
+
+			.active:hover {
+				background-color: rgb(191, 64, 64);
+				/*border-bottom: 1px solid transparent;*/
+			}
+			
 		</style>
 	</head>
 	<body>
-		<br>		
+
+		<ul>
+		  <li><a class = "active" href="javascript:home();">Home</a></li>
+		  <li><a href="javascript:contact();">Contact</a></li>
+		  <li style="float:right"><a href="javascript:about();">About</a></li>
+		</ul>
+
+		<br>
+
 		<script>
 		var i = 3;
 		var colors = ["gray", "black", /**redish*/ "rgb(172, 57, 57)", /**blueish*/"rgb(0, 153, 255)", /** greenish */ "rgb(0, 179, 134)" /** very greenish "rgb(19, 149,69)"*/, /** pinkish */ "rgb(172, 57, 115)", /** purpleish */ "rgb(77, 0, 102)"];
@@ -164,6 +217,15 @@
 		function home() {
 			document.getElementById("champframe").src= "makePage.htm";
 		}
+
+		function contact() {
+			document.getElementById("champframe").src= "contact.htm";
+		}
+
+		function about() {
+			document.getElementById("champframe").src= "about.htm";
+		}
+
 		</script>
 		<center><input type="image" src="sr5.png" width="50" height="50" onclick="home()" style=""></input></center>
 		<br>
