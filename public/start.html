@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<!--  
+		 _            _          _        _            _              _        
+		/\ \         /\ \       /\ \     /\ \         /\ \           /\ \      
+	   /  \ \        \ \ \     /  \ \    \_\ \       /  \ \         /  \ \     
+	  / /\ \ \       /\ \_\   / /\ \ \   /\__ \     / /\ \_\       / /\ \_\    
+	 / / /\ \_\     / /\/_/  / / /\ \_\ / /_ \ \   / / /\/_/      / / /\/_/    
+	/ / /_/ / /    / / /    / /_/_ \/_// / /\ \ \ / / / ______   / / / ______  
+   / / /__\/ /    / / /    / /____/\  / / /  \/_// / / /\_____\ / / / /\_____\ 
+  / / /_____/    / / /    / /\____\/ / / /      / / /  \/____ // / /  \/____ / 
+ / / /\ \ \  ___/ / /__  / / /      / / /_     / / /_____/ / // / /_____/ / /  
+/ / /  \ \ \/\__\/_/___\/ / /      /_/ //\_\  / / /______\/ // / /______\/ /   
+\/_/    \_\/\/_________/\/_/       \_\/ \/_/  \/___________/ \/___________/    
+ -->
+	<head>
+		<title>Rift Analytics</title>
+		<link rel="icon" type="image/png" href="sricon2.png"/>
+		<style type="text/css">
+			@font-face {
+				font-family: beaufortforlol;
+				src: url("fonts/beaufortforlol-regular.otf") format("opentype");
+			}
+
+			@font-face {
+				font-family: beaufortforlol;
+				font-weight: bold;
+				src: url("fonts/beaufortforlol-bold.otf") format("opentype");
+			}
+			body {
+				background-color: rgb(172, 57, 57);
+				position: fixed;
+				left: 0;
+				right: 0;
+				height: 12%;
+				top: 0;
+				color: white;
+
+				font-family: beaufortforlol, Verdana, sans-serif;
+			}
+			h1 {
+				position: fixed;
+				left: 0;
+				right: 0;
+				height: 88%;
+				bottom: 0;
+				color: white;
+				background-size: cover;
+				background-color: black;
+			}
+
+			input[type=image] {
+				border: none;
+				outline: none;				
+			}
+
+			#search{
+				height: 23px;
+				position: relative;
+				top: -1px;
+				outline: none;
+			}
+
+			#submit{
+				color: white;
+				margin-left: -4px;
+				cursor: pointer;
+			}
+			#centeredmenu {
+			   	float:left;
+			   	width:100%;
+			   	overflow:hidden;
+			  	position:absolute;
+			   	bottom: 10%;
+			}
+			#centeredmenu ul {
+				clear:left;
+				float:left;
+				list-style:none;
+				margin:0;
+				padding:0;
+				position:relative;
+				left:50%;
+				text-align:center;
+			}
+			#centeredmenu ul li {
+			   display:block;
+			   float:left;
+			   list-style:none;
+			   margin:0;
+			   padding:0;
+			   position:relative;
+			   right:50%;
+			}
+			#centeredmenu ul li a {
+			   display:block;
+			   margin:0 0 0 1px;
+			   padding:3px 10px;
+			   background:#ddd;
+			   color:#000;
+			   text-decoration:none;
+			   line-height:1.3em;
+			}
+			#centeredmenu ul li a:hover {
+			   background:#369;
+			   color:#fff;
+			}
+			#centeredmenu ul li a.active,
+			#centeredmenu ul li a.active:hover {
+			   color:#fff;
+			   background:#000;
+			   font-weight:bold;
+			}
+			.tab{
+			    height:26px;
+			    width:80px;
+			    color:;
+			    outline: none;
+			    font-family: beaufortforlol, Verdana, sans-serif;
+			    transition-duration: 0.4s;
+			}
+
+			.tab:hover {
+			    background-color: #369; /* Green */
+			    color: white;
+			}
+
+			.active {
+				color: white;
+				border: none;
+				outline: none;
+				background: black;
+				font-family: beaufortforlol, Verdana, sans-serif;
+
+			}
+
+			.active:hover {
+				background: black;
+			}
+
+			.floated_img
+			{
+				float: left;
+			}
+		</style>
+	</head>
+	<body>
+		<br>		
+		<script>
+		var i = 3;
+		var colors = ["gray", "black", /**redish*/ "rgb(172, 57, 57)", /**blueish*/"rgb(0, 153, 255)", /** greenish */ "rgb(0, 179, 134)" /** very greenish "rgb(19, 149,69)"*/, /** pinkish */ "rgb(172, 57, 115)", /** purpleish */ "rgb(77, 0, 102)"];
+
+		function bgButton() {
+			document.body.style.backgroundColor=colors[i];
+			document.cookie = "bgPref="+i;
+			if (i == colors.length-1) {
+				i=0;
+			}
+			else {
+				i++;
+			}
+		}
+
+		function home() {
+			document.getElementById("champframe").src= "makePage.htm";
+		}
+		</script>
+		<center><input type="image" src="sr5.png" width="50" height="50" onclick="home()" style=""></input></center>
+		<br>
+		<h1>
+			<iframe id="champframe" src="makePage.htm" height="100%" width="100%" style="background: #FFFFFF; border: 0" frameBorder="0"></iframe>
+		</h1>
+		
+		<div style="position: relative">
+			<p style="position: fixed; bottom: 0; width:90%; text-align: right"><font size = "1">
+				© 2017 RIFT.GG
+			</font></p>
+		</div>
+	</body>
+</html>

@@ -2,11 +2,10 @@
   "name": "proj1",
   "version": "1.0.0",
   "description": "",
-  "main": "expressJuly30.js",
+  "main": "express1.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node expressJuly30.js"
-
+    "start": "node express1.js"
   },
   "author": "Andrei Kassiantchouk",
   "license": "ISC",
