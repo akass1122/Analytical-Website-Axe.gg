@@ -1825,7 +1825,7 @@ function tablemake() {
 	champt1.setAttribute("id", "champtable");
 	var thead = champt1.createTHead();
 	th = document.createElement("th");
-	th.innerHTML = "<b>Icon</b>";
+	th.innerHTML = "<b>Icon &#9652;</b>";
 	thead.appendChild(th);
 	th = document.createElement("th");
 	th.innerHTML = "<b>Champion</b>";
