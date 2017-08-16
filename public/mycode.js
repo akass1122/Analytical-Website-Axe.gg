@@ -1797,85 +1797,6 @@ function removetable() {
 			$("#champtable").remove();
 		}
 
-// function tablemake() {	
-// 	var $a, th, row, cell;
-// 	var champnamecurr, champidcurr, champidcurrStr, champwincurr, champpickcurr, champbancurr, voidindex;
-//     for (i = 0; i < champs.length; i++) {
-//  		if (champmap.hasOwnProperty(champids[i].toString())) {
-//     		document.getElementById(champs[i]).style.display = "none";
-//     	};
-//     }
-// 	var champt1 = document.createElement("table");	
-// 	champt1.setAttribute("id", "champtable");
-// 	var thead = champt1.createTHead();
-// 	th = document.createElement("th");
-// 	th.innerHTML = "<b>Icon</b>";
-// 	thead.appendChild(th);
-// 	th = document.createElement("th");
-// 	th.innerHTML = "<b>Champion</b>";
-// 	th.onclick = function(){insertSortTable1(champt1, 1, 0, cellText, cellId, true);};
-// 	th.setAttribute("style", "cursor: pointer;");
-// 	thead.appendChild(th);
-// 	th = document.createElement("th");
-// 	th.innerHTML = "<b>Lane</b>";
-// 	th.onclick = function(){insertSortTable1(champt1, 2, 0, cellText, cellId, true);};
-// 	th.setAttribute("style", "cursor: pointer;");
-// 	thead.appendChild(th);
-// 	th = document.createElement("th");
-// 	th.innerHTML = "<b>Win Rate</b>";
-// 	th.onclick = function(){insertSortTable1(champt1, 3, 0, cellText, cellId, false);};
-// 	th.setAttribute("style", "cursor: pointer;");
-// 	thead.appendChild(th);
-// 	th = document.createElement("th");
-// 	th.innerHTML = "<b>Pick Rate</b>";
-// 	th.onclick = function(){insertSortTable1(champt1, 4, 0, cellText, cellId, false);};
-// 	th.setAttribute("style", "cursor: pointer;");
-// 	thead.appendChild(th);
-// 	th = document.createElement("th");
-// 	th.innerHTML = "<b>Ban Rate</b>";
-// 	th.onclick = function(){insertSortTable1(champt1, 5, 0, cellText, cellId, true);};
-// 	th.setAttribute("style", "cursor: pointer;");
-// 	thead.appendChild(th);
-// 	for (var i = 0; i < champs.length; i++) {
-// 		if (champmap.hasOwnProperty(champids[i].toString())) {
-// 			champnamecurr = champs[i];
-// 			champidcurr = champids[i];
-// 			champidcurrStr = champidcurr.toString();
-// 			champwincurr = champmap[champidcurrStr].winRate;
-// 			champpickcurr = champmap[champidcurrStr].playRate;
-// 			champbancurr = champmap[champidcurrStr].banRate;
-// 			voidindex = voidchamps.indexOf(champnamecurr);
-// 			row = champt1.insertRow(-1);
-// 			row.id="table_"+champnamecurr;
-// 			cell = row.insertCell(0);
-// 			if (voidindex==-1) {
-// 				cell.style.backgroundImage="url('ChampSq/"+champnamecurr+".png')";
-// 			} else {
-// 				cell.style.backgroundImage="url('ChampSq/"+voidchampstext[voidindex]+".png')";
-// 			};
-// 			cell.style.width="50px";
-// 			cell.style.height="50px";
-// 			cell.style.backgroundSize="cover";
-// 			cell = row.insertCell(1);			
-// 			$a = $('<a href = "#!">' + champnamecurr + '</a>' ).appendTo(cell);
-// 			$a[0].className = "mainTable_" + champidcurr;
-// 			$a[0].onclick = makeChampPg;
-// 			cell.id = champnamecurr + " tabrow";
-// 			cell = row.insertCell(2);
-// 			cell = row.insertCell(3);
-// 			cell.id = "tablewin_" + champnamecurr;
-// 			cell.innerHTML= champwincurr + "%";
-// 			cell = row.insertCell(4);
-// 			cell.id = "tablepick_" + champnamecurr;
-// 			cell.innerHTML= champpickcurr + "%";
-// 			cell = row.insertCell(5);
-// 			cell.id = "tableban_" + champnamecurr;
-// 			cell.innerHTML= champbancurr + "%";
-// 		};
-// 	};
-// 	$("#p1").append(champt1);	
-// };
-
 var allRoles = ["TOP", "MIDDLE", "JUNGLE", "DUO_CARRY", "DUO_SUPPORT"];
 
 function roleLongToShort(longName) {
@@ -1958,13 +1879,13 @@ function tablemake() {
 			for (var j = 0; j < allRoles.length; j++ ) {
 				if (champRoleMap.hasOwnProperty(champidcurr + " " + allRoles[j])) {
 					$a = $('<a href = "#!">' + roleLongToShort(allRoles[j]) + '</a>' ).appendTo(cell);
-					$a[0].className = "mainTable_" + champidcurr + "_" + roleLongToShort(allRoles[j]);
+					$a[0].className = "mainTableAtag " + champidcurr + " " + roleLongToShort(allRoles[j]);
 					$a[0].onclick = function() {
-						currentRole = (this.className.split('_')[2]).toUpperCase();
+						currentRole = (this.className.split(' ')[2]).toUpperCase();
 						if (firstLoad == false) {	
 						removePreviousChampInfo();
 						}							
-						currentChampId = this.className.split('_')[1];
+						currentChampId = this.className.split(' ')[1];
 						currentChampName = champFullObj.keys[currentChampId];													
 						getHash1();
 					}
