@@ -1825,7 +1825,7 @@ function tablemake() {
 	champt1.setAttribute("id", "champtable");
 	var thead = champt1.createTHead();
 	th = document.createElement("th");
-	th.innerHTML = "<b>Icon</b>";
+	th.innerHTML = "<b>Icon<br></b>";
 	thead.appendChild(th);
 	th = document.createElement("th");
 	th.innerHTML = "<b>Champion<br>&#9652;&#9662;</b>";
@@ -1833,7 +1833,7 @@ function tablemake() {
 	th.setAttribute("style", "cursor: pointer;");
 	thead.appendChild(th);
 	th = document.createElement("th");
-	th.innerHTML = "<b>Role</b>";
+	th.innerHTML = "<b>Role<br></b>";
 	thead.appendChild(th);
 	th = document.createElement("th");
 	th.innerHTML = "<b>Win Rate<br>&#9652;&#9662;</b>";
