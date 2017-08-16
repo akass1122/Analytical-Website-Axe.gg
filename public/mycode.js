@@ -211,6 +211,12 @@ function fillInCurrentChampInfo () {
 	fillInCurrentRoleInfo ();   
 }
 
+/* This function is called when a role is chosen from the main table */
+function fillInCurrentChampInfo1() {
+	$('#roleTable1').append(makeRoleTable1()); 
+	fillInCurrentRoleInfo ();   
+}
+
 function fillInCurrentRoleInfo () {
 	findCurrentRoleIndex();
 	makeChampFilter();
@@ -237,6 +243,79 @@ function fillInCurrentRoleInfo () {
 	$('#freqMaster_div').append(makeMasteryTable());
 }
 
+function getHash() {
+	async.parallel([function(callback) {			
+		$.getJSON("/hashes/" + currentChampId, function (data) {
+			champHashes = data;
+			callback();
+		});
+	}, function(callback) {				
+			$.getJSON("/runeData", function (data) {
+				runeHashes = data;
+				callback();
+			});
+	}, function(callback) {				
+			$.getJSON("/stats/"+ currentChampId, function (data) {			
+				matchData = data;
+				callback();
+			});
+	}, function(callback) {				
+			$.getJSON("/masteryData", function (data) {
+				masteryHashes = data;
+				callback();
+			});
+	}], function done(err, results) {			
+		if (err) {
+			throw err;
+		}
+		p1Hide();
+		if (firstLoad == true) {
+			$('#loadingSplash').append(loadingSplash());
+		} else {
+			changeSplash();
+		}
+		fillInCurrentChampInfo ();
+		firstLoad = false;
+		});
+	}
+
+/* This function is called when a role is chosen from the main table */
+function getHash1() {
+	async.parallel([function(callback) {			
+		$.getJSON("/hashes/" + currentChampId, function (data) {
+			champHashes = data;
+			callback();
+		});
+	}, function(callback) {				
+			$.getJSON("/runeData", function (data) {
+				runeHashes = data;
+				callback();
+			});
+	}, function(callback) {				
+			$.getJSON("/stats/"+ currentChampId, function (data) {			
+				matchData = data;
+				callback();
+			});
+	}, function(callback) {				
+			$.getJSON("/masteryData", function (data) {
+				masteryHashes = data;
+				callback();
+			});
+	}], function done(err, results) {			
+		if (err) {
+			throw err;
+		}
+		p1Hide();
+		if (firstLoad == true) {
+			$('#loadingSplash').append(loadingSplash());
+		} else {
+			changeSplash();
+		}
+		fillInCurrentChampInfo1();
+		firstLoad = false;
+		});
+	}
+
 function makeChampPg() {
 	if (firstLoad == false) {	
 		removePreviousChampInfo();
@@ -248,45 +327,64 @@ function makeChampPg() {
 	else if (this.className && this.className.indexOf('_') != -1) {
 		currentChampId = this.className.split('_')[1];
 		currentChampName = champFullObj.keys[currentChampId];
-	}	
-
-	function getHash() {
-		async.parallel([function(callback) {			
-			$.getJSON("/hashes/" + currentChampId, function (data) {
-				champHashes = data;
-				callback();
-			});
-		}, function(callback) {				
-				$.getJSON("/runeData", function (data) {
-					runeHashes = data;
-					callback();
-				});
-		}, function(callback) {				
-				$.getJSON("/stats/"+ currentChampId, function (data) {			
-					matchData = data;
-					callback();
-				});
-		}, function(callback) {				
-				$.getJSON("/masteryData", function (data) {
-					masteryHashes = data;
-					callback();
-				});
-		}], function done(err, results) {			
-			if (err) {
-				throw err;
-			}
-			p1Hide();
-			if (firstLoad == true) {
-				$('#loadingSplash').append(loadingSplash());
-			} else {
-				changeSplash();
-			}
-			fillInCurrentChampInfo ();
-			firstLoad = false;
-			});
-	}
+	}		
 	getHash();
 }
+
+
+
+//===============================
+
+// function makeChampPg() {
+// 	if (firstLoad == false) {	
+// 		removePreviousChampInfo();
+// 	}	
+// 	if (this.id) {
+// 		currentChampId = this.id;
+// 		currentChampName = champFullObj.keys[currentChampId];
+// 	}
+// 	else if (this.className && this.className.indexOf('_') != -1) {
+// 		currentChampId = this.className.split('_')[1];
+// 		currentChampName = champFullObj.keys[currentChampId];
+// 	}	
+
+// 	function getHash() {
+// 		async.parallel([function(callback) {			
+// 			$.getJSON("/hashes/" + currentChampId, function (data) {
+// 				champHashes = data;
+// 				callback();
+// 			});
+// 		}, function(callback) {				
+// 				$.getJSON("/runeData", function (data) {
+// 					runeHashes = data;
+// 					callback();
+// 				});
+// 		}, function(callback) {				
+// 				$.getJSON("/stats/"+ currentChampId, function (data) {			
+// 					matchData = data;
+// 					callback();
+// 				});
+// 		}, function(callback) {				
+// 				$.getJSON("/masteryData", function (data) {
+// 					masteryHashes = data;
+// 					callback();
+// 				});
+// 		}], function done(err, results) {			
+// 			if (err) {
+// 				throw err;
+// 			}
+// 			p1Hide();
+// 			if (firstLoad == true) {
+// 				$('#loadingSplash').append(loadingSplash());
+// 			} else {
+// 				changeSplash();
+// 			}
+// 			fillInCurrentChampInfo ();
+// 			firstLoad = false;
+// 			});
+// 	}
+// 	getHash();
+// }
 
 function winSkillOrderTableGen() {
 	var skillString = champHashes[currentRoleIndex].hashes.skillorderhash.highestWinrate.hash;
@@ -751,6 +849,62 @@ function makeRoleTable() { //Just  roles, no picture, name
 	$roleTable[0].rows[1].cells[0].style.backgroundColor = "#99ccff";
 	$roleTable[0].rows[1].cells[0].style.textShadow = "none";
 	$roleTable[0].rows[1].cells[0].style.color = "rgb(54, 25, 25)";
+	$roleTable.css({borderCollapse: "collapse"});
+	return $roleTable;
+}
+
+/* This function is called when a role is chosen from the main table 
+This function makes the role table with chosen role from variable currentRole*/
+function makeRoleTable1() { 
+	var $roleTable = $('<table class = "roleTable">');	
+	var $tr, $td, $th;
+	$tr = $('<tr>').appendTo($roleTable);
+	$th = $('<th>').text("Role").appendTo($tr);
+	$th = $('<th>').text("Rate").appendTo($tr);
+	$th = $('<th>').text("Win").appendTo($tr);		
+	for (var i = 0; i < champHashes.length  ; i++) {
+		$tr = $('<tr>').appendTo($roleTable);
+		$td = $('<td>').appendTo($tr);		
+		var roleName = champHashes[i].role;
+		if (roleName == "MIDDLE") {
+			roleName = "MID";
+		}
+		if (roleName == "DUO_CARRY") {
+			roleName = "ADC";
+		}
+		if (roleName == "DUO_SUPPORT") {
+			roleName = "SUPP";
+		}
+		$td.text(roleName);
+		$td.css({cursor: "pointer"});
+
+		$td.bind("click", function() {	
+			for (var i = 1; i < $roleTable[0].rows.length; i++) {
+				$roleTable[0].rows[i].cells[0].style.backgroundColor = "transparent";
+				$roleTable[0].rows[i].cells[0].style.color = "white";
+			}
+			this.style.backgroundColor = "#99ccff";
+			if (currentRole != this.innerHTML) {
+				currentRole = this.innerHTML;
+				removePreviousRoleInfo();
+				fillInCurrentRoleInfo();
+			}
+		}
+		);
+		$td = $('<td>').appendTo($tr);
+		$td.text(((champHashes[i].percentRolePlayed)*100).toFixed(2) + "%");
+
+		$td = $('<td>').appendTo($tr);
+		$td.text(((champHashes[i].winRate)*100).toFixed(2) + "%");
+	}
+	insertSortTable($roleTable[0], 1, 0, false);	
+	for( var i = 1; i <= champHashes.length  ; i++) {
+		if (currentRole == $roleTable[0].rows[i].cells[0].innerHTML) {
+			$roleTable[0].rows[i].cells[0].style.backgroundColor = "#99ccff";
+			$roleTable[0].rows[i].cells[0].style.color = "white";
+			break;
+		}
+	}
 	$roleTable.css({borderCollapse: "collapse"});
 	return $roleTable;
 }
@@ -1643,6 +1797,101 @@ function removetable() {
 			$("#champtable").remove();
 		}
 
+// function tablemake() {	
+// 	var $a, th, row, cell;
+// 	var champnamecurr, champidcurr, champidcurrStr, champwincurr, champpickcurr, champbancurr, voidindex;
+//     for (i = 0; i < champs.length; i++) {
+//  		if (champmap.hasOwnProperty(champids[i].toString())) {
+//     		document.getElementById(champs[i]).style.display = "none";
+//     	};
+//     }
+// 	var champt1 = document.createElement("table");	
+// 	champt1.setAttribute("id", "champtable");
+// 	var thead = champt1.createTHead();
+// 	th = document.createElement("th");
+// 	th.innerHTML = "<b>Icon</b>";
+// 	thead.appendChild(th);
+// 	th = document.createElement("th");
+// 	th.innerHTML = "<b>Champion</b>";
+// 	th.onclick = function(){insertSortTable1(champt1, 1, 0, cellText, cellId, true);};
+// 	th.setAttribute("style", "cursor: pointer;");
+// 	thead.appendChild(th);
+// 	th = document.createElement("th");
+// 	th.innerHTML = "<b>Lane</b>";
+// 	th.onclick = function(){insertSortTable1(champt1, 2, 0, cellText, cellId, true);};
+// 	th.setAttribute("style", "cursor: pointer;");
+// 	thead.appendChild(th);
+// 	th = document.createElement("th");
+// 	th.innerHTML = "<b>Win Rate</b>";
+// 	th.onclick = function(){insertSortTable1(champt1, 3, 0, cellText, cellId, false);};
+// 	th.setAttribute("style", "cursor: pointer;");
+// 	thead.appendChild(th);
+// 	th = document.createElement("th");
+// 	th.innerHTML = "<b>Pick Rate</b>";
+// 	th.onclick = function(){insertSortTable1(champt1, 4, 0, cellText, cellId, false);};
+// 	th.setAttribute("style", "cursor: pointer;");
+// 	thead.appendChild(th);
+// 	th = document.createElement("th");
+// 	th.innerHTML = "<b>Ban Rate</b>";
+// 	th.onclick = function(){insertSortTable1(champt1, 5, 0, cellText, cellId, true);};
+// 	th.setAttribute("style", "cursor: pointer;");
+// 	thead.appendChild(th);
+// 	for (var i = 0; i < champs.length; i++) {
+// 		if (champmap.hasOwnProperty(champids[i].toString())) {
+// 			champnamecurr = champs[i];
+// 			champidcurr = champids[i];
+// 			champidcurrStr = champidcurr.toString();
+// 			champwincurr = champmap[champidcurrStr].winRate;
+// 			champpickcurr = champmap[champidcurrStr].playRate;
+// 			champbancurr = champmap[champidcurrStr].banRate;
+// 			voidindex = voidchamps.indexOf(champnamecurr);
+// 			row = champt1.insertRow(-1);
+// 			row.id="table_"+champnamecurr;
+// 			cell = row.insertCell(0);
+// 			if (voidindex==-1) {
+// 				cell.style.backgroundImage="url('ChampSq/"+champnamecurr+".png')";
+// 			} else {
+// 				cell.style.backgroundImage="url('ChampSq/"+voidchampstext[voidindex]+".png')";
+// 			};
+// 			cell.style.width="50px";
+// 			cell.style.height="50px";
+// 			cell.style.backgroundSize="cover";
+// 			cell = row.insertCell(1);			
+// 			$a = $('<a href = "#!">' + champnamecurr + '</a>' ).appendTo(cell);
+// 			$a[0].className = "mainTable_" + champidcurr;
+// 			$a[0].onclick = makeChampPg;
+// 			cell.id = champnamecurr + " tabrow";
+// 			cell = row.insertCell(2);
+// 			cell = row.insertCell(3);
+// 			cell.id = "tablewin_" + champnamecurr;
+// 			cell.innerHTML= champwincurr + "%";
+// 			cell = row.insertCell(4);
+// 			cell.id = "tablepick_" + champnamecurr;
+// 			cell.innerHTML= champpickcurr + "%";
+// 			cell = row.insertCell(5);
+// 			cell.id = "tableban_" + champnamecurr;
+// 			cell.innerHTML= champbancurr + "%";
+// 		};
+// 	};
+// 	$("#p1").append(champt1);	
+// };
+
+var allRoles = ["TOP", "MIDDLE", "JUNGLE", "DUO_CARRY", "DUO_SUPPORT"];
+
+function roleLongToShort(longName) {
+	if (longName == "TOP") {
+		return "Top";
+	} else if (longName == "MIDDLE") {
+		return "Mid";
+	} else if (longName == "JUNGLE") {
+		return "Jungle";
+	} else if (longName == "DUO_CARRY") {
+		return "ADC";
+	} else if (longName == "DUO_SUPPORT") {
+		return "Supp";
+	}
+}
+
 function tablemake() {	
 	var $a, th, row, cell;
 	var champnamecurr, champidcurr, champidcurrStr, champwincurr, champpickcurr, champbancurr, voidindex;
@@ -1663,9 +1912,7 @@ function tablemake() {
 	th.setAttribute("style", "cursor: pointer;");
 	thead.appendChild(th);
 	th = document.createElement("th");
-	th.innerHTML = "<b>Lane</b>";
-	th.onclick = function(){insertSortTable1(champt1, 2, 0, cellText, cellId, true);};
-	th.setAttribute("style", "cursor: pointer;");
+	th.innerHTML = "<b>Role</b>";
 	thead.appendChild(th);
 	th = document.createElement("th");
 	th.innerHTML = "<b>Win Rate</b>";
@@ -1708,6 +1955,21 @@ function tablemake() {
 			$a[0].onclick = makeChampPg;
 			cell.id = champnamecurr + " tabrow";
 			cell = row.insertCell(2);
+			for (var j = 0; j < allRoles.length; j++ ) {
+				if (champRoleMap.hasOwnProperty(champidcurr + " " + allRoles[j])) {
+					$a = $('<a href = "#!">' + roleLongToShort(allRoles[j]) + '</a>' ).appendTo(cell);
+					$a[0].className = "mainTable_" + champidcurr + "_" + roleLongToShort(allRoles[j]);
+					$a[0].onclick = function() {
+						currentRole = (this.className.split('_')[2]).toUpperCase();
+						if (firstLoad == false) {	
+						removePreviousChampInfo();
+						}							
+						currentChampId = this.className.split('_')[1];
+						currentChampName = champFullObj.keys[currentChampId];													
+						getHash1();
+					}
+				}
+			}
 			cell = row.insertCell(3);
 			cell.id = "tablewin_" + champnamecurr;
 			cell.innerHTML= champwincurr + "%";
@@ -1721,6 +1983,7 @@ function tablemake() {
 	};
 	$("#p1").append(champt1);	
 };
+
 
 
 function cellText(cell) {
