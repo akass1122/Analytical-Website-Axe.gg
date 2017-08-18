@@ -1,3 +1,5 @@
+var doneReadingFirstData = false;
+var doneReadingDataForAll = false;
 var champmap;
 var matchData;
 var simpleRolesArray = ["TOP", "MIDDLE", "MID", "JUNGLE"];
@@ -160,10 +162,22 @@ function makePickRateArray(id, role) {
 
 function makeBanRateArray(id, role) {
 	var banArray = [];
-	for (var i = 0; i < arrayRoleFive.length; i++) {
-		banArray.push(arrayRoleFive[i].data[id + " " + role].banRate);
+	var currentBanRate;
+	var enoughData = true;
+	for (var i = 0; i < arrayRoleFive.length; i++) {		
+		if (arrayRoleFive[i].data[id + " " + role] == undefined) {
+			enoughData = false;
+		} else {
+			currentBanRate = arrayRoleFive[i].data[id + " " + role].banRate;
+			banArray.push(currentBanRate);
+		}		
 	};
-	return banArray;
+	if (enoughData == true) {
+		return banArray;
+	} else {
+		alert("Not enough data for this champion. Please choose other champions instead!");
+		window.parent.document.getElementById("champframe").src = "makePage.htm";
+	}
 };
 
 function findCurrentRoleIndex() {
@@ -208,7 +222,7 @@ function removePreviousRoleInfo() {
 
 function fillInCurrentChampInfo () {
 	$('#roleTable1').append(makeRoleTable()); 
-	fillInCurrentRoleInfo ();   
+	fillInCurrentRoleInfo ();
 }
 
 /* This function is called when a role is chosen from the main table */
@@ -243,39 +257,72 @@ function fillInCurrentRoleInfo () {
 	$('#freqMaster_div').append(makeMasteryTable());
 }
 
-function getHash() {
-	async.parallel([function(callback) {			
-		$.getJSON("/hashes/" + currentChampId, function (data) {
-			champHashes = data;
-			callback();
-		});
-	}, function(callback) {				
+function readingDataForAll() {
+	async.parallel([		
+	 function(callback) {				
 			$.getJSON("/runeData", function (data) {
 				runeHashes = data;
 				callback();
 			});
+	},
+	function(callback) {				
+		$.getJSON("/itemData", function (data) {
+			itemObj = data;
+			callback();
+		});
+	},
+	 function(callback) {				
+		$.getJSON("/summonerData", function (data) {
+			summonerObj = data;
+			callback();
+		});
+	},  	
+	function(callback) {				
+			$.getJSON("/masteryData", function (data) {
+				masteryHashes = data;
+				callback();
+			});
+	}],
+	 function done(err, results) {			
+		if (err) {
+			throw err;
+		}		
+		doneReadingDataForAll = true;
+		});
+	}
+
+function getHash() {
+	async.parallel([function(callback) {			
+		$.getJSON("/hashes/" + currentChampId, function (data) {
+			champHashes = data;		
+			callback();
+		});
 	}, function(callback) {				
 			$.getJSON("/stats/"+ currentChampId, function (data) {			
 				matchData = data;
-				callback();
-			});
-	}, function(callback) {				
-			$.getJSON("/masteryData", function (data) {
-				masteryHashes = data;
 				callback();
 			});
 	}], function done(err, results) {			
 		if (err) {
 			throw err;
 		}
-		p1Hide();
-		if (firstLoad == true) {
-			$('#loadingSplash').append(loadingSplash());
+		if (jQuery.isEmptyObject(champHashes) || jQuery.isEmptyObject(matchData)) {
+			alert("Not enough data for this champion. Please choose other champions instead!");
+			window.parent.document.getElementById("champframe").src = "makePage.htm";
 		} else {
-			changeSplash();
+
+			p1Hide();
+			if (firstLoad == true) {
+				$('#loadingSplash').append(loadingSplash());
+			} else {
+				changeSplash();
+			}
+			while (doneReadingDataForAll == false) {
+				alert("Reading data, please wait!");
+			}
+			fillInCurrentChampInfo ();
+			firstLoad = false;
 		}
-		fillInCurrentChampInfo ();
-		firstLoad = false;
 		});
 	}
 
@@ -286,35 +333,37 @@ function getHash1() {
 			champHashes = data;
 			callback();
 		});
-	}, function(callback) {				
-			$.getJSON("/runeData", function (data) {
-				runeHashes = data;
-				callback();
-			});
-	}, function(callback) {				
+	}, 
+	
+	function(callback) {				
 			$.getJSON("/stats/"+ currentChampId, function (data) {			
 				matchData = data;
 				callback();
 			});
-	}, function(callback) {				
-			$.getJSON("/masteryData", function (data) {
-				masteryHashes = data;
-				callback();
-			});
-	}], function done(err, results) {			
+	}, 
+	
+	], function done(err, results) {			
 		if (err) {
 			throw err;
 		}
-		p1Hide();
-		if (firstLoad == true) {
-			$('#loadingSplash').append(loadingSplash());
+		if (jQuery.isEmptyObject(champHashes) || jQuery.isEmptyObject(matchData)) {
+			alert("Not enough data for this champion. Please choose other champions instead!");
+			window.parent.document.getElementById("champframe").src = "makePage.htm";
 		} else {
-			changeSplash();
+			p1Hide();
+			if (firstLoad == true) {
+				$('#loadingSplash').append(loadingSplash());
+			} else {
+				changeSplash();
+			}
+			while (doneReadingDataForAll == false) {
+				alert("Reading data, please wait!");
+			}
+			fillInCurrentChampInfo1();
+			firstLoad = false;
 		}
-		fillInCurrentChampInfo1();
-		firstLoad = false;
-		});
-	}
+	});
+}
 
 function makeChampPg() {
 	if (firstLoad == false) {	
@@ -327,64 +376,9 @@ function makeChampPg() {
 	else if (this.className && this.className.indexOf('_') != -1) {
 		currentChampId = this.className.split('_')[1];
 		currentChampName = champFullObj.keys[currentChampId];
-	}		
-	getHash();
+	}
+	getHash();		
 }
-
-
-
-//===============================
-
-// function makeChampPg() {
-// 	if (firstLoad == false) {	
-// 		removePreviousChampInfo();
-// 	}	
-// 	if (this.id) {
-// 		currentChampId = this.id;
-// 		currentChampName = champFullObj.keys[currentChampId];
-// 	}
-// 	else if (this.className && this.className.indexOf('_') != -1) {
-// 		currentChampId = this.className.split('_')[1];
-// 		currentChampName = champFullObj.keys[currentChampId];
-// 	}	
-
-// 	function getHash() {
-// 		async.parallel([function(callback) {			
-// 			$.getJSON("/hashes/" + currentChampId, function (data) {
-// 				champHashes = data;
-// 				callback();
-// 			});
-// 		}, function(callback) {				
-// 				$.getJSON("/runeData", function (data) {
-// 					runeHashes = data;
-// 					callback();
-// 				});
-// 		}, function(callback) {				
-// 				$.getJSON("/stats/"+ currentChampId, function (data) {			
-// 					matchData = data;
-// 					callback();
-// 				});
-// 		}, function(callback) {				
-// 				$.getJSON("/masteryData", function (data) {
-// 					masteryHashes = data;
-// 					callback();
-// 				});
-// 		}], function done(err, results) {			
-// 			if (err) {
-// 				throw err;
-// 			}
-// 			p1Hide();
-// 			if (firstLoad == true) {
-// 				$('#loadingSplash').append(loadingSplash());
-// 			} else {
-// 				changeSplash();
-// 			}
-// 			fillInCurrentChampInfo ();
-// 			firstLoad = false;
-// 			});
-// 	}
-// 	getHash();
-// }
 
 function winSkillOrderTableGen() {
 	var skillString = champHashes[currentRoleIndex].hashes.skillorderhash.highestWinrate.hash;
@@ -1292,10 +1286,12 @@ function insertSortTable(table, sortingColumn, startingRow, ascending) {
 * Sorts by a numeric function or a string function of a column's cells. If the column was unsorted, 
 * then sorts it ascending if ASCENDING is true, descending if ASCENDING is false.
 * If the column was sorted, then reverses the order.
-* numericFunctionOfCell is a function of cell that can be parsed to numeric values. 
-* numericFunctionOfCell could be innerHTML of a cell that has textContent that starts by a number like 56%.
-* stringFunctionOfCell can be any string function of cell, for example innerHTML of a cell, or a part of cell id */
-function insertSortTable1(table, sortingColumn, startingRow, numericFunctionOfCell, stringFunctionOfCell, ascending) {//
+* funcForNumericValuedCells is a function of cell that can be parsed to numeric values. 
+* funcForNumericValuedCells is used to sort a column numerically. 
+* It could be innerHTML of a cell that has textContent that starts by a number like 56%.
+* funcForStringValuedCells is used to sort a column alphabetically. It can be any string function of cell, 
+* for example innerHTML of a cell, or a part of cell id */
+function insertSortTable1(table, sortingColumn, startingRow, funcForNumericValuedCells, funcForStringValuedCells, ascending) {//
     var x, y, rows, counter;
     var counter = 0; 
 	rows = table.rows;
@@ -1304,17 +1300,17 @@ function insertSortTable1(table, sortingColumn, startingRow, numericFunctionOfCe
         for (var j = i; j >= startingRow; j--) {                    
             x = rows[j].cells[sortingColumn];
 			y = rows[j + 1].cells[sortingColumn];
-				if ($.isNumeric(parseFloat(numericFunctionOfCell(x)))) {
-				if ((ascending == true && parseFloat(numericFunctionOfCell(x)) > parseFloat(numericFunctionOfCell(y)))
-					|| (ascending == false && parseFloat(numericFunctionOfCell(x)) < parseFloat(numericFunctionOfCell(y)))) {
+				if ($.isNumeric(parseFloat(funcForNumericValuedCells(x)))) {
+				if ((ascending == true && parseFloat(funcForNumericValuedCells(x)) > parseFloat(funcForNumericValuedCells(y)))
+					|| (ascending == false && parseFloat(funcForNumericValuedCells(x)) < parseFloat(funcForNumericValuedCells(y)))) {
 					rows[j].parentNode.insertBefore(rows[j + 1], rows[j]);
 					counter++; 	                       
 	            } else {
 	                break;
 	            }
 	        } else {	        		        	
-		        if ((ascending == true && stringFunctionOfCell(x).toLowerCase() > stringFunctionOfCell(y).toLowerCase())
-		        	|| (ascending == false && stringFunctionOfCell(x).toLowerCase() < stringFunctionOfCell(y).toLowerCase())) {		        
+		        if ((ascending == true && funcForStringValuedCells(x).toLowerCase() > funcForStringValuedCells(y).toLowerCase())
+		        	|| (ascending == false && funcForStringValuedCells(x).toLowerCase() < funcForStringValuedCells(y).toLowerCase())) {		        
 	        		rows[j].parentNode.insertBefore(rows[j + 1], rows[j]);
 	        		counter++; 
 	        	} else {
@@ -1905,8 +1901,6 @@ function tablemake() {
 	$("#p1").append(champt1);	
 };
 
-
-
 function cellText(cell) {
 	return cell.innerHTML;
 }
@@ -2098,46 +2092,58 @@ function allfunc(){
 	};
 }
 
-function mainFunction() {			
-	async.parallel([			
-	function(callback) {				
-		$.getJSON("/champFullData", function (data) {
-			champFullObj = data;
-			callback();
-		});
-	}, function(callback) {				
-		$.getJSON("/itemData", function (data) {
-			itemObj = data;
-			callback();
-		});
-	}, function(callback) {				
-		$.getJSON("/summonerData", function (data) {
-			summonerObj = data;
-			callback();
-		});
-	}, function(callback) {
-		$.getJSON("/champFullData", function (data) {
-			champFullObj = data;
-			callback();
-		});
-	},	function(callback) {				
-		$.getJSON("/fiveDayData", function (data) {
-			fiveDayObj = data;
-			callback();
+function mainFunction() {
+	if (doneReadingFirstData == true) {
+		makeMainPage();
+	} else {			
+		async.parallel([
+		function(callback) {				
+			$.getJSON("/fiveDayData", function (data) {
+				fiveDayObj = data;
+				callback();
+			});
+		},
+
+		// function(callback) {				
+		// 	$.getJSON("/champFullData", function (data) {
+		// 		champFullObj = data;
+		// 		callback();
+		// 	});
+		// }, 	
+
+		// function(callback) {				
+		// 	$.getJSON("/championFullDataNew", function (data) {
+		// 		champFullObj = data;
+		// 		callback();
+		// 	});
+		// },
+
+		function(callback) {				
+			$.getJSON("http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json", function (data) {
+				champFullObj = data;
+				callback();
+			});
+		}
+
+		], function done(err, results) {				
+			if (err) {
+				throw err;
+			}
+			doneReadingFirstData = true;
+			makeMainPage();
 		});
 	}
-	], function done(err, results) {				
-		if (err) {
-			throw err;
-		}
-		makeArrayOfIdsNames();				
-		arrayObject = JSON.parse(fiveDayObj[4].data); // champ stats for the current day
-		champmap = makeDayChampObj(arrayObject);
-		champRoleMap = makeDayRoleObj(arrayObject);
-		makeGrid();				
-		p1Show();
-		makeFiveDayArrObj(); //  makes arrayChampFive and arrayRoleFive
-	});
+}
+
+function makeMainPage() {
+	makeArrayOfIdsNames();				
+	arrayObject = JSON.parse(fiveDayObj[4].data); // champ stats for the current day
+	champmap = makeDayChampObj(arrayObject);
+	champRoleMap = makeDayRoleObj(arrayObject);
+	makeGrid();				
+	p1Show();
+	makeFiveDayArrObj(); //  makes arrayChampFive and arrayRoleFive
+	readingDataForAll();
 }
 
 function makeArrayOfIdsNames() {
@@ -2221,6 +2227,7 @@ function makeDayRoleObj(arrObj) {
 	return champObj;
 };
 
+
 function makeGrid() {
 	var champnamecurr, champidcurr, champidcurrStr, link, voidindex, champlink;
 	var champicon, champname, winrate, winpercent, t1, t;
@@ -2252,14 +2259,10 @@ function makeGrid() {
 			winrate.appendChild(winpercent);
 			champicon.appendChild(winrate);
 			link.appendChild(champicon);
-			$("#p1").append(link);					
-			if (voidindex==-1) {
-				document.getElementById(champs[i]).style.backgroundImage
-					="url('ChampSq/"+champnamecurr+".png')";
-			} else {
-				document.getElementById(champs[i]).style.backgroundImage
-					= "url('ChampSq/"+voidchampstext[voidindex]+".png')";
-			};
+			$("#p1").append(link);
+			document.getElementById(champs[i]).style.backgroundImage
+			 	="url('http://ddragon.leagueoflegends.com/cdn/7.14.1/img/champion/"+champnamecurr+".png')";
+
 		};
 	}
 };
@@ -2267,3 +2270,4 @@ function makeGrid() {
 $(document).ready(function() {
 	mainFunction();
 });
+

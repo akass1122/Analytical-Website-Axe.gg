@@ -33,88 +33,65 @@ var myurl1 = "/v2/champions?&limit=900&api_key=5df59c3c1ea850a631d859fbbecb522b"
 var options1 = {
     host: 'api.champion.gg',
     path: myurl1
-  }
+}
 callback1 = function(response) {
-  response.on('data', function (chunk) {   //save json string in variable str
+    response.on('data', function (chunk) {   //save json string in variable str
     currentDayWinRateString += chunk;
-  });
-  response.on('end', function () {
+    });
+    response.on('end', function () {
+        fs.readFile('fiveDaysWinRate.txt', 'utf8', function (err,data) {
+            if (err) {
+                return console.log(err);
+            }
 
-    fs.readFile('fiveDaysWinRate.txt', 'utf8', function (err,data) {
-      if (err) {
-        return console.log(err);
-      }
-      
-      //currentDate = new Date();
-      if (data != "") {
-        fiveDaysWinRateArray = JSON.parse(data);
-      }
-      if (fiveDaysWinRateArray.length < 5) {
-        fiveDaysWinRateArray.push({"date": new Date(), "data": currentDayWinRateString});
-        currentDayWinRateString = "";
+            //currentDate = new Date();
+            if (data != "") {
+                fiveDaysWinRateArray = JSON.parse(data);
+            }
+            if (fiveDaysWinRateArray.length < 5) {
+                fiveDaysWinRateArray.push({"date": new Date(), "data": currentDayWinRateString});
+                currentDayWinRateString = "";
+
+            } else {
+                if ((new Date()).getDate() != (new Date(fiveDaysWinRateArray[4].date)).getDate()) {
+                    fiveDaysWinRateArray.shift();
+                    fiveDaysWinRateArray.push({"date": new Date(), "data": currentDayWinRateString});
+                    console.log("inserted "+(fiveDaysWinRateArray[4].date).getDate());
+                    console.log(fiveDaysWinRateArray[4].date.getMonth());            
+                }
+                currentDayWinRateString = "";
+            }
+            temp = JSON.stringify(fiveDaysWinRateArray);
+            fs.writeFile('fiveDaysWinRate.txt', temp, function (err) {
+                if (err) {
+                    return console.log(err);
+                }
+                console.log('done five');
+            }); 
+        });
+        if (!started) {
+          app.listen(process.env.PORT || 3000);
+        }
         
-      }
-      else {
-        //console.log(fiveDaysWinRateArray[4].date);
-        //console.log((fiveDaysWinRateArray[4].date).getMonth());
-        //console.log("testing "+(fiveDaysWinRateArray[4].date).getDate());
-        if ((new Date()).getDate() != (new Date(fiveDaysWinRateArray[4].date)).getDate()) {
-          fiveDaysWinRateArray.shift();
-          fiveDaysWinRateArray.push({"date": new Date(), "data": currentDayWinRateString});
-          console.log("inserted "+(fiveDaysWinRateArray[4].date).getDate());
-          console.log(fiveDaysWinRateArray[4].date.getMonth());
-        //}
-      }
-      currentDayWinRateString = "";
-    }
-      temp = JSON.stringify(fiveDaysWinRateArray);
-      fs.writeFile('fiveDaysWinRate.txt', temp, function (err) {
-        if (err) {
-            return console.log(err);
-          }
-        console.log('done five');
-
-      });
-     
-      //res.send(data);      
-  });
-
-    //console.log("DONE ");
-    if (!started) {
-      app.listen(process.env.PORT || 3000);
-    }
-    
-  });
-  // currentDayWinRateString = "";
-  }
-
-  //  end of callback1 definition
- 
-  http1.request(options1, callback1).end();
-  //  end of serverCall1
+    });
+}
+//  end of callback1 definition
+ http1.request(options1, callback1).end();
+//  end of serverCall1
 }
 
 serverCall1(http,false);
 setInterval(serverCall1,1000*60*60,http,true);
 
 setInterval(function(){console.log("test setInterval");
-}, 32000);
+}, 60000);
 
 app.use("/public", express.static(__dirname + '/public'));
 app.use("/bower_components", express.static(__dirname + '/bower_components'));
-//================================================
 
-
-// fs.readFile('s1.txt', 'utf8', function (err,data) {
-//   if (err) {
-//     return console.log(err);
-//   }
-//   jsonStr1 = data;
-//   console.log(data);
-// });
 //*********************************************************************************************
 app.get("/hashesForChamp1", function(req, res){ //req is string that is the part of url after http://localhost:3000, for example   "/dynamic/110"
-//res is the response object to show on this url, res.send("HELLO");   will output string "HELLO" on http://localhost:3000/dynamic/110  
+//res is the response object to show on this url. For example, res.send("HELLO");   will output string "HELLO" on http://localhost:3000/dynamic/110  
   
     fs.readFile('champ1hashes.txt', 'utf8', function (err,data) {
       if (err) {
@@ -126,8 +103,7 @@ app.get("/hashesForChamp1", function(req, res){ //req is string that is the part
   
 });
 //******************************************************************************
-app.get("/statsForChamp51", function(req, res){ //req is string that is the part of url after http://localhost:3000, for example   "/dynamic/110"
-//res is the response object to show on this url, res.send("HELLO");   will output string "HELLO" on http://localhost:3000/dynamic/110  
+app.get("/statsForChamp51", function(req, res){ 
   
     fs.readFile('stats51ADC.js', 'utf8', function (err,data) {
       if (err) {
@@ -152,10 +128,6 @@ app.get("/statsForChamp84", function(req, res){ //req is string that is the part
   
 });
 
-
-
-
-
 //************************************************************************
 
 // THIS PROGRAM READS all champs info from a local file with CACHING
@@ -178,8 +150,6 @@ app.get("/champFullData", function(req, res){ //req is string that is the part o
   });
 }
 });
-
-
 
 app.get("/champData", function(req, res){ //req is string that is the part of url after http://localhost:3000, for example   "/dynamic/110"
 //res is the response object to show on this url, res.send("HELLO");   will output string "HELLO" on http://localhost:3000/dynamic/110  
@@ -491,27 +461,6 @@ app.get("/hashes/:id", function(req, res){ //req is string that is the part of u
 });
 
 
-// 1st external call ends
-//==========================================
-
-
-
-
-
-
-//===============================
-
-
-
-//==========================================
-
-
-//===============================
-
-
-// // 1st external call starts
-
-
 app.get("/simpleJson", function(req, res){ //req is string that is the part of url after http://localhost:3000, for example   "/dynamic/110"
 //res is the response object to show on this url, res.send("HELLO");   will output string "HELLO" on http://localhost:3000/dynamic/110
   var myurl = "/v2/champions?&limit=1000&api_key=5df59c3c1ea850a631d859fbbecb522b";
@@ -541,13 +490,8 @@ callback = function(response) {
  });
 
 
-// 1st external call ends
-//==========================================
+// DYNAMIC: the returned json depends on url 
 
-// DYNAMIC: the returned json depends on url (url contains parameters for API request from champion.gg)
-
-//===================================================
-// // 1st external call starts
 // Takes in 1 parameter limit
 
 app.get("/dynamic/:limit", function(req, res){ //req is string that is the part of url after http://localhost:3000, for example   "/dynamic/110"
@@ -592,13 +536,6 @@ app.get("/dynamic/:limit", function(req, res){ //req is string that is the part 
     http.request(options, callback).end();
 });
 
-
-// 1st external call ends
-//==========================================
-
-
-// 1st external call starts
-
 //Takes in 2 parameters: elo and limit
 
 app.get("/dynamic/:elo/:limit", function(req, res){
@@ -625,8 +562,6 @@ callback = function(response) {
   }
   http.request(options, callback).end();
  });
-
-
 
 
 //======================================
@@ -679,6 +614,51 @@ callback = function(response) {
     }
     http.request(options, callback).end();
 });
+
+
+
+//======================================
+//A LOT OF INFO FOR ONE CHAMP BOTH STATS AND MATCH
+  app.get("/championFullDataNew", function(req, res){
+
+
+
+  //  http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json
+
+  //  http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json
+
+
+  var str1 = "";
+
+  var myurl = "/cdn/7.14.1/data/en_US/championFull.json";
+
+
+
+  var options = {
+    host: 'ddragon.leagueoflegends.com',
+    path: myurl
+  };
+
+  //"/v2/champions?&limit=1000&api_key=5df59c3c1ea850a631d859fbbecb522b";
+
+
+
+//this callback is for http, it saves json string in variable jsonStr
+  callback = function(response) {
+      response.on('data', function (chunk) {   //save json string in variable str
+        str1 += chunk;
+      });
+      response.on('end', function () {
+        res.type("application/json");
+        res.send(str1);
+        //console.log(str1);
+
+
+      });
+    }
+    http.request(options, callback).end();
+});
+
 
 
 
