@@ -2111,19 +2111,19 @@ function mainFunction() {
 		// 	});
 		// }, 	
 
-		// function(callback) {				
-		// 	$.getJSON("/championFullDataNew", function (data) {
-		// 		champFullObj = data;
-		// 		callback();
-		// 	});
-		// },
-
 		function(callback) {				
-			$.getJSON("http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json", function (data) {
+			$.getJSON("/championFullDataNew", function (data) {
 				champFullObj = data;
 				callback();
 			});
-		}
+		},
+
+		// function(callback) {				
+		// 	$.getJSON("http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json", function (data) {
+		// 		champFullObj = data;
+		// 		callback();
+		// 	});
+		// }
 
 		], function done(err, results) {				
 			if (err) {
