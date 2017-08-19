@@ -2125,18 +2125,18 @@ function mainFunction() {
 				champFullObj = data;
 				callback();
 			});
-		}
-
-		function(callback) {				
-			$.getJSON("/versionInfo", function (data) {
-				var array1 = data;
-				if (!jQuery.isArray(array1)) {
-					object1[0].patch
-				}
-
-				callback();
-			});
 		},
+
+		// function(callback) {				
+		// 	$.getJSON("/versionInfo", function (data) {
+		// 		var array1 = data;
+		// 		if (!jQuery.isArray(array1)) {
+		// 			object1[0].patch
+		// 		}
+
+		// 		callback();
+		// 	});
+		// },
 
 		], function done(err, results) {				
 			if (err) {
