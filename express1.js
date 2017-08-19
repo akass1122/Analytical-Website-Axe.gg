@@ -21,6 +21,8 @@ var fiveDaysWinRateArray = [];
 var currentDate;
 var currentDayWinRateString = "";
 var temp;
+var numberOfChamp;
+var LOLversion = "7.14.1";
 
 
 
@@ -29,60 +31,61 @@ var temp;
 //app.listen(3000);
 
 function serverCall1(http1,started){ 
-var myurl1 = "/v2/champions?&limit=900&api_key=5df59c3c1ea850a631d859fbbecb522b";
-var options1 = {
-    host: 'api.champion.gg',
-    path: myurl1
-}
-callback1 = function(response) {
-    response.on('data', function (chunk) {   //save json string in variable str
-    currentDayWinRateString += chunk;
-    });
-    response.on('end', function () {
-        fs.readFile('fiveDaysWinRate.txt', 'utf8', function (err,data) {
-            if (err) {
-                return console.log(err);
-            }
-
-            //currentDate = new Date();
-            if (data != "") {
-                fiveDaysWinRateArray = JSON.parse(data);
-            }
-            if (fiveDaysWinRateArray.length < 5) {
-                fiveDaysWinRateArray.push({"date": new Date(), "data": currentDayWinRateString});
-                currentDayWinRateString = "";
-
-            } else {
-                if ((new Date()).getDate() != (new Date(fiveDaysWinRateArray[4].date)).getDate()) {
-                    fiveDaysWinRateArray.shift();
-                    fiveDaysWinRateArray.push({"date": new Date(), "data": currentDayWinRateString});
-                    console.log("inserted "+(fiveDaysWinRateArray[4].date).getDate());
-                    console.log(fiveDaysWinRateArray[4].date.getMonth());            
-                }
-                currentDayWinRateString = "";
-            }
-            temp = JSON.stringify(fiveDaysWinRateArray);
-            fs.writeFile('fiveDaysWinRate.txt', temp, function (err) {
+    var myurl1 = "/v2/champions?&limit=900&api_key=5df59c3c1ea850a631d859fbbecb522b";
+    var options1 = {
+        host: 'api.champion.gg',
+        path: myurl1
+    }
+    callback1 = function(response) {
+        response.on('data', function (chunk) {   //save json string containing current day data
+        // in variable currentDayWinRateString
+        currentDayWinRateString += chunk;
+        });
+        response.on('end', function () {
+            fs.readFile('fiveDaysWinRate.txt', 'utf8', function (err,data) { // reads file, if it is not empty parses it 
+            //  and saves it in fiveDaysWinRateArray.
                 if (err) {
                     return console.log(err);
                 }
-                console.log('done five');
-            }); 
+
+                //currentDate = new Date();
+                if (data != "") {
+                    fiveDaysWinRateArray = JSON.parse(data);
+                }
+                if (fiveDaysWinRateArray.length < 5) {
+                    fiveDaysWinRateArray.push({"date": new Date(), "data": currentDayWinRateString});
+                    currentDayWinRateString = "";
+
+                } else {
+                    if ((new Date()).getDate() != (new Date(fiveDaysWinRateArray[4].date)).getDate()) {
+                        fiveDaysWinRateArray.shift();
+                        fiveDaysWinRateArray.push({"date": new Date(), "data": currentDayWinRateString});
+                        console.log("inserted data for date: "+(fiveDaysWinRateArray[4].date).getDate());
+                        //console.log(fiveDaysWinRateArray[4].date.getMonth());            
+                    }
+                    currentDayWinRateString = "";
+                }
+                temp = JSON.stringify(fiveDaysWinRateArray);
+                fs.writeFile('fiveDaysWinRate.txt', temp, function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log('done five');
+                }); 
+            });
+            if (!started) {
+              app.listen(process.env.PORT || 3000);
+            }
+            
         });
-        if (!started) {
-          app.listen(process.env.PORT || 3000);
-        }
-        
-    });
-}
-//  end of callback1 definition
- http1.request(options1, callback1).end();
-//  end of serverCall1
+    }
+    //  end of callback1 definition
+     http1.request(options1, callback1).end();
+    //  end of serverCall1
 }
 
 serverCall1(http,false);
-setInterval(serverCall1,1000*60*60,http,true);
-
+setInterval(serverCall1,1000*60*60,http,true); // serverCall1 is called every 1000*60*60 miliseconds = 1 minute
 setInterval(function(){console.log("test setInterval");
 }, 60000);
 
@@ -90,15 +93,33 @@ app.use("/public", express.static(__dirname + '/public'));
 app.use("/bower_components", express.static(__dirname + '/bower_components'));
 
 //*********************************************************************************************
+function getVersion() {
+    
+}
+
+//**********************************************************************************************
+function loadData() {
+    var myurl1 = "/v2/champions?&limit=900&api_key=5df59c3c1ea850a631d859fbbecb522b";
+    var options1 = {
+        host: 'api.champion.gg',
+        path: myurl1
+    }
+
+}
+
+
+
+
+//**********************************************************************************************
 app.get("/hashesForChamp1", function(req, res){ //req is string that is the part of url after http://localhost:3000, for example   "/dynamic/110"
 //res is the response object to show on this url. For example, res.send("HELLO");   will output string "HELLO" on http://localhost:3000/dynamic/110  
   
     fs.readFile('champ1hashes.txt', 'utf8', function (err,data) {
-      if (err) {
+        if (err) {
         return console.log(err);
-      }
-      
-      res.send(data);
+        }
+
+        res.send(data);
     });
   
 });
@@ -375,23 +396,15 @@ app.get("/match/:id", function(req, res){ //req is string that is the part of ur
   }
   //console.log("33333333333333333");
 
-  //var myurl = "/v2/champions/1/matchups?elo=SILVER&api_key = 5df59c3c1ea850a631d859fbbecb522b";
+  
 
 
-  //var myurl = "/v2/champions?&champData=kda,damage,averageGames,totalHeal,killingSpree,minions,gold,positions,normalized,groupedWins,trinkets,runes,firstitems,summoners,skills,finalitems,masteries,maxMins,matchups&limit=1000&api_key=5df59c3c1ea850a631d859fbbecb522b";
+  
   var myurl = "/v2/champions/"
   + req.params.id
   + "?&champData=kda,damage,averageGames,minions,gold,positions,normalized,groupedWins,runes,firstitems,summoners,skills,finalitems,masteries,matchups&api_key=5df59c3c1ea850a631d859fbbecb522b"; 
 
 
-
-
-// var myurl = "/v2/champions/"
-//   + req.params.id
-//   + "?&champData=hashes&api_key=5df59c3c1ea850a631d859fbbecb522b"; 
-
-
-  //var myurl = "v2/champions/1/matchups&api_key= 5df59c3c1ea850a631d859fbbecb522b";
   var options = {
     host: 'api.champion.gg',
     path: myurl
@@ -569,15 +582,6 @@ callback = function(response) {
   app.get("/stats/:id", function(req, res){
 
 
- //req is string that is the part of url after http://localhost:3000, for example   "/dynamic/110"
-//res is the response object to show on this url, res.send("HELLO");   will output string "HELLO" on http://localhost:3000/dynamic/110
-  
-
-  // var myurl = "/v2/champions?elo=SILVER&champData=kda,damage,averageGames,totalHeal,killingSpree,minions,gold,positions,normalized,groupedWins,trinkets,runes,"
-  // + "firstitems,summoners,skills,finalitems,masteries,maxMins,matchups&limit=200"
-  // +"&api_key=5df59c3c1ea850a631d859fbbecb522b";
-
-
   var str1 = "";
 
   var myurl = "/v2/champions/"
@@ -596,13 +600,9 @@ callback = function(response) {
     path: myurl
   };
 
-  //"/v2/champions?&limit=1000&api_key=5df59c3c1ea850a631d859fbbecb522b";
-
-
-
-//this callback is for http, it saves json string in variable jsonStr
+ 
   callback = function(response) {
-      response.on('data', function (chunk) {   //save json string in variable str
+      response.on('data', function (chunk) {   //save json string in variable str1
         str1 += chunk;
       });
       response.on('end', function () {
@@ -616,14 +616,8 @@ callback = function(response) {
 });
 
 
-
-//======================================
-//A LOT OF INFO FOR ONE CHAMP BOTH STATS AND MATCH
   app.get("/championFullDataNew", function(req, res){
 
-
-
-  //  http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json
 
   //  http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json
 
@@ -639,11 +633,7 @@ callback = function(response) {
     path: myurl
   };
 
-  //"/v2/champions?&limit=1000&api_key=5df59c3c1ea850a631d859fbbecb522b";
-
-
-
-//this callback is for http, it saves json string in variable jsonStr
+//this callback is for http, it saves json string in variable str1
   callback = function(response) {
       response.on('data', function (chunk) {   //save json string in variable str
         str1 += chunk;
@@ -651,8 +641,7 @@ callback = function(response) {
       response.on('end', function () {
         res.type("application/json");
         res.send(str1);
-        //console.log(str1);
-
+       
 
       });
     }
