@@ -94,7 +94,7 @@ app.use("/bower_components", express.static(__dirname + '/bower_components'));
 
 //*********************************************************************************************
 function getVersion() {
-    
+
 }
 
 //**********************************************************************************************
@@ -208,6 +208,9 @@ app.get("/itemData", function(req, res){ //req is string that is the part of url
   });
 }
 });
+
+
+
 
 //============================================WORKING
 
@@ -579,48 +582,136 @@ callback = function(response) {
 
 //======================================
 //A LOT OF INFO FOR ONE CHAMP BOTH STATS AND MATCH
-  app.get("/stats/:id", function(req, res){
-
-
-  var str1 = "";
-
-  var myurl = "/v2/champions/"
-  + req.params.id
-  
-  + "?champData=kda,damage,averageGames,totalHeal,killingSpree,minions,gold,normalized,groupedWins,firstitems,skills,finalitems,matchups&limit=200"
-
-
-  +"&api_key=5df59c3c1ea850a631d859fbbecb522b";
-
-
-
-
-  var options = {
+app.get("/stats/:id", function(req, res){
+    var str1 = "";
+    var myurl = "/v2/champions/"
+    + req.params.id
+    + "?champData=kda,damage,averageGames,totalHeal,killingSpree,minions,gold,normalized,groupedWins,"
+    + "firstitems,skills,finalitems,matchups&limit=200"
+    + "&api_key=5df59c3c1ea850a631d859fbbecb522b";
+    var options = {
     host: 'api.champion.gg',
     path: myurl
-  };
-
- 
-  callback = function(response) {
-      response.on('data', function (chunk) {   //save json string in variable str1
+    };
+    callback = function(response) {
+        response.on('data', function (chunk) {   //save json string in variable str1
+            str1 += chunk;
+        });
+        response.on('end', function () {
+            res.type("text/plain");
+            res.send(str1);
+        });
+    }
+    http.request(options, callback).end();
+});
+//=================================
+app.get("/runeInfo/:version", function(req, res){
+    var str1 = "";
+    var myurl = "/cdn/" + req.params.version + "/data/en_US/rune.json";
+    var options = {
+        host: 'ddragon.leagueoflegends.com',
+        path: myurl
+    };
+    //this callback is for http, it saves json string in variable str1
+    callback = function(response) {
+        response.on('data', function (chunk) {   //save json string in variable str1
         str1 += chunk;
-      });
-      response.on('end', function () {
-        res.type("text/plain");           
+        });
+        response.on('end', function () {
+        res.type("application/json");
         res.send(str1);
+        });
+    }
+    http.request(options, callback).end();
+});
 
+//=================================
+app.get("/itemInfo/:version", function(req, res){
+    var str1 = "";
+    var myurl = "/cdn/" + req.params.version + "/data/en_US/item.json";
+    var options = {
+        host: 'ddragon.leagueoflegends.com',
+        path: myurl
+    };
+    //this callback is for http, it saves json string in variable str1
+    callback = function(response) {
+        response.on('data', function (chunk) {   //save json string in variable str1
+        str1 += chunk;
+        });
+        response.on('end', function () {
+        res.type("application/json");
+        res.send(str1);
+        });
+    }
+    http.request(options, callback).end();
+});
 
-      });
+//=================================
+app.get("/summonerInfo/:version", function(req, res){
+    var str1 = "";
+    var myurl = "/cdn/" + req.params.version + "/data/en_US/summoner.json";
+    var options = {
+        host: 'ddragon.leagueoflegends.com',
+        path: myurl
+    };
+    //this callback is for http, it saves json string in variable str1
+    callback = function(response) {
+        response.on('data', function (chunk) {   //save json string in variable str1
+        str1 += chunk;
+        });
+        response.on('end', function () {
+        res.type("application/json");
+        res.send(str1);
+        });
+    }
+    http.request(options, callback).end();
+});
+//=================================
+app.get("/masteryInfo/:version", function(req, res){
+    var str1 = "";
+    var myurl = "/cdn/" + req.params.version + "/data/en_US/mastery.json";
+    var options = {
+        host: 'ddragon.leagueoflegends.com',
+        path: myurl
+    };
+    //this callback is for http, it saves json string in variable str1
+    callback = function(response) {
+        response.on('data', function (chunk) {   //save json string in variable str1
+        str1 += chunk;
+        });
+        response.on('end', function () {
+        res.type("application/json");
+        res.send(str1);
+        });
+    }
+    http.request(options, callback).end();
+});
+//====================================
+app.get("/versionInfo/", function(req, res){
+    var str1 = "";
+    var myurl = "/v2/champions?&limit=1&api_key=5df59c3c1ea850a631d859fbbecb522b";
+    var options = {
+        host: 'api.champion.gg',
+        path: myurl
+    };
+    //this callback is for http, it saves json string in variable str1
+    callback = function(response) {
+        response.on('data', function (chunk) {   //save json string in variable str1
+        str1 += chunk;
+        });
+        response.on('end', function () {
+        res.type("text/plain");
+        res.send(str1);
+        });
     }
     http.request(options, callback).end();
 });
 
 
-  app.get("/championFullDataNew", function(req, res){
 
+//====================================
 
-  //  http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json
-
+app.get("/championFullDataNew", function(req, res){
 
   var str1 = "";
 
@@ -635,7 +726,7 @@ callback = function(response) {
 
 //this callback is for http, it saves json string in variable str1
   callback = function(response) {
-      response.on('data', function (chunk) {   //save json string in variable str
+      response.on('data', function (chunk) {   //save json string in variable str1
         str1 += chunk;
       });
       response.on('end', function () {

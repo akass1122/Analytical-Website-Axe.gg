@@ -261,28 +261,32 @@ function fillInCurrentRoleInfo () {
 function readingDataForAll() {
 	async.parallel([		
 	 function(callback) {				
-			$.getJSON("/runeData", function (data) {
+			//$.getJSON("/runeData", function (data) {
+			$.getJSON("/runeInfo/" + LOLversion, function (data) {
 				runeHashes = data;
 				callback();
 			});
 	},
 	function(callback) {				
-		$.getJSON("/itemData", function (data) {
+		//$.getJSON("/itemData", function (data) {
+		$.getJSON("/itemInfo/" + LOLversion, function (data) {
 			itemObj = data;
 			callback();
 		});
 	},
 	 function(callback) {				
-		$.getJSON("/summonerData", function (data) {
+		//$.getJSON("/summonerData", function (data) {
+		$.getJSON("/summonerInfo/" + LOLversion, function (data) {
 			summonerObj = data;
 			callback();
 		});
 	},  	
 	function(callback) {				
-			$.getJSON("/masteryData", function (data) {
-				masteryHashes = data;
-				callback();
-			});
+		//$.getJSON("/masteryData", function (data) {
+		$.getJSON("/masteryInfo/" + LOLversion, function (data) {
+			masteryHashes = data;
+			callback();
+		});
 	}],
 	 function done(err, results) {			
 		if (err) {
