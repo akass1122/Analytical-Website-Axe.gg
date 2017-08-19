@@ -1408,7 +1408,7 @@ function freqRuneTable(){
 	};
 	return $titleRuneTable;
 }
-//=============================old=====================================================
+
 function ferocityTable(colorArray) {
 	var ferocityArray = masteryHashes.tree.Ferocity;
 	var $masteryTable = $('<table>');
@@ -1425,7 +1425,6 @@ function ferocityTable(colorArray) {
 				if (w == 0) {
 					if (colorArray.indexOf(ferocityArray[i][w].masteryId) != - 1) {
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.15.1/img/mastery/"
 							+ ferocityArray[i][w].masteryId + ".png')";
 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
 						var $nameTag = $('<p>' + masteryHashes.data[ferocityArray[i][w].masteryId].name
@@ -1435,7 +1434,6 @@ function ferocityTable(colorArray) {
 							.description[colorArray[colorArray.indexOf(ferocityArray[i][w].masteryId) + 1] - 1] + '</p>').appendTo($div3); 
 					}
 					else {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.15.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 
 							+ "gray_" + ferocityArray[i][w].masteryId + ".png')";
@@ -1453,7 +1451,6 @@ function ferocityTable(colorArray) {
 				}
 				else if (w == 2) {
 					if (colorArray.indexOf(ferocityArray[i][1].masteryId) != - 1) {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 							+ ferocityArray[i][1].masteryId + ".png')";
 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
@@ -1464,7 +1461,6 @@ function ferocityTable(colorArray) {
 							.description[colorArray[colorArray.indexOf(ferocityArray[i][1].masteryId) + 1] - 1] + '</p>').appendTo($div3);
 					}
 					else {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 							+ "gray_" + ferocityArray[i][1].masteryId + ".png')";
 						$td[0].style.opacity = "1";
@@ -1478,7 +1474,6 @@ function ferocityTable(colorArray) {
 			}
 			else {
 				if (colorArray.indexOf(ferocityArray[i][w].masteryId) != - 1) {
-					//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 					$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 						+ ferocityArray[i][w].masteryId + ".png')";
 					var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
@@ -1490,7 +1485,6 @@ function ferocityTable(colorArray) {
 						+ '</p>').appendTo($div3);
 				}
 				else {
-					//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 					$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 						+ "gray_" + ferocityArray[i][w].masteryId + ".png')";
 					$td[0].style.opacity = "1";
@@ -1523,7 +1517,6 @@ function cunningTable(colorArray) {
 			if (i % 2 == 0) {
 				if (w == 0) {
 					if (colorArray.indexOf(cunningArray[i][w].masteryId) != -1) {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 							+ cunningArray[i][w].masteryId + ".png')";
 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
@@ -1534,7 +1527,6 @@ function cunningTable(colorArray) {
 							.description[colorArray[colorArray.indexOf(cunningArray[i][w].masteryId) + 1] - 1] + '</p>').appendTo($div3); 
 					}
 					else {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 							+ "gray_" + cunningArray[i][w].masteryId + ".png')";
 						$td[0].style.opacity = "1";
@@ -1551,7 +1543,6 @@ function cunningTable(colorArray) {
 				}
 				else if (w == 2) {
 					if (colorArray.indexOf(cunningArray[i][1].masteryId) != -1) {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 							+ cunningArray[i][1].masteryId + ".png')";
 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
@@ -1562,7 +1553,6 @@ function cunningTable(colorArray) {
 							.description[colorArray[colorArray.indexOf(cunningArray[i][1].masteryId) + 1] - 1] + '</p>').appendTo($div3);
 					}
 					else {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 							+ "gray_" + cunningArray[i][1].masteryId + ".png')";
 						$td[0].style.opacity = "1";
@@ -1577,7 +1567,6 @@ function cunningTable(colorArray) {
 			}
 			else {
 				if (colorArray.indexOf(cunningArray[i][w].masteryId) != -1) {
-					//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 					$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 						+ cunningArray[i][w].masteryId + ".png')";
 					var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
@@ -1588,7 +1577,6 @@ function cunningTable(colorArray) {
 						.description[colorArray[colorArray.indexOf(cunningArray[i][w].masteryId) + 1] - 1] + '</p>').appendTo($div3);
 				}
 				else {
-					//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 					$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 						+ "gray_" + cunningArray[i][w].masteryId + ".png')";
 					$td[0].style.opacity = "1";
@@ -1605,194 +1593,6 @@ function cunningTable(colorArray) {
 	return $masteryTable;
 }
 
-
-
-//====================================================================NEW=================
-
-// function ferocityTable(colorArray) {
-// 	var ferocityArray = masteryHashes.tree.Ferocity;
-// 	var $masteryTable = $('<table>');
-// 	var $row = $('<tr>').appendTo($masteryTable);
-// 	var $cell = $('<td> Ferocity </td>').appendTo($row);
-// 	var $skillTable = $('<table id = "ferocity" class = "left masteryPart">').appendTo($masteryTable);
-// 	var $trhead = $('<tr>').appendTo($skillTable);
-// 	var $th, $tr, $td;
-// 	for (var i = 0; i < 6; i++) {
-// 		$tr = $('<tr>').appendTo($skillTable);
-// 		for (var w = 0; w < 3; w++) {
-// 			$td = $('<td class = "tooltip">').appendTo($tr);
-// 			if (i % 2 == 0) {
-// 				if (w == 0) {
-// 					if (colorArray.indexOf(ferocityArray[i][w].masteryId) != - 1) {
-// 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 							+ ferocityArray[i][w].masteryId + ".png')";
-// 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 						var $nameTag = $('<p>' + masteryHashes.data[ferocityArray[i][w].masteryId].name
-// 							+ ' (' + colorArray[colorArray.indexOf(ferocityArray[i][w].masteryId) + 1]
-// 								+ '/' + masteryHashes.data[ferocityArray[i][w].masteryId].ranks + ')</p>').appendTo($div3); 
-// 						var $descTag = $('<p>' + masteryHashes.data[ferocityArray[i][w].masteryId]
-// 							.description[colorArray[colorArray.indexOf(ferocityArray[i][w].masteryId) + 1] - 1] + '</p>').appendTo($div3); 
-// 					}
-// 					else {
-// 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 							+ "gray_" + ferocityArray[i][w].masteryId + ".png')";
-// 						$td[0].style.opacity = "1";
-// 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 						var $nameTag = $('<p>' + masteryHashes.data[ferocityArray[i][w].masteryId].name
-// 							+ ' (0/' + masteryHashes.data[ferocityArray[i][w].masteryId].ranks + ')</p>').appendTo($div3); 
-// 						var $descTag = $('<p>' + masteryHashes.data[ferocityArray[i][w].masteryId]
-// 							.description[masteryHashes.data[ferocityArray[i][w].masteryId].ranks - 1] + '</p>').appendTo($div3);
-// 					}
-// 				}
-// 				else if (w == 1) {
-// 					$td[0].style.background = "transparent";
-// 					$td[0].style.border = "none";
-// 				}
-// 				else if (w == 2) {
-// 					if (colorArray.indexOf(ferocityArray[i][1].masteryId) != - 1) {
-// 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 							+ ferocityArray[i][1].masteryId + ".png')";
-// 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 						var $nameTag = $('<p>' + masteryHashes.data[ferocityArray[i][1].masteryId].name
-// 							+ ' (' + colorArray[colorArray.indexOf(ferocityArray[i][1].masteryId) + 1]
-// 								+ '/' + masteryHashes.data[ferocityArray[i][1].masteryId].ranks + ')</p>').appendTo($div3); 
-// 						var $descTag = $('<p>' + masteryHashes.data[ferocityArray[i][1].masteryId]
-// 							.description[colorArray[colorArray.indexOf(ferocityArray[i][1].masteryId) + 1] - 1] + '</p>').appendTo($div3);
-// 					}
-// 					else {
-// 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 							+ "gray_" + ferocityArray[i][1].masteryId + ".png')";
-// 						$td[0].style.opacity = "1";
-// 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 						var $nameTag = $('<p>' + masteryHashes.data[ferocityArray[i][1].masteryId].name
-// 							+ ' (0/' + masteryHashes.data[ferocityArray[i][1].masteryId].ranks + ')</p>').appendTo($div3); 
-// 						var $descTag = $('<p>' + masteryHashes.data[ferocityArray[i][1].masteryId]
-// 							.description[masteryHashes.data[ferocityArray[i][1].masteryId].ranks - 1] + '</p>').appendTo($div3);
-// 					}
-// 				}
-// 			}
-// 			else {
-// 				if (colorArray.indexOf(ferocityArray[i][w].masteryId) != - 1) {
-// 					$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + "/img/mastery/"
-// 						+ ferocityArray[i][w].masteryId + ".png')";
-// 					var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 					var $nameTag = $('<p>' + masteryHashes.data[ferocityArray[i][w].masteryId].name
-// 						+ ' (' + colorArray[colorArray.indexOf(ferocityArray[i][w].masteryId) + 1]
-// 							+ '/' + masteryHashes.data[ferocityArray[i][w].masteryId].ranks + ')</p>').appendTo($div3); 
-// 					var $descTag = $('<p>' + masteryHashes.data[ferocityArray[i][w].masteryId]
-// 						.description[colorArray[colorArray.indexOf(ferocityArray[i][w].masteryId) + 1] - 1]
-// 						+ '</p>').appendTo($div3);
-// 				}
-// 				else {
-// 					$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 						+ "gray_" + ferocityArray[i][w].masteryId + ".png')";
-// 					$td[0].style.opacity = "1";
-// 					var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 					var $nameTag = $('<p>' + masteryHashes.data[ferocityArray[i][w].masteryId].name
-// 						+ ' (0/' + masteryHashes.data[ferocityArray[i][w].masteryId].ranks + ')</p>').appendTo($div3);
-// 					var $descTag = $('<p>' + masteryHashes.data[ferocityArray[i][w].masteryId]
-// 						.description[masteryHashes.data[ferocityArray[i][w].masteryId].ranks - 1] + '</p>').appendTo($div3);
-// 				}
-// 			}
-// 			$td[0].style.backgroundSize = "cover";
-// 		};
-// 	};
-	
-// 	return $masteryTable;
-// }
-
-// function cunningTable(colorArray) {
-// 	var cunningArray = masteryHashes.tree.Cunning;
-// 	var $masteryTable = $('<table>');
-// 	var $row = $('<tr>').appendTo($masteryTable);
-// 	var $cell = $('<td> Cunning </td>').appendTo($row);
-// 	var $skillTable = $('<table id = "cunning" class = "left masteryPart">').appendTo($masteryTable);
-// 	var $trhead = $('<tr>').appendTo($skillTable);
-// 	var $th, $tr, $td;
-// 	for (var i = 0; i < 6; i++) {
-// 		$tr = $('<tr>').appendTo($skillTable);
-// 		for (var w = 0; w < 3; w++) {
-// 			$td = $('<td class = "tooltip">').appendTo($tr);
-// 			if (i % 2 == 0) {
-// 				if (w == 0) {
-// 					if (colorArray.indexOf(cunningArray[i][w].masteryId) != -1) {
-// 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 							+ cunningArray[i][w].masteryId + ".png')";
-// 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 						var $nameTag = $('<p>' + masteryHashes.data[cunningArray[i][w].masteryId].name
-// 							+ ' (' + colorArray[colorArray.indexOf(cunningArray[i][w].masteryId) + 1]
-// 								+ '/' + masteryHashes.data[cunningArray[i][w].masteryId].ranks + ')</p>').appendTo($div3); 
-// 						var $descTag = $('<p>' + masteryHashes.data[cunningArray[i][w].masteryId]
-// 							.description[colorArray[colorArray.indexOf(cunningArray[i][w].masteryId) + 1] - 1] + '</p>').appendTo($div3); 
-// 					}
-// 					else {
-// 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 							+ "gray_" + cunningArray[i][w].masteryId + ".png')";
-// 						$td[0].style.opacity = "1";
-// 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 						var $nameTag = $('<p>' + masteryHashes.data[cunningArray[i][w].masteryId].name
-// 							+ ' (0/' + masteryHashes.data[cunningArray[i][w].masteryId].ranks + ')</p>').appendTo($div3); 
-// 						var $descTag = $('<p>' + masteryHashes.data[cunningArray[i][w].masteryId]
-// 							.description[masteryHashes.data[cunningArray[i][w].masteryId].ranks - 1] + '</p>').appendTo($div3);
-// 					}
-// 				}
-// 				else if (w == 1) {
-// 					$td[0].style.background = "transparent";
-// 					$td[0].style.border = "none";
-// 				}
-// 				else if (w == 2) {
-// 					if (colorArray.indexOf(cunningArray[i][1].masteryId) != -1) {
-// 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 							+ cunningArray[i][1].masteryId + ".png')";
-// 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 						var $nameTag = $('<p>' + masteryHashes.data[cunningArray[i][1].masteryId].name
-// 							+ ' (' + colorArray[colorArray.indexOf(cunningArray[i][1].masteryId) + 1]
-// 								+ '/' + masteryHashes.data[cunningArray[i][1].masteryId].ranks + ')</p>').appendTo($div3); 
-// 						var $descTag = $('<p>' + masteryHashes.data[cunningArray[i][1].masteryId]
-// 							.description[colorArray[colorArray.indexOf(cunningArray[i][1].masteryId) + 1] - 1] + '</p>').appendTo($div3);
-// 					}
-// 					else {
-// 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 							+ "gray_" + cunningArray[i][1].masteryId + ".png')";
-// 						$td[0].style.opacity = "1";
-
-// 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 						var $nameTag = $('<p>' + masteryHashes.data[cunningArray[i][1].masteryId].name
-// 							+ ' (0/' + masteryHashes.data[cunningArray[i][1].masteryId].ranks + ')</p>').appendTo($div3); 
-// 						var $descTag = $('<p>' + masteryHashes.data[cunningArray[i][1].masteryId]
-// 							.description[masteryHashes.data[cunningArray[i][1].masteryId].ranks - 1] + '</p>').appendTo($div3);
-// 					}
-// 				}
-// 			}
-// 			else {
-// 				if (colorArray.indexOf(cunningArray[i][w].masteryId) != -1) {
-// 					$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 						+ cunningArray[i][w].masteryId + ".png')";
-// 					var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
-// 					var $nameTag = $('<p>' + masteryHashes.data[cunningArray[i][w].masteryId].name
-// 						+ ' (' + colorArray[colorArray.indexOf(cunningArray[i][w].masteryId) + 1]
-// 							+ '/' + masteryHashes.data[cunningArray[i][w].masteryId].ranks + ')</p>').appendTo($div3); 
-// 					var $descTag = $('<p>' + masteryHashes.data[cunningArray[i][w].masteryId]
-// 						.description[colorArray[colorArray.indexOf(cunningArray[i][w].masteryId) + 1] - 1] + '</p>').appendTo($div3);
-// 				}
-// 				else {
-// 					$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
-// 						+ "gray_" + cunningArray[i][w].masteryId + ".png')";
-// 					$td[0].style.opacity = "1";
-// 					var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);	
-// 					var $nameTag = $('<p>' + masteryHashes.data[cunningArray[i][w].masteryId].name
-// 						+ ' (0/' + masteryHashes.data[cunningArray[i][w].masteryId].ranks + ')</p>').appendTo($div3);
-// 					var $descTag = $('<p>' + masteryHashes.data[cunningArray[i][w].masteryId]
-// 						.description[masteryHashes.data[cunningArray[i][w].masteryId].ranks - 1] + '</p>').appendTo($div3);
-// 				}
-// 			}
-// 			$td[0].style.backgroundSize = "cover";
-// 		};
-// 	};
-// 	return $masteryTable;
-// }
-//====================================================================
-
 function resolveTable(colorArray) {
 	var resolveArray = masteryHashes.tree.Resolve;
 	var $masteryTable = $('<table>');
@@ -1808,7 +1608,6 @@ function resolveTable(colorArray) {
 			if (i % 2 == 0) {
 				if (w == 0) {
 					if (colorArray.indexOf(resolveArray[i][w].masteryId) != -1) {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 							+ resolveArray[i][w].masteryId + ".png')";
 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
@@ -1819,7 +1618,6 @@ function resolveTable(colorArray) {
 							.description[colorArray[colorArray.indexOf(resolveArray[i][w].masteryId) + 1] - 1] + '</p>').appendTo($div3); 
 					}
 					else {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 							+ "gray_" + resolveArray[i][w].masteryId + ".png')";
 						$td[0].style.opacity = "1";
@@ -1836,7 +1634,6 @@ function resolveTable(colorArray) {
 				}
 				else if (w == 2) {
 					if (colorArray.indexOf(resolveArray[i][1].masteryId) != -1) {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 							+ resolveArray[i][1].masteryId + ".png')";
 						var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
@@ -1847,7 +1644,6 @@ function resolveTable(colorArray) {
 							.description[colorArray[colorArray.indexOf(resolveArray[i][1].masteryId) + 1] - 1] + '</p>').appendTo($div3);
 					}
 					else {
-						//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 						$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 							+ "gray_" + resolveArray[i][1].masteryId + ".png')";
 						$td[0].style.opacity = "1";
@@ -1862,7 +1658,6 @@ function resolveTable(colorArray) {
 			}
 			else {
 				if (colorArray.indexOf(resolveArray[i][w].masteryId) != -1) {
-					//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 					$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 						+ resolveArray[i][w].masteryId + ".png')";
 					var $div3 = $('<div class = "tooltiptext"></div>').appendTo($td);
@@ -1873,7 +1668,6 @@ function resolveTable(colorArray) {
 						.description[colorArray[colorArray.indexOf(resolveArray[i][w].masteryId) + 1] - 1] + '</p>').appendTo($div3);
 				}
 				else {
-					//$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/7.13.1/img/mastery/"
 					$td[0].style.backgroundImage = "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/mastery/"
 						+ "gray_" + resolveArray[i][w].masteryId + ".png')";
 					$td[0].style.opacity = "1";
@@ -2016,7 +1810,7 @@ function roleLongToShort(longName) {
 	}
 }
 
-function tablemake() {	
+function makeMainTable() {	
 	var $a, th, row, cell;
 	var champnamecurr, champidcurr, champidcurrStr, champwincurr, champpickcurr, champbancurr, voidindex;
     for (i = 0; i < champs.length; i++) {
