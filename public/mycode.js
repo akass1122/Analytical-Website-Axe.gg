@@ -2113,19 +2113,30 @@ function mainFunction() {
 		// 	});
 		// }, 	
 
-		function(callback) {				
-			$.getJSON("/championFullDataNew", function (data) {
-				champFullObj = data;
-				callback();
-			});
-		},
-
 		// function(callback) {				
-		// 	$.getJSON("http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json", function (data) {
+		// 	$.getJSON("/championFullDataNew", function (data) {
 		// 		champFullObj = data;
 		// 		callback();
 		// 	});
-		// }
+		// },
+
+		function(callback) {				
+			$.getJSON("http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json", function (data) {
+				champFullObj = data;
+				callback();
+			});
+		}
+
+		function(callback) {				
+			$.getJSON("/versionInfo", function (data) {
+				var array1 = data;
+				if (!jQuery.isArray(array1)) {
+					object1[0].patch
+				}
+
+				callback();
+			});
+		},
 
 		], function done(err, results) {				
 			if (err) {
