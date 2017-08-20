@@ -25,8 +25,6 @@ var temp;
 var numberOfChamp;
 var LOLversion = "7.14.1";
 
-
-
 //app.set('port', process.env.PORT || 3000);
 
 //app.listen(3000);
