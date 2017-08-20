@@ -15,6 +15,7 @@ var masteryStr = "";
 var runeStr = "";
 var summonerStr = "";
 var fiveDayStr = "";
+var LOLversion = "7.16.1";
 
 
 var fiveDaysWinRateArray = [];
@@ -30,7 +31,8 @@ var LOLversion = "7.14.1";
 
 //app.listen(3000);
 
-function serverCall1(http1,started){ 
+function serverCall1(http1,started){
+    console.log(new Date());
     var myurl1 = "/v2/champions?&limit=900&api_key=5df59c3c1ea850a631d859fbbecb522b";
     var options1 = {
         host: 'api.champion.gg',
@@ -686,32 +688,11 @@ app.get("/masteryInfo/:version", function(req, res){
     }
     http.request(options, callback).end();
 });
-//====================================
-app.get("/versionInfo/", function(req, res){
-    var str1 = "";
-    var myurl = "/v2/champions?&limit=1&api_key=5df59c3c1ea850a631d859fbbecb522b";
-    var options = {
-        host: 'api.champion.gg',
-        path: myurl
-    };
-    //this callback is for http, it saves json string in variable str1
-    callback = function(response) {
-        response.on('data', function (chunk) {   //save json string in variable str1
-        str1 += chunk;
-        });
-        response.on('end', function () {
-        res.type("text/plain");
-        res.send(str1);
-        });
-    }
-    http.request(options, callback).end();
-});
-
 
 
 //====================================
 
-app.get("/championFullDataNew", function(req, res){
+app.get("/championFullInfo", function(req, res){
 
   var str1 = "";
 
@@ -738,6 +719,68 @@ app.get("/championFullDataNew", function(req, res){
     }
     http.request(options, callback).end();
 });
+
+
+//LOLversion = object1[0].patch + '.1';
+
+//====================================
+app.get("/versionInfo/", function(req, res){
+    var str1 = "";
+    var myurl = "/v2/champions?&limit=1&api_key=5df59c3c1ea850a631d859fbbecb522b";
+    var options = {
+        host: 'api.champion.gg',
+        path: myurl
+    };
+    //this callback is for http, it saves json string in variable str1
+    callback = function(response) {
+        response.on('data', function (chunk) {   //save json string in variable str1
+            str1 += chunk;
+        });
+        response.on('end', function () {
+            res.type("text/plain");
+            res.send(str1);
+        });
+    }
+    http.request(options, callback).end();
+});
+
+//==============================================
+
+//====================================
+app.get("/version/", function(req, res){   
+    res.type("text/plain");
+    res.send(LOLversion);        
+});
+
+//==============================================
+/* This function updates League of Legends version (var LOLversion) everyday */
+
+function getLOLVersion(http1) {
+    var str1 = "";
+    var myurl = "/v2/champions?&limit=1&api_key=5df59c3c1ea850a631d859fbbecb522b";
+    var options = {
+        host: 'api.champion.gg',
+        path: myurl
+    };
+    //this callback is for http, it saves json string in variable str1
+    callback = function(response) {
+        response.on('data', function (chunk) {   //save json string in variable str1
+            str1 += chunk;
+        });
+        response.on('end', function () {
+            var array1 = JSON.parse(str1);
+            LOLversion = array1[0].patch + '.1';
+            console.log("as of " + new Date() + " LOLversion is " + LOLversion);
+        });
+    }
+    http1.request(options, callback).end();
+}
+
+getLOLVersion(http); //get LOL version right away when server starts
+setInterval(getLOLVersion,1000*60*60*24,http,true); // getLOLVersion is called every 1000*60*60*24 miliseconds = everyday
+
+//=============================================
+
 
 
 

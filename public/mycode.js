@@ -1,6 +1,6 @@
 var doneReadingFirstData = false;
 var doneReadingDataForAll = false;
-var LOLversion = "7.16.1";
+var LOLversion = "7.15.1";
 var champmap;
 var matchData;
 var simpleRolesArray = ["TOP", "MIDDLE", "MID", "JUNGLE"];
@@ -261,11 +261,11 @@ function fillInCurrentRoleInfo () {
 function readingDataForAll() {
 	async.parallel([		
 	 function(callback) {				
-			//$.getJSON("/runeData", function (data) {
-			$.getJSON("/runeInfo/" + LOLversion, function (data) {
-				runeHashes = data;
-				callback();
-			});
+	{//$.getJSON("/runeData", function (data) {
+		$.getJSON("/runeInfo/" + LOLversion, function (data) {
+			runeHashes = data;
+			callback();
+		});}
 	},
 	function(callback) {				
 		//$.getJSON("/itemData", function (data) {
@@ -2114,7 +2114,7 @@ function mainFunction() {
 		// }, 	
 
 		function(callback) {				
-			$.getJSON("/championFullDataNew", function (data) {
+			$.getJSON("/championFullInfo", function (data) {
 				champFullObj = data;
 				callback();
 			});
@@ -2130,13 +2130,22 @@ function mainFunction() {
 		// function(callback) {				
 		// 	$.getJSON("/versionInfo", function (data) {
 		// 		var array1 = data;
-		// 		if (!jQuery.isArray(array1)) {
-		// 			object1[0].patch
+		// 		if (jQuery.isArray(array1)) {
+		// 			LOLversion = array1[0].patch + '.1';
+		// 			//alert(LOLversion);
 		// 		}
-
 		// 		callback();
-		// 	});
+		// 		});
 		// },
+
+		function(callback) {				
+			$.get("/version", function (data) {
+				if(data.length != 0 && data.indexOf('.') != -1) {				
+					LOLversion = data;
+				}
+				callback();
+			});
+		},
 
 		], function done(err, results) {				
 			if (err) {
