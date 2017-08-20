@@ -88,8 +88,8 @@ function serverCall1(http1,started){
 
 serverCall1(http,false);
 setInterval(serverCall1,1000*60*60,http,true); // serverCall1 is called every 1000*60*60 miliseconds = 1 minute
-setInterval(function(){console.log("test setInterval");
-}, 60000);
+// setInterval(function(){console.log("test setInterval");
+// }, 60000);
 
 app.use("/public", express.static(__dirname + '/public'));
 app.use("/bower_components", express.static(__dirname + '/bower_components'));
