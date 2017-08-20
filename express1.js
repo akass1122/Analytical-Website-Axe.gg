@@ -693,29 +693,22 @@ app.get("/masteryInfo/:version", function(req, res){
 //====================================
 
 app.get("/championFullInfo", function(req, res){
-
-  var str1 = "";
-
-  var myurl = "/cdn/7.14.1/data/en_US/championFull.json";
-
-
-
-  var options = {
-    host: 'ddragon.leagueoflegends.com',
-    path: myurl
-  };
+    var str1 = "";
+    var myurl = "/cdn/" + LOLversion + "/data/en_US/championFull.json";
+    var options = {
+        host: 'ddragon.leagueoflegends.com',
+        path: myurl
+    };
 
 //this callback is for http, it saves json string in variable str1
-  callback = function(response) {
-      response.on('data', function (chunk) {   //save json string in variable str1
-        str1 += chunk;
-      });
-      response.on('end', function () {
-        res.type("application/json");
-        res.send(str1);
-       
-
-      });
+    callback = function(response) {
+        response.on('data', function (chunk) {   //save json string in variable str1
+            str1 += chunk;
+        });
+        response.on('end', function () {
+            res.type("application/json");
+            res.send(str1);
+        });
     }
     http.request(options, callback).end();
 });
