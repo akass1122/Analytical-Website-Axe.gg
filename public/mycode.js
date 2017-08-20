@@ -262,28 +262,28 @@ function readingDataForAll() {
 	async.parallel([		
 	 function(callback) {				
 	{//$.getJSON("/runeData", function (data) {
-		$.getJSON("/runeInfo/" + LOLversion, function (data) {
+		$.getJSON("/runeInfo", function (data) {
 			runeHashes = data;
 			callback();
 		});}
 	},
 	function(callback) {				
 		//$.getJSON("/itemData", function (data) {
-		$.getJSON("/itemInfo/" + LOLversion, function (data) {
+		$.getJSON("/itemInfo", function (data) {
 			itemObj = data;
 			callback();
 		});
 	},
 	 function(callback) {				
 		//$.getJSON("/summonerData", function (data) {
-		$.getJSON("/summonerInfo/" + LOLversion, function (data) {
+		$.getJSON("/summonerInfo", function (data) {
 			summonerObj = data;
 			callback();
 		});
 	},  	
 	function(callback) {				
 		//$.getJSON("/masteryData", function (data) {
-		$.getJSON("/masteryInfo/" + LOLversion, function (data) {
+		$.getJSON("/masteryInfo", function (data) {
 			masteryHashes = data;
 			callback();
 		});

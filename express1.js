@@ -607,9 +607,9 @@ app.get("/stats/:id", function(req, res){
     http.request(options, callback).end();
 });
 //=================================
-app.get("/runeInfo/:version", function(req, res){
+app.get("/runeInfo", function(req, res){
     var str1 = "";
-    var myurl = "/cdn/" + req.params.version + "/data/en_US/rune.json";
+    var myurl = "/cdn/" + LOLversion + "/data/en_US/rune.json";
     var options = {
         host: 'ddragon.leagueoflegends.com',
         path: myurl
@@ -628,9 +628,9 @@ app.get("/runeInfo/:version", function(req, res){
 });
 
 //=================================
-app.get("/itemInfo/:version", function(req, res){
+app.get("/itemInfo", function(req, res){
     var str1 = "";
-    var myurl = "/cdn/" + req.params.version + "/data/en_US/item.json";
+    var myurl = "/cdn/" + LOLversion + "/data/en_US/item.json";
     var options = {
         host: 'ddragon.leagueoflegends.com',
         path: myurl
@@ -649,9 +649,9 @@ app.get("/itemInfo/:version", function(req, res){
 });
 
 //=================================
-app.get("/summonerInfo/:version", function(req, res){
+app.get("/summonerInfo", function(req, res){
     var str1 = "";
-    var myurl = "/cdn/" + req.params.version + "/data/en_US/summoner.json";
+    var myurl = "/cdn/" + LOLversion + "/data/en_US/summoner.json";
     var options = {
         host: 'ddragon.leagueoflegends.com',
         path: myurl
@@ -669,9 +669,9 @@ app.get("/summonerInfo/:version", function(req, res){
     http.request(options, callback).end();
 });
 //=================================
-app.get("/masteryInfo/:version", function(req, res){
+app.get("/masteryInfo", function(req, res){
     var str1 = "";
-    var myurl = "/cdn/" + req.params.version + "/data/en_US/mastery.json";
+    var myurl = "/cdn/" + LOLversion + "/data/en_US/mastery.json";
     var options = {
         host: 'ddragon.leagueoflegends.com',
         path: myurl
