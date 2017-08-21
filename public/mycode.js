@@ -261,29 +261,25 @@ function fillInCurrentRoleInfo () {
 function readingDataForAll() {
 	async.parallel([		
 	 function(callback) {				
-	{//$.getJSON("/runeData", function (data) {
-		$.getJSON("/runeInfo", function (data) {
+		$.getJSON("/runes", function (data) {
 			runeHashes = data;
 			callback();
-		});}
+		})
 	},
 	function(callback) {				
-		//$.getJSON("/itemData", function (data) {
-		$.getJSON("/itemInfo", function (data) {
+		$.getJSON("/items", function (data) {
 			itemObj = data;
 			callback();
 		});
 	},
 	 function(callback) {				
-		//$.getJSON("/summonerData", function (data) {
-		$.getJSON("/summonerInfo", function (data) {
+		$.getJSON("/summoners", function (data) {
 			summonerObj = data;
 			callback();
 		});
 	},  	
 	function(callback) {				
-		//$.getJSON("/masteryData", function (data) {
-		$.getJSON("/masteryInfo", function (data) {
+		$.getJSON("/masteries", function (data) {
 			masteryHashes = data;
 			callback();
 		});
@@ -298,12 +294,12 @@ function readingDataForAll() {
 
 function getHash() {
 	async.parallel([function(callback) {			
-		$.getJSON("/hashes/" + currentChampId, function (data) {
+		$.getJSON("/hashString/" + currentChampId, function (data) {
 			champHashes = data;		
 			callback();
 		});
 	}, function(callback) {				
-			$.getJSON("/stats/"+ currentChampId, function (data) {			
+			$.getJSON("/statsString/"+ currentChampId, function (data) {			
 				matchData = data;
 				callback();
 			});
