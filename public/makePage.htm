@@ -34,7 +34,7 @@
 				-webkit-background-size: 100% 100%; 
 				background-size: 100% 100%;*/
 				background-size: cover;
-				background-color: black;
+				/*background-color: black;*/
 				background-attachment: fixed;
 				font-family: beaufortforlol, Verdana, sans-serif;
 				margin-left: auto;
@@ -54,7 +54,7 @@
 				-webkit-background-size: 100% 100%; 
 				background-size: 100% 100%;*/
 				background-size: cover;
-				background-color: black;
+				/*background-color: black;*/
 				background-attachment: fixed;
 				font-family: beaufortforlol, Verdana, sans-serif;
 				width: 40%;
@@ -272,25 +272,6 @@
 			}
 
 
-			/*#titleWinSkillOrderTable td{
-				color: #004d00;
-			}
-
-			#titleWinSkillOrderTable th{
-				background: #004d00;
-			}			
-
-			#winMaster td{
-				color: #004d00;
-			}
-
-			#winMaster th{
-				background: #004d00;
-			}		
-
-			#winSkillOrderTable th{
-				background: #004d00;
-			}*/
 
 			#winSkillOrderTable {
 				width: 100%;
@@ -302,13 +283,7 @@
 				font-size: 85%;
 			}
 
-			/*#winTrinketTable th{
-				background: #004d00;
-			}
-
-			#winTrinketTable td{
-				color: #004d00;
-			}*/
+			
 
 			#winTrinketTable {
 				width: 100%;
@@ -447,11 +422,6 @@
 				height: 300px;
 			}
 
-/*			.chart {
-				float: left;
-				text-align: left;
-				left: 30px;
-			}*/
 
 			#champInfo {
 				/*background-image: url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg");*/
@@ -465,7 +435,7 @@
 				/*border: 1px solid black;*/
 			}
 
-			#gap1 {
+			.gap1 {
 				padding-bottom: 7px;
 			}
 
@@ -487,50 +457,7 @@
 				border: none;
 			}
 
-			/*.table6 {
-				width: 100%;
-			}*/
-
-			/*#dmgChart_div {
-				border: 1px solid white;
-			}*/
-
-/*			#roles1 {
-				background: #d9d9d9;
-				width: 70%;
-				border: 1px solid white;
-			}
-
-			#charts1 {
-				background: #d9d9d9;
-				width: 70%;
-				border: 1px solid white;
-			}
-
-			#skill1 {
-				width: 70%;
-				background: #d9d9d9;
-				border: 1px solid white;
-			}
-
-			#master1 {
-				width: 70%;
-				background: #d9d9d9;
-				border: 1px solid white;
-			}
-
-			#trinket1 {
-				width: 70%;
-				background: #d9d9d9;
-				border: 1px solid white;
-			}
-
-			#matchups1 {
-				width: 70%;
-				background: #d9d9d9;
-				border: 1px solid white;
-			}*/
-
+			
 			#loadingSplash{
 				/*border: 1px solid gray;*/
 			}
@@ -599,16 +526,8 @@
 				float: left;
 			}
 
-/*			.tooltip {
-				display:none;
-				position:absolute;
-				border:1px solid #333;
-				background-color:#161616;
-				border-radius:5px;
-				padding:10px;
-				color:#fff;
-				font-size:12px Arial;
-			}*/
+			
+
 
 			.tooltip {
 				position: relative;
@@ -657,27 +576,7 @@
 
 		</style>
 	</head>
-
-	<body>
-
-		<!-- <table style="width:100%" id="skillOrderTable">
-		</table> -->
-
-
-
-
-
-<!-- 		<button onclick="makeWinRateChart('1');"> Annie Win Rate </button>
-		<button onclick="makePickRateChart('1');"> Annie Pick Rate </button>
-		<button onclick="makeBanRateChart('1');"> Annie Ban Rate </button>
-		<button onclick="p1Hide();"> Hide </button>
-		<button onclick="p1Show();"> Show </button> -->
-
-		<!-- <a href="#" title="This will show up in the tooltip" class="masterTooltip">Your Text</a> -->
-		<!-- <p title="Mouse over the heading above to view the tooltip." class="masterTooltip">Mouse over the heading text above to view it's tooltip.</p> -->
-		<!-- <img src="image.jpg" class="masterTooltip" title="Tooltip on image" /> -->
-
-
+	<body>		
 		<center>
 			<div id = "champPg">
 				<div id = "champInfo">
@@ -693,17 +592,7 @@
 						</table>
 					</div>
 				</div>
-
-				<div id = "gap1"></div>
-
-<!-- 				<center>
-					<div id = "roles1">
-						<div id = "roleTable1" class = "roleTab pLeft" style="display: inline-block;"></div>
-					</div>
-				</center> -->
-
-				<!-- <div id = "gap1"></div> -->
-
+				<div class = "gap1"></div>
 				<center>
 					<div id = "charts1" class = "champBlock">
 						<div id="winRateChart_div" class = "chart pLeft" style="display: inline-block;"></div>
@@ -711,38 +600,28 @@
 						<div id="banRateChart_div" class = "chart pLeft" style="display: inline-block;"></div>
 					</div>
 				</center>
-
-				<div id = "gap1"></div>
-
+				<div class = "gap1"></div>
 				<center>
 					<div id = "champDataTable1" class = "champBlock">
 						<div id="dmgChart_div" class = "chart pLeft" style="display: inline-block;"></div>
 						<div id="champDT" class = "dataTab pLeft" style="display: inline-block;"></div>
 					</div>
 				</center>				
-
-				<div id = "gap1"></div>
-
+				<div class = "gap1"></div>
 				<center>
 					<div id = "summs1" class = "champBlock">
 						<div id="winSumms_div" class = "summ pLeft" style="display: inline-block;"></div>
 						<div id="freqSumms_div" class = "summ pLeft" style="display: inline-block;"></div>
 					</div>
 				</center>
-
-				<div id = "gap1"></div>
-
+				<div class = "gap1"></div>
 				<center>
 					<div id = "master1" class = "champBlock">
 						<div id="winMaster_div" class = "master pLeft" style="display: inline-block;"></div>
 						<div id="freqMaster_div" class = "master pLeft" style="display: inline-block;"></div>
 					</div>
 				</center>
-
-
-				<div id = "gap1"></div>
-
-
+				<div class = "gap1"></div>
 				<center>
 					<div id = "rune1" class = "champBlock">
 						<table id = "winFreqRunes">
@@ -753,10 +632,7 @@
 						</table>
 					</div>
 				</center>
-
-
-				<div id = "gap1"></div>
-
+				<div class = "gap1"></div>
 				<center>
 					<div id = "skill1" class = "champBlock">
 						<table class = "winFreqSkill">
@@ -767,10 +643,7 @@
 						</table>
 					</div>
 				</center>
-
-
-				<div id = "gap1"></div>
-
+				<div class = "gap1"></div>
 				<center>
 					<div id = "startItems1" class = "champBlock">
 						<table class = "winFreqSkill">
@@ -781,92 +654,47 @@
 						</table>
 					</div>
 				</center>
-
-				<div id = "gap1"></div>
-
+				<div class = "gap1"></div>
 				<center>
 					<div id = "finalItems1" class = "champBlock">
 						<div id="winFinalItem_div" class = "finItem pLeft" style="display: inline-block;"></div>
 						<div id="freqFinalItem_div" class = "finItem pLeft" style="display: inline-block;"></div>
 					</div>
 				</center>
-
-				
-
-
-
-
-
-
-
-
-
-
-
-				<div id = "gap1"></div>
-
+				<div class = "gap1"></div>
 				<center>
 					<div id = "trinket1" class = "champBlock">
 						<div id="winTrinket_div" class = "trink pLeft" style="display: inline-block;"></div>
 						<div id="freqTrinket_div" class = "trink pLeft" style="display: inline-block;"></div>
 					</div>
 				</center>
-
-				<div id = "gap1"></div>
-
+				<div class = "gap1"></div>
 				<center>
 					<div id = "matchups1" class = "champBlock">
 					</div>
 				</center>
-
-				<div id = "gap1"></div>
-
-
-
-				<!-- <center>
-					<div id = "rune1" class = "champBlock">
-						<div id="winRune_div" class = "runeTab pLeft" style="display: inline-block;"></div>
-					</div>
-				</center> -->
-
-
-
-
-
-
-
-
-
-			</div>
-			
+				<div class = "gap1"></div>
+			</div>			
 		</center>
-
 		<script>
 			$("#champPg").hide();
 		</script>
-
-
 		<div id = "p1">
 		<center><font size="5">C<font size="4">HAMPION <font size="5">A<font size="4">NALYTICS</font></center>
-		
-
-
-
 		<div id="menu-outer1">
 			<div class="table">
 				<ul id="horizontal-list">
-					<li><button id="gridbutt" class="layouttab active" type="button" onclick="layouttabpress('gridbutt'); removetable(); champfilter();">Grid</button></a></li>
-					  <!-- <button type="button" onclick="bgButton()">Click Me!</button> -->
-					<li><button id="tablebutt" class="layouttab" type="button" onclick="layouttabpress('tablebutt'); removetable(); makeMainTable(); champfilter();">Table</button></a></li>
+					<li><button id="gridbutt" class="layouttab active" type="button" onclick="layouttabpress('gridbutt');
+						removetable(); champfilter();">Grid</button></a></li>
+					<li><button id="tablebutt" class="layouttab" type="button" onclick="layouttabpress('tablebutt');
+						removetable(); makeMainTable(); champfilter();">Table</button></a></li>
 				</ul>
 			</div>
 		</div>
-
 		<div id="menu-outer">
 			<div class="table">
 				<ul id="horizontal-list">
 					<li><button id="all" class="tab active" type="button" onclick="tabpress('all'); champfilter();">All</button></a></li>
-					  <!-- <button type="button" onclick="bgButton()">Click Me!</button> -->
 					<li><button id="top" class="tab" type="button" onclick="tabpress('top'); champfilter();">Top</button></a></li>
 					<li><button id="mid" class="tab" type="button" onclick="tabpress('mid'); champfilter();">Mid</button></a></li>
 					<li><button id="jg" class="tab" type="button" onclick="tabpress('jg'); champfilter();">Jungle</button></a></li>
@@ -875,41 +703,8 @@
 				</ul>
 			</div>
 		</div>
-
-<!-- 		<div class="form-group">
-		  <label for="sel1"><font size="3">Layout:</font></label>
-		  <select class="form-control" id="sel1">
-			<option>Grid</option>
-			<option>Table</option>
-		  </select>
-		</div> -->
-
 		<input type="search" id="champInput" oninput="champfilter()" placeholder="Filter Champions...">
-
-<!-- 		<ul id="myUL">
-		  <li><a href="#" class="header">A</a></li>
-		  <li><a href="#">Adele</a></li>
-		  <li><a href="#">Agnes</a></li>
-
-		  <li><a href="#" class="header">B</a></li>
-		  <li><a href="#">Billy</a></li>
-		  <li><a href="#">Bob</a></li>
-
-		  <li><a href="#" class="header">C</a></li>
-		  <li><a href="#">Calvin</a></li>
-		  <li><a href="#">Christina</a></li>
-		  <li><a href="#">Cindy</a></li>
-		</ul> -->
 		<br>
-		<!-- <button onclick="maketable()">Table</button> -->
-		<!-- <button onclick="ff1()">Table</button> -->
-
-		<!-- <button onclick="createchampmap()">Click</button> -->
-
-		<!-- <div class="floated_img">
-			<a href="http://lolalytics.com/champion/Aatrox/">
-			<img src="ChampSq/Aatrox.png" alt="Aatrox Stats" width="100" height="100" style="border:5px solid transparent">
-		</div> -->
 		</div>
 	</body>
 </html>

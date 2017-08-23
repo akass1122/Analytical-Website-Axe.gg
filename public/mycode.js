@@ -14,9 +14,6 @@ var summonerObj = {};
 var fiveDayObj = {};
 var arrayOfIdsNames = [];
 var arrayOfObjects = [];
-var voidchamps = ["Cho'Gath", "Kha'Zix", "Kog'Maw", "Rek'Sai", "Vel'Koz"];
-var voidchampstext = ["Cho\\'Gath", "Kha\\'Zix", "Kog\\'Maw", "Rek\\'Sai", "Vel\\'Koz"];
-var voidchampslink = ["ChoGath", "KhaZix", "KogMaw", "RekSai", "VelKoz"];
 var champs = [];
 var champids = [];
 var dateArray = [];
@@ -100,8 +97,6 @@ function makeBanRateChart() {
 		'height':250};
 	// Instantiate and draw our chart, passing in some options.
 	var chart = new google.visualization.AreaChart(document.getElementById('banRateChart_div'));
-
-
 	chart.draw(data, options);
 };
 
@@ -261,25 +256,25 @@ function fillInCurrentRoleInfo () {
 function readingDataForAll() {
 	async.parallel([		
 	 function(callback) {				
-		$.getJSON("/runes", function (data) {
+		$.getJSON("/runeInfo", function (data) {
 			runeHashes = data;
 			callback();
 		})
 	},
 	function(callback) {				
-		$.getJSON("/items", function (data) {
+		$.getJSON("/itemInfo", function (data) {
 			itemObj = data;
 			callback();
 		});
 	},
 	 function(callback) {				
-		$.getJSON("/summoners", function (data) {
+		$.getJSON("/summonerInfo", function (data) {
 			summonerObj = data;
 			callback();
 		});
 	},  	
 	function(callback) {				
-		$.getJSON("/masteries", function (data) {
+		$.getJSON("/masteryInfo", function (data) {
 			masteryHashes = data;
 			callback();
 		});
@@ -294,12 +289,12 @@ function readingDataForAll() {
 
 function getHash() {
 	async.parallel([function(callback) {			
-		$.getJSON("/hashString/" + currentChampId, function (data) {
+		$.getJSON("/hashes/" + currentChampId, function (data) {
 			champHashes = data;		
 			callback();
 		});
 	}, function(callback) {				
-			$.getJSON("/statsString/"+ currentChampId, function (data) {			
+			$.getJSON("/statistics/"+ currentChampId, function (data) {			
 				matchData = data;
 				callback();
 			});
@@ -337,7 +332,7 @@ function getHash1() {
 	}, 
 	
 	function(callback) {				
-			$.getJSON("/stats/"+ currentChampId, function (data) {			
+			$.getJSON("/statistics/"+ currentChampId, function (data) {			
 				matchData = data;
 				callback();
 			});
@@ -1812,7 +1807,7 @@ function roleLongToShort(longName) {
 
 function makeMainTable() {	
 	var $a, th, row, cell;
-	var champnamecurr, champidcurr, champidcurrStr, champwincurr, champpickcurr, champbancurr, voidindex;
+	var champnamecurr, champidcurr, champidcurrStr, champwincurr, champpickcurr, champbancurr;
     for (i = 0; i < champs.length; i++) {
  		if (champmap.hasOwnProperty(champids[i].toString())) {
     		document.getElementById(champs[i]).style.display = "none";
@@ -1855,7 +1850,6 @@ function makeMainTable() {
 			champwincurr = champmap[champidcurrStr].winRate;
 			champpickcurr = champmap[champidcurrStr].playRate;
 			champbancurr = champmap[champidcurrStr].banRate;
-			voidindex = voidchamps.indexOf(champnamecurr);
 			row = champt1.insertRow(-1);
 			row.id="table_"+champnamecurr;
 			cell = row.insertCell(0);
@@ -2090,79 +2084,7 @@ function allfunc(){
 	};
 }
 
-function mainFunction() {
-	if (doneReadingFirstData == true) {
-		makeMainPage();
-	} else {			
-		async.parallel([
-		function(callback) {				
-			$.getJSON("/fiveDayData", function (data) {
-				fiveDayObj = data;
-				callback();
-			});
-		},
 
-		// function(callback) {				
-		// 	$.getJSON("/champFullData", function (data) {
-		// 		champFullObj = data;
-		// 		callback();
-		// 	});
-		// }, 	
-
-		function(callback) {				
-			$.getJSON("/championFullInfo", function (data) {
-				champFullObj = data;
-				callback();
-			});
-		},
-
-		// function(callback) {				
-		// 	$.getJSON("http://ddragon.leagueoflegends.com/cdn/7.14.1/data/en_US/championFull.json", function (data) {
-		// 		champFullObj = data;
-		// 		callback();
-		// 	});
-		// },
-
-		// function(callback) {				
-		// 	$.getJSON("/versionInfo", function (data) {
-		// 		var array1 = data;
-		// 		if (jQuery.isArray(array1)) {
-		// 			LOLversion = array1[0].patch + '.1';
-		// 			//alert(LOLversion);
-		// 		}
-		// 		callback();
-		// 		});
-		// },
-
-		function(callback) {				
-			$.get("/version", function (data) {
-				if(data.length != 0 && data.indexOf('.') != -1) {				
-					LOLversion = data;
-				}
-				callback();
-			});
-		},
-
-		], function done(err, results) {				
-			if (err) {
-				throw err;
-			}
-			doneReadingFirstData = true;
-			makeMainPage();
-		});
-	}
-}
-
-function makeMainPage() {
-	makeArrayOfIdsNames();				
-	arrayObject = JSON.parse(fiveDayObj[4].data); // champ stats for the current day
-	champmap = makeDayChampObj(arrayObject);
-	champRoleMap = makeDayRoleObj(arrayObject);
-	makeGrid();				
-	p1Show();
-	makeFiveDayArrObj(); //  makes arrayChampFive and arrayRoleFive
-	readingDataForAll();
-}
 
 function makeArrayOfIdsNames() {
 	var ids = Object.keys(champFullObj.keys);
@@ -2246,7 +2168,7 @@ function makeDayRoleObj(arrObj) {
 };
 
 function makeGrid() {
-	var champnamecurr, champidcurr, champidcurrStr, link, voidindex, champlink;
+	var champnamecurr, champidcurr, champidcurrStr, link, champlink;
 	var champicon, champname, winrate, winpercent, t1, t;
 	var champwincurr = 0.50;
 	for (var i = 0; i <= champs.length - 1; i++) {
@@ -2254,7 +2176,6 @@ function makeGrid() {
 		champidcurr = champids[i];
 		champidcurrStr = champidcurr.toString();
 		link = document.createElement("a");
-		voidindex = voidchamps.indexOf(champs[i]);
 		if (champmap.hasOwnProperty(champidcurrStr)) {
 			champwincurr = champmap[champidcurrStr].winRate;				
 			link.href = "#!/";
@@ -2283,6 +2204,57 @@ function makeGrid() {
 		};
 	}
 };
+
+function mainFunction() {
+	if (doneReadingFirstData == true) {
+		makeMainPage();
+	} else {			
+		async.parallel([
+		function(callback) {				
+			$.getJSON("/fiveDayData", function (data) {
+				fiveDayObj = data;
+				callback();
+			});
+		},
+
+		function(callback) {				
+			$.getJSON("/championFullInfo1", function (data) {
+				champFullObj = data;
+				callback();
+			});
+		},
+
+		function(callback) {				
+			$.get("/versionInfo", function (data) {
+				if(data.length != 0 && data.indexOf('.') != -1) {				
+					LOLversion = data;
+				}
+				callback();
+			});
+		},
+
+		], function done(err, results) {				
+			if (err) {
+				throw err;
+			}
+			doneReadingFirstData = true;
+			makeMainPage();
+		});
+	}
+}
+
+function makeMainPage() {
+	makeArrayOfIdsNames();				
+	arrayObject = JSON.parse(fiveDayObj[4].data); // champ stats for the current day
+	champmap = makeDayChampObj(arrayObject);
+	champRoleMap = makeDayRoleObj(arrayObject);
+	makeGrid();				
+	p1Show();
+	makeFiveDayArrObj(); //  makes arrayChampFive and arrayRoleFive
+	readingDataForAll();
+}
+
+// mainFunction();
 
 $(document).ready(function() {
 	mainFunction();

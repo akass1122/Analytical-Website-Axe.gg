@@ -18,13 +18,13 @@
 		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 		<meta http-equiv="Pragma" content="no-cache" />
 		<meta http-equiv="Expires" content="0" />
-
+		<!-- <link rel="stylesheet" href="styles2.css"> -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<link rel="icon" type="image/png" href="sricon2.png"/>
-		<style type="text/css">
+		<link rel="icon" type="image/png" href="img/sricon2.png"/>
+		<style>
 			@font-face {
-				font-family: 'beaufortforlol';
-				src: url('/public/fonts/beaufortforlol-regular.otf') format("opentype");
+			font-family: 'beaufortforlol';
+			src: url('/public/fonts/beaufortforlol-regular.otf') format("opentype");
 			}
 
 			@font-face {
@@ -34,7 +34,6 @@
 			}
 			body {
 				background-color: rgb(172, 57, 57);
-				/*background-color: rgb(198, 83, 83);*/
 				position: fixed;
 				left: 0;
 				right: 0;
@@ -52,7 +51,7 @@
 				bottom: 0;
 				color: white;
 				background-size: cover;
-				background-color: black;
+				/*background-color: black;*/
 			}
 
 			input[type=image] {
@@ -135,13 +134,12 @@
 				color: white;
 				border: none;
 				outline: none;
-				background: black;
+				background-color: rgb(172, 57, 57);
 				font-family: 'beaufortforlol', Verdana, sans-serif;
-
 			}
 
 			.active:hover {
-				background: black;
+				background-color: rgb(191, 64, 64);
 			}
 
 			.floated_img
@@ -154,16 +152,12 @@
 				margin: 0;
 				padding: 0;
 				overflow: hidden;
-				/*background-color: rgb(191, 64, 64);*/
 				background-color: rgb(160, 52, 52);
-				/*background-color: rgb(191, 64, 64);*/
-				/*border-bottom: 1px solid rgb(160, 52, 52);*/
 			}
 
 			li {
 				float: left;
 				background-color: rgb(160, 52, 52);
-				/*border-right: 1px solid #bbb;*/
 			}
 
 			li:first-child {
@@ -182,28 +176,17 @@
 				background-color: rgb(191, 64, 64);
 			}
 
-			.active {
-				background-color: rgb(172, 57, 57);
-				/*border-bottom: 1px solid transparent;*/
-			}
-
-			.active:hover {
-				background-color: rgb(191, 64, 64);
-				/*border-bottom: 1px solid transparent;*/
-			}
-			
 		</style>
 	</head>
 	<body>
-
 		<ul>
+		<!-- <li> <center><input type="image" src="sr5.png" width="50" height="50" onclick="home()" style=""></input></center> </li> -->
 		  <li><a class = "active" href="javascript:home();">Home</a></li>
 		  <li><a href="javascript:contact();">Contact</a></li>
+
 		  <li style="float:right"><a href="javascript:about();">About</a></li>
 		</ul>
-
 		<br>
-
 		<script>
 		var i = 3;
 		var colors = ["gray", "black", /**redish*/ "rgb(172, 57, 57)", /**blueish*/"rgb(0, 153, 255)", /** greenish */ "rgb(0, 179, 134)" /** very greenish "rgb(19, 149,69)"*/, /** pinkish */ "rgb(172, 57, 115)", /** purpleish */ "rgb(77, 0, 102)"];
@@ -226,12 +209,6 @@
 		function contact() {
 			document.getElementById("champframe").src= "contact.htm";
 
-
-			// var frame = document.getElementById("champframe");
-			// frameDoc = frame.contentDocument || frame.contentWindow.document;
-			// frameDoc.documentElement.innerHTML = "";
-			// document.getElementById("champframe").src= "contact.htm";
-			//$('#champframe').attr('src', 'contact.htm');
 		}
 
 		function about() {
@@ -239,7 +216,7 @@
 		}
 
 		</script>
-		<center><input type="image" src="sr5.png" width="50" height="50" onclick="home()" style=""></input></center>
+		<center><input type="image" src="img/sr5.png" width="50" height="50" onclick="home()" style=""></input></center>
 		<br>
 		<h1>
 			<iframe id="champframe" src="makePage.htm" height="100%" width="100%" style="background: #FFFFFF; border: 0" frameBorder="0"></iframe>

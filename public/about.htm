@@ -5,7 +5,7 @@
 		<script src="/bower_components/async/dist/async.js"></script>
 		<script src="https://www.gstatic.com/charts/loader.js"></script>		
 		<title>About</title>
-		<link rel="icon" type="image/png" href="sr5.png"/>
+		<link rel="icon" type="image/png" href="img/sr5.png"/>
 		<style type="text/css">
 			@font-face {
 				font-family: beaufortforlol;
@@ -19,17 +19,9 @@
 			}
 
 			body {
-				color: white;
-				/*background-image: url("1_ImagePack_backgrounds_Embeds__e_pvp_landingBackground.jpg");*/
-				/*background-image: url(page-bg.jpg);*/
-				/*background-image: url(league_of_legends-vs-game-background-1600x900.jpg);*/
-				background-image:  url(page-bg4.png);
-/*				-moz-background-size: 100% 100%;
-				-o-background-size: 100% 100%;
-				-webkit-background-size: 100% 100%; 
-				background-size: 100% 100%;*/
+				color: white;				
+				background-image:  url(img/page-bg4.png);
 				background-size: cover;
-				background-color: black;
 				background-attachment: fixed;
 				font-family: beaufortforlol, Verdana, sans-serif;
 				margin-left: auto;
@@ -37,20 +29,13 @@
 				overflow-y:scroll;
 			}
 
+
 			#p1 {
 				padding-top: 1rem;
 				text-align: center;
-				color: white;
-				/*background-image: url("1_ImagePack_backgrounds_Embeds__e_pvp_landingBackground.jpg");*/
-				/*background-image: url(page-bg.jpg);*/
-				/*background-image: url(league_of_legends-vs-game-background-1600x900.jpg);*/
-				background-image:  url(page-bg4.png);
-/*				-moz-background-size: 100% 100%;
-				-o-background-size: 100% 100%;
-				-webkit-background-size: 100% 100%; 
-				background-size: 100% 100%;*/
+				color: white;				
+				background-image:  url(img/page-bg4.png);
 				background-size: cover;
-				background-color: black;
 				background-attachment: fixed;
 				font-family: beaufortforlol, Verdana, sans-serif;
 				width: 40%;
@@ -58,151 +43,10 @@
 				margin-right: auto;
 			}
 
-			#centeredmenu {
-			   float:left;
-			   width:40%;
-			   /*background:#fff;*/
-			   /*border-bottom:4px solid #000;*/
-			   overflow:hidden;
-			   position:absolute;
-			   bottom: 90%;
+			.champBlock {
+				width: 65%;
 			}
-			#centeredmenu ul {
-			   clear:left;
-			   float:left;
-			   list-style:none;
-			   margin:0;
-			   padding:0;
-			   position:relative;
-			   left:50%;
-			   text-align:center;
-			}
-			#centeredmenu ul li {
-			   display:block;
-			   float:left;
-			   list-style:none;
-			   margin:0;
-			   padding:0;
-			   position:relative;
-			   right:50%;
-			}
-			#menu-outer {
-				height: 84px;
-/*				background: url(images/bar-bg.jpg) repeat-x;
-*/			}
-
-			#menu-outer1 {
-				height: 33px;
-				/*background: url(images/bar-bg.jpg) repeat-x;*/
-			}
-
-			.table {
-				display: table;   /* Allow the centering to work */
-				margin: 0 auto;
-			}
-
-			ul#horizontal-list {
-				list-style: none;
-				padding-top: 0px;
-				transform: translateX(-20px);
-				}
-
-				ul#horizontal-list li {
-					display: inline;
-				}
-
-			.layouttab{
-				height:26px;
-				width:80px;
-				color:;
-				outline: none;
-				font-family: beaufortforlol, Verdana, sans-serif;
-				cursor: pointer;
-				transition-duration: 0.2s;
-			}
-
-			.layouttab:hover {
-				background-color: #369;
-				color: white;
-			}
-
-
-
-			.tab{
-				height:26px;
-				width:80px;
-				color:;
-				outline: none;
-				font-family: beaufortforlol, Verdana, sans-serif;
-				cursor: pointer;
-				transition-duration: 0.4s;
-			}
-
-			.tab:hover {
-				background-color: #369;
-				color: white;
-			}
-
-			.active {
-				color: white;
-				border: none;
-				outline: none;
-				background: black;
-				font-family: beaufortforlol, Verdana, sans-serif;
-
-			}
-
-			.active:hover {
-				background: black;
-				cursor: default;
-			}
-			#champInput{
-				outline: none;
-			}
-
-			#sel1 {
-				outline:none;
-			}
-
-
-			.champicon1 {
-				/*width: 100px;*/
-				/*height: 100px;*/
-				/*background: url("ChampSq/Aatrox.png");*/
-				/*background-size: cover;*/
-				display: inline-block;
-				color: white;
-				font-family: beaufortforlol, Verdana, sans-serif;
-				position: relative;
-
-				color: white;
-				display: inline-block;
-				background-size: cover;
-				background-repeat: no-repeat;
-				width: 100px;
-				height: 100px;
-				border: 5px solid transparent;
-				text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-
-			}
-			.winrate1 {
-				position: absolute;
-				color: rgb(0, 204, 0);
-				font-family: beaufortforlol, Verdana, sans-serif;
-				bottom: -13px;
-				left: 35px;
-				text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-			}
-
-			.left {
-				position: relative;
-				left: 0px;
-				width: 50%;
-			}
-
-			#champtable {
-				width: 100%;
-			}
+						
 			table {
 				margin-left: auto;
 				margin-right: auto;
@@ -215,452 +59,20 @@
 				color: #369;
 				background: #d9d9d9;
 			}
-
-			#champtable tr:nth-child(odd) td{
-				background: #d9d9d9;
-			}
-			#champtable tr:nth-child(even) td{
-				background: #e6e6e6;
-			}
-
-			.winFreqSkill {
-				width: 100%;
-				border: none;
-				background: transparent;
-			}
-
-			.leftSkill {
-				text-align: right;
-				width: 50%;
-				border: none;
-				background: transparent;
-			}
-
-			.rightSkill {
-				text-align: left;
-				width: 50%;
-				border: none;
-				background: transparent;
-			}
-
-			#titleFreqSkillOrderTable {
-				width: 100%;
-			}
-
-			#titleWinSkillOrderTable {
-				width: 100%;
-			}
-
-			.winTable td{
-				color: #004d00;
-			}
-
-			.winTable th{
-				background: #004d00;
-			}
-
-			.loseTable td{
-				color: #800000;
-			}
-
-			.loseTable th{
-				background: #800000;
-			}
-
-
-			/*#titleWinSkillOrderTable td{
-				color: #004d00;
-			}
-
-			#titleWinSkillOrderTable th{
-				background: #004d00;
-			}			
-
-			#winMaster td{
-				color: #004d00;
-			}
-
-			#winMaster th{
-				background: #004d00;
-			}		
-
-			#winSkillOrderTable th{
-				background: #004d00;
-			}*/
-
-			#winSkillOrderTable {
-				width: 100%;
-				font-size: 85%;
-			}
-
-			#freqSkillOrderTable {
-				width: 100%;
-				font-size: 85%;
-			}
-
-			/*#winTrinketTable th{
-				background: #004d00;
-			}
-
-			#winTrinketTable td{
-				color: #004d00;
-			}*/
-
-			#winTrinketTable {
-				width: 100%;
-			}
-
-			#freqTrinketTable {
-				width: 100%;
-			}
-
-			/*#winMatchups td{
-				color: #004d00;
-			}*/
-
-			#loseMatchups td{
-				color: #660000;
-			}
-
-			/*#winMatchups th{
-				background: #004d00;
-			}*/
-
-			#loseMatchups th{
-				background: #660000;
-			}
-
-			/*#winMatchups1 td{
-				color: #004d00;
-			}*/
-
-			#loseMatchups1 td{
-				color: #660000;
-			}
-
-			/*#winMatchups1 th{
-				background: #004d00;
-			}*/
-
-			#loseMatchups1 th{
-				background: #660000;
-			}
-
-			#winFreqRunes td{
-				vertical-align: top;
-				border: none;
-				background: transparent;
-			}
-
-			#winFreqRunes {
-				border: none;
-				background: transparent;
-			}
-
-			#titleWinRuneTable {
-/*				display: inline-block;
-				vertical-align: top;*/
-				width: 100%;
-				border: 1px solid white;
-			}
 			
-			#winRunes {
-				width: 100%;
-				border: 1px solid white;
-			}
-
-			#winRunes td{
-				background-size: contain;
-				background-repeat: no-repeat;
-				border: 1px solid white;
-			}
-
-			#titleFreqRuneTable {
-/*				display: inline-block;
-				vertical-align: top;*/
-				width: 100%;
-				border: 1px solid white;
-			}
-			#freqRunes {
-				width: 100%;
-				border: 1px solid white;
-			}
-
-			#freqRunes td{
-				background-size: contain;
-				background-repeat: no-repeat;
-				border: 1px solid white;
-			}
-
-			#runeIcon {
-				width: 40px;
-				height: 40px;
-			}
-
-			/*.itemTab {
-
-			}*/
-
-			.itemIcon {
-				width: 50px;
-				height: 50px;
-			}
-
-			#runeDescription {
-				width: 250px;
-			}
-			
-			#loadSplash {
-				padding: 0;
-				display: block;
-				margin: 0 auto;
-				max-width: 100%;
-			}
-
 			table th {
 				color: white;
 				background: #005380;
 				border: 1px solid black;
 				text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 			}
-
-			/* Sortable tables */
-			table.sortable thead {
-				background-color:#eee;
-				color:#666666;
-				font-weight: bold;
-				cursor: default;
-			}
-
-			.masteryPart td {
-				width: 50px;
-				height: 50px;
-				background-size: cover;
-			}
-
-			.masteryPart {
-				width: 150px;
-				height: 300px;
-			}
-
-/*			.chart {
-				float: left;
-				text-align: left;
-				left: 30px;
-			}*/
-
-			#champInfo {
-				/*background-image: url("http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg");*/
-				background-size: cover;
-				background-position: center center;
-				background-repeat: no-repeat;
-				background-attachment: fixed;
-				width: 65%;
-				padding-top: 60px;
-				padding-bottom: 7px;
-				/*border: 1px solid black;*/
-			}
-
-			#gap1 {
-				padding-bottom: 7px;
-			}
-
-			.champBlock {
-				width: 65%;
-				/*background: rgba(217, 217, 217, 0.85);*/
-				/*border: 1px solid rgb(217, 217, 217);*/
-
-				/*color: black;*/
-
-
-			}
-
-			.table5 {
-				width: 100%;
-			}
-
-			.innerItemTable {
-				border: none;
-			}
-
-			.innerItemTable td{
-				border: none;
-			}
-
-			/*.table6 {
-				width: 100%;
-			}*/
-
-			/*#dmgChart_div {
-				border: 1px solid white;
-			}*/
-
-/*			#roles1 {
-				background: #d9d9d9;
-				width: 70%;
-				border: 1px solid white;
-			}
-
-			#charts1 {
-				background: #d9d9d9;
-				width: 70%;
-				border: 1px solid white;
-			}
-
-			#skill1 {
-				width: 70%;
-				background: #d9d9d9;
-				border: 1px solid white;
-			}
-
-			#master1 {
-				width: 70%;
-				background: #d9d9d9;
-				border: 1px solid white;
-			}
-
-			#trinket1 {
-				width: 70%;
-				background: #d9d9d9;
-				border: 1px solid white;
-			}
-
-			#matchups1 {
-				width: 70%;
-				background: #d9d9d9;
-				border: 1px solid white;
-			}*/
-
-			#loadingSplash{
-				/*border: 1px solid gray;*/
-			}
-
-			#loadingNameTable {
-				height: 120px;
-				width: 110%;
-				font-size: 250%;
-				text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-				background: transparent;
-				background: rgba(54, 25, 25, .5);
-				border: none;
-				/*border: 1px solid rgb(54, 25, 25);*/
-				/*border: 1px solid white;*/
-			}
-
-			#headerTable {
-				background: transparent;
-				border: none;
-				/*border: 1px solid white;*/
-			}
-
-			#headerTable td{
-				background: transparent;
-				border: none;
-				/*border: 1px solid white;*/
-			}
-
-			.roleTable {
-				width: 120px;
-				/*font-size: 85%;*/
-				border: 1px solid black;
-				background: rgba(54, 25, 25, .5);
-				text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-			}
-
-			.roleTable td{
-				/*font-size: 85%;*/
-				border: 1px solid black;
-				background: rgba(54, 25, 25, .5);
-				color: white;
-			}
-
-			.roleTable th{
-				/*font-size: 85%;*/
-				border: none;
-			}
-
-			#loadingNameTable th {
-				background: transparent;
-				/*border: 1px solid white;*/
-				/*background: rgba(0, 0, 0, .25);*/
-				border: none;
-			}
-
-			#loadingNameTable td {
-				background: transparent;
-				/*border: 1px solid white;*/
-				/*background: rgba(54, 25, 25, .5);*/
-				color: #99ccff;
-				border: none;
-			}
-
-			.floated_img
-			{
-				float: left;
-			}
-
-/*			.tooltip {
-				display:none;
-				position:absolute;
-				border:1px solid #333;
-				background-color:#161616;
-				border-radius:5px;
-				padding:10px;
-				color:#fff;
-				font-size:12px Arial;
-			}*/
-
-			.tooltip {
-				position: relative;
-				/*border-bottom: 1px dotted black;*/
-			}
-
-			.tooltip .tooltiptext {
-				visibility: hidden;
-				width: 250px;
-				background-color: #555;
-				color: #fff;
-				text-align: center;
-				border-radius: 6px;
-				padding: 5px 0;
-				position: absolute;
-				z-index: 1;
-				bottom: 125%;
-				left: 50%;
-				margin-left: -125px;
-				opacity: 0;
-				font-size: 85%;
-				transition: opacity .25s;
-			}
-
-			.tooltip .tooltiptext::after {
-				content: "";
-				position: absolute;
-				top: 100%;
-				left: 50%;
-				margin-left: -5px;
-				border-width: 5px;
-				border-style: solid;
-				border-color: #555 transparent transparent transparent;
-			}
-
-			.tooltip:hover .tooltiptext {
-				visibility: visible;
-				opacity: 1;
-			}
-			a.mainTableAtag {
-				padding: 0rem 0.1875rem;
-				word-wrap: normal;
-				display: inline-block;
-			}
-
+			
 			#aboutInfo {
 				padding-top: 1rem;
 				padding-left: 3rem;
 				padding-right: 3rem;
 				padding-bottom: 3rem;
 				color: #369;
-
 			}
 
 			#aboutTable td{
@@ -671,7 +83,6 @@
 				background: rgba(217, 217, 217, 0.90);
 				font-size: 120%;
 			}
-
 
 		</style>
 	</head>
