@@ -2,9 +2,16 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use("/public", express.static(__dirname + '/public'));
+app.use("/bower_components", express.static(__dirname + '/bower_components'));
+app.listen(process.env.PORT || 3000);
+
 var jsonStr="";
-var jsonDate = new Date();//json with winRate (change twice a day);
+var jsonDate = new Date();
 var str = "";
 var champFullStr = "";
 var champStr = "";
@@ -13,18 +20,20 @@ var masteryStr = "";
 var runeStr = "";
 var summonerStr = "";
 var fiveDayStr = "";
+var fivePatchStr = "";
 var LOLversion = "7.16.1";
 var itemString = "";
 var masteryString = "";
 var runeString = "";
 var summonerString = "";
 var fiveDaysWinRateArray = [];
+var fivePatchWinRateArray = [];
 var currentDate;
 var currentDayWinRateString = "";
+var currentPatchWinRateString = "";
 var temp;
 var numberOfChamp;
-var LOLversion = "7.16.1";
-var numberOfChamp = 136;
+var LOLversion = "7.17.1";
 var arrayOfChampIds;
 var championFullInfoString = "";
 var ObjectOfHashStrings = {};
@@ -32,7 +41,17 @@ var ObjectOfStatsStrings = {};
 
 //app.set('port', process.env.PORT || 3000);
 //app.listen(3000);
-app.listen(process.env.PORT || 3000);
+
+app.post('/excel', function(req, res) { 
+    res.json(req.body);
+    var excelStr = JSON.stringify(req.body.a);
+    fs.writeFile('excelString.txt', excelStr, function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log('excelString saved');
+                }); 
+});
 
 function serverCall1(http1){
     var currentDayString = "";
@@ -59,15 +78,12 @@ function serverCall1(http1){
                 }
                 if (fiveDaysWinRateArray.length < 5) {
                     fiveDaysWinRateArray.push({"date": new Date(), "data": currentDayString});
-                    //currentDayString = "";
-
                 } else {
                     if ((new Date()).getDate() != (new Date(fiveDaysWinRateArray[4].date)).getDate()) {
                         fiveDaysWinRateArray.shift();
                         fiveDaysWinRateArray.push({"date": new Date(), "data": currentDayString});
                         console.log("inserted data for date: "+(fiveDaysWinRateArray[4].date).getDate());           
                     }
-                    //currentDayString = "";
                 }
                 currentDayWinRateString = currentDayString;
                 temp = JSON.stringify(fiveDaysWinRateArray);
@@ -87,16 +103,65 @@ function serverCall1(http1){
 }
 //=======================================================================
 serverCall1(http);
-setInterval(serverCall1,1000*60*60,http); // serverCall1 is called every 1000*60*60 miliseconds = 1 minute
-
-app.use("/public", express.static(__dirname + '/public'));
-app.use("/bower_components", express.static(__dirname + '/bower_components'));
-
+setInterval(serverCall1,1000*60*60*3,http); // serverCall1 is called every 1000*60*60*3 miliseconds = 3 hours
 //=======================================================================
+function serverCallForPatchWinRate(http1) {
+    var currentPatchString = "";
+    var myurl1 = "/v2/champions?&limit=900&api_key=5df59c3c1ea850a631d859fbbecb522b";
+    var options1 = {
+        host: 'api.champion.gg',
+        path: myurl1
+    }
+    callback1 = function(response) {
+        response.on('data', function (chunk) {   //save json string containing current day data
+        // in variable currentDayString
+        currentPatchString += chunk;
+        });
+        response.on('end', function () {
+            var currentPatchStringJSON = JSON.parse(currentPatchString);
+            var currentPatch = currentPatchStringJSON[0].patch;
+            console.log(currentPatch);
+            fs.readFile('fivePatchWinRate.txt', 'utf8', function (err,data) { 
+                if (err) {
+                    return console.log(err);
+                }
+                if (data != "") {
+                    fivePatchWinRateArray = JSON.parse(data);
+                }
+                if (fivePatchWinRateArray.length < 5) {
+                    fivePatchWinRateArray.push({"patch": currentPatch, "data": currentPatchString});
+                } else {
+                    if (currentPatch != (fivePatchWinRateArray[4].patch)) {
+                        fivePatchWinRateArray.shift();
+                        fivePatchWinRateArray.push({"patch": currentPatch, "data": currentPatchString});
+                        console.log("inserted data for patch: "+(fivePatchWinRateArray[4].patch));           
+                    }
+                //currentDayString = "";
+                }
+                currentPatchWinRateString = currentPatchString;
+                temp = JSON.stringify(fivePatchWinRateArray);
+                fivePatchStr = temp;
+                fs.writeFile('fivePatchWinRate.txt', temp, function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log('fivePatchData saved');
+                }); 
+
+            });
+
+        });
+    }
+    //  end of callback1 definition
+    http1.request(options1, callback1).end();    
+}
+//=============================================================================
+serverCallForPatchWinRate(http);
+setInterval(serverCallForPatchWinRate,1000*60*60*12,http); // serverCallForPatchWinRate is called every 1000*60*60*12 miliseconds = 12 hours
+//==========================================================
 
 /* Reads from a file and sends to clients */
-app.get("/fiveDayData1", function(req, res){ //req is string that is the part of url after http://localhost:3000, for example   "/dynamic/110"
-//res is the response object to show on this url, res.send("HELLO");   will output string "HELLO" on http://localhost:3000/dynamic/110  
+app.get("/fiveDayData1", function(req, res){  
   fs.readFile('fiveDaysWinRate.txt', 'utf8', function (err,data) {
     if (err) {
       return console.log(err);
@@ -104,12 +169,16 @@ app.get("/fiveDayData1", function(req, res){ //req is string that is the part of
     res.send(data);
   });
 });
-
+//===========================
 app.get("/fiveDayData", function(req, res){ 
     res.send(fiveDayStr);
 
 });
+//=====================
+app.get("/fivePatchData", function(req, res){ 
+    res.send(fivePatchStr);
 
+});
 //======================================
 // Takes in 1 parameter id
 

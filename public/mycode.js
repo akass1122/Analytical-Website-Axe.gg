@@ -12,6 +12,7 @@ var champFullObj = {};
 var itemObj = {};
 var summonerObj = {};
 var fiveDayObj = {};
+var fivePatchObj = {};
 var arrayOfIdsNames = [];
 var arrayOfObjects = [];
 var champs = [];
@@ -19,17 +20,20 @@ var champids = [];
 var dateArray = [];
 var arrayChampFive = [];
 var arrayRoleFive = [];
+var arrayRoleFivePatches = [];
+var patchArray = [];
+
 var champHashes, runeHashes, masteryHashes;
 var currentChampId = "";
 var currentChampName;
 var currentRole = "";
 var currentRoleIndex;
+var displayDailyRates = false;
 
 google.charts.load('current', {'packages':['corechart']});
 
 function makeWinRateChart() {
 	var winArray = makeWinRateArray(currentChampId, roleNameConvert(currentRole));
-	makeDateArray();
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Date');
 	data.addColumn('number', 'Win Rate');
@@ -38,7 +42,7 @@ function makeWinRateChart() {
 	        [dateArray[i], Number.parseFloat(winArray[i])],
 	      ]);
 	};
-	var options = {'title':'Win Rate',
+	var options = {'title':'Recent Win Rate by Dates',
 				legend: {position: 'none'},
 				  hAxis: {title: 'Date'},
 				  vAxis: {title: 'Percent'},
@@ -51,9 +55,31 @@ function makeWinRateChart() {
 	chart.draw(data, options);
 };
 
+function makeWinRateChartForPatches() {
+	var winArray = makeWinRateArrayForPatches(currentChampId, roleNameConvert(currentRole));
+	makePatchArray();
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Patch');
+	data.addColumn('number', 'Win Rate');
+	for (var i = 0; i < winArray.length; i++) {
+	      data.addRows([
+	        [patchArray[i], Number.parseFloat(winArray[i])],
+	      ]);
+	};
+	var options = {'title':'Win Rate by Patch',
+				legend: {position: 'none'},
+				  hAxis: {title: 'Patch'},
+				  vAxis: {title: 'Percent'},
+				  backgroundColor: '#E4E4E4',
+	             'width':300,
+	             colors: ['green'],
+	             'height':250};
+	// Instantiate and draw our chart, passing in some options.
+	var chart = new google.visualization.AreaChart(document.getElementById('winRatePatchChart_div'));
+	chart.draw(data, options);
+};
 function makePickRateChart() {
 	var pickArray = makePickRateArray(currentChampId, roleNameConvert(currentRole));
-	makeDateArray();
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Date');
 	data.addColumn('number', 'Pick Rate');
@@ -62,7 +88,7 @@ function makePickRateChart() {
 	        [dateArray[i], Number.parseFloat(pickArray[i])],
 	      ]);
 	};
-	var options = {'title':'Pick Rate',
+	var options = {'title':'Recent Pick Rate by Dates',
 				legend: {position: 'none'},
 				  hAxis: {title: 'Date'},
 				  vAxis: {title: 'Percent'},
@@ -76,9 +102,33 @@ function makePickRateChart() {
 	chart.draw(data, options);
 };
 
+function makePickRateChartForPatches() {
+	var pickArray = makePickRateArrayForPatches(currentChampId, roleNameConvert(currentRole));
+	makePatchArray();
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Patch');
+	data.addColumn('number', 'Pick Rate');
+	for (var i = 0; i < pickArray.length; i++) {
+	      data.addRows([
+	        [patchArray[i], Number.parseFloat(pickArray[i])],
+	      ]);
+	};
+	var options = {'title':'Pick Rate by Patch',
+				legend: {position: 'none'},
+				  hAxis: {title: 'Patch'},
+				  vAxis: {title: 'Percent'},
+				  backgroundColor: '#E4E4E4',
+	             'width':300,
+	             colors: ['blue'],
+	             'height':250};
+
+	// Instantiate and draw our chart, passing in some options.
+	var chart = new google.visualization.AreaChart(document.getElementById('pickRatePatchChart_div'));
+	chart.draw(data, options);
+};
+
 function makeBanRateChart() {
 	var banArray = makeBanRateArray(currentChampId, roleNameConvert(currentRole));
-	makeDateArray();
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Date');
 	data.addColumn('number', 'Ban Rate');
@@ -87,7 +137,7 @@ function makeBanRateChart() {
 	        [dateArray[i], Number.parseFloat(banArray[i])],
 	      ]);
 	};
-	var options = {'title':'Ban Rate',
+	var options = {'title':'Recent Ban Rate by Dates',
 		legend: {position: 'none'},		  
 		hAxis: {title: 'Date'},
 		vAxis: {title: 'Percent'},
@@ -97,6 +147,30 @@ function makeBanRateChart() {
 		'height':250};
 	// Instantiate and draw our chart, passing in some options.
 	var chart = new google.visualization.AreaChart(document.getElementById('banRateChart_div'));
+	chart.draw(data, options);
+};
+
+function makeBanRateChartForPatches() {
+	var banArray = makeBanRateArrayForPatches(currentChampId, roleNameConvert(currentRole));
+	makePatchArray();
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Patch');
+	data.addColumn('number', 'Ban Rate');
+	for (var i = 0; i < banArray.length; i++) {
+	      data.addRows([
+	        [patchArray[i], Number.parseFloat(banArray[i])],
+	      ]);
+	};
+	var options = {'title':'Ban Rate by Patch',
+		legend: {position: 'none'},		  
+		hAxis: {title: 'Patch'},
+		vAxis: {title: 'Percent'},
+		backgroundColor: '#E4E4E4',
+		'width':300,
+		colors: ['red'],
+		'height':250};
+	// Instantiate and draw our chart, passing in some options.
+	var chart = new google.visualization.AreaChart(document.getElementById('banRatePatchChart_div'));
 	chart.draw(data, options);
 };
 
@@ -140,6 +214,13 @@ function makeDateArray() {
 	};
 };
 
+function makePatchArray() {
+	for (var i = 0; i < arrayRoleFivePatches.length; i++) {
+		patchArray.push(arrayRoleFivePatches[i].patch);		
+	};
+};
+
+
 function makeWinRateArray(id, role) {
 	var winArray = [];
 	for (var i = 0; i < arrayRoleFive.length; i++) {
@@ -148,10 +229,27 @@ function makeWinRateArray(id, role) {
 	return winArray;
 };
 
+function makeWinRateArrayForPatches(id, role) {
+	var winArray = [];
+	for (var i = 0; i < arrayRoleFivePatches.length; i++) {
+		winArray.push(arrayRoleFivePatches[i].data[id + " " + role].winRate);
+		//console.log(arrayRoleFivePatches[i].data[id + " " + role].winRate);	
+	};
+	return winArray;
+};
+
 function makePickRateArray(id, role) {
 	var pickArray = [];
 	for (var i = 0; i < arrayRoleFive.length; i++) {
 		pickArray.push(arrayRoleFive[i].data[id + " " + role].playRate);
+	};
+	return pickArray;
+};
+
+function makePickRateArrayForPatches(id, role) {
+	var pickArray = [];
+	for (var i = 0; i < arrayRoleFivePatches.length; i++) {	
+		pickArray.push(arrayRoleFivePatches[i].data[id + " " + role].playRate);		
 	};
 	return pickArray;
 };
@@ -165,6 +263,26 @@ function makeBanRateArray(id, role) {
 			enoughData = false;
 		} else {
 			currentBanRate = arrayRoleFive[i].data[id + " " + role].banRate;
+			banArray.push(currentBanRate);
+		}		
+	};
+	if (enoughData == true) {
+		return banArray;
+	} else {
+		alert("Not enough data for this champion. Please choose other champions instead!");
+		window.parent.document.getElementById("champframe").src = "makePage.htm";
+	}
+};
+
+function makeBanRateArrayForPatches(id, role) {
+	var banArray = [];
+	var currentBanRate;
+	var enoughData = true;
+	for (var i = 0; i < arrayRoleFivePatches.length; i++) {		
+		if (arrayRoleFivePatches[i].data[id + " " + role] == undefined) {
+			enoughData = false;
+		} else {
+			currentBanRate = arrayRoleFivePatches[i].data[id + " " + role].banRate;
 			banArray.push(currentBanRate);
 		}		
 	};
@@ -217,6 +335,7 @@ function removePreviousRoleInfo() {
 }
 
 function fillInCurrentChampInfo () {
+
 	$('#roleTable1').append(makeRoleTable()); 
 	fillInCurrentRoleInfo ();
 }
@@ -229,14 +348,34 @@ function fillInCurrentChampInfo1() {
 
 function fillInCurrentRoleInfo () {
 	findCurrentRoleIndex();
-	makeChampFilter();
-	makeBanRateChart();
-	makeWinRateChart();
-	makePickRateChart();
+	if (window.innerWidth < window.innerHeight) {
+		$('.champBlock').css({width: "100%"});
+		$('#champInfo').css({width: "100%"});
+		$('#loadingNameTable').css({width: "240px"});
+		$('.roleTable').css({width: "240px", height: "120px", fontSize: "150%"});
+		$('.champInput1').css({width: "250px"});		
+		makeChampFilterMobile();
+	} else {		
+		makeChampFilter();
+	}
+	
+	// makeBanRateChart();
+	// makeWinRateChart();
+	// makePickRateChart();
+	makeWinRateChartForPatches();
+	makePickRateChartForPatches();
+	makeBanRateChartForPatches();
 	makeDmgChart();			
 	$('#loadingName').append(loadingName());
-	$('#winSkill_div').append(winSkillOrderTableGen());
-	$('#freqSkill_div').append(skillOrderTableGen());
+	if (window.innerWidth < window.innerHeight) {
+		$('#winSkill_div1').append(winSkillOrderTableGen());
+		$('#freqSkill_div1').append(skillOrderTableGen());
+	} else {
+		$('#winSkill_div').append(winSkillOrderTableGen());
+		$('#freqSkill_div').append(skillOrderTableGen());
+	}
+	// $('#winSkill_div1').append(winSkillOrderTableGen());
+	// $('#freqSkill_div1').append(skillOrderTableGen());
 	$('#winTrinket_div').append(winTrinket());
 	$('#freqTrinket_div').append(freqTrinket());
 	$('#winFinalItem_div').append(winFinalItems());
@@ -316,6 +455,8 @@ function getHash() {
 			while (doneReadingDataForAll == false) {
 				alert("Reading data, please wait!");
 			}
+			makeDateArray();
+			makePatchArray();
 			fillInCurrentChampInfo ();
 			firstLoad = false;
 		}
@@ -355,6 +496,8 @@ function getHash1() {
 			while (doneReadingDataForAll == false) {
 				alert("Reading data, please wait!");
 			}
+			makeDateArray();
+			makePatchArray();
 			fillInCurrentChampInfo1();
 			firstLoad = false;
 		}
@@ -907,6 +1050,15 @@ function makeChampFilter() {
 	makeSmallChampTable().appendTo("body");
 	$(".smallChampTable").hide();
 }
+
+function makeChampFilterMobile() {
+	$input = $('<input type="search" class="champInput1" oninput="champFilter1()" placeholder="Champ search">')
+		.appendTo('#roleTable1');
+	$input.css({margin: "auto", display: "block", width: "240px", height: "60px", fontSize: "200%"});
+	makeSmallChampTable().appendTo("body");
+	$(".smallChampTable").hide();
+}
+
 
 function champFilter1() { //WORKING
 	$(".smallChampTable").appendTo('#roleTable1');
@@ -1778,12 +1930,16 @@ function champfilter() {
 	    };			
 	} else {
 	    for (i = 0; i < champs.length; i++) {
+	    	if (champmap.hasOwnProperty(champids[i].toString())) {
 		        if (champs[i].toUpperCase().indexOf(filter) == -1) {
+		        	//console.log(champs[i]);
+		            //document.getElementById('grid_' + champids[i]).style.display = "none";
 		            document.getElementById(champs[i]).style.display = "none";
 		        };
 		    };
 	    };
 	}
+}
 
 function removetable() {
 			$("#champtable").remove();
@@ -2119,6 +2275,18 @@ function makeFiveDayArrObj() {
 	};			
 }
 
+function makeFivePatchArrObj() {
+	var onePatch, currentPatch;
+	for (var i = 0; i < fivePatchObj.length; i++) {
+		onePatch = JSON.parse(fivePatchObj[i].data);
+		currentPatch = onePatch[0].patch;
+		//arrayChampFive.push({"date": new Date(fiveDayObj[i].date),"data": makeDayChampObj(oneDay)});
+		arrayRoleFivePatches.push({"patch": currentPatch,"data": makePatchRoleObj(onePatch)});
+	};			
+}
+
+
+
 /* Stats (win rate, pick rate, and ban rate) for the role most played for each champ with key = champId */
 function makeDayChampObj(arrObj) {
 	var champObj = {};
@@ -2148,6 +2316,29 @@ function makeDayChampObj(arrObj) {
 
 /* Stats (win rate, pick rate, and ban rate) for each champ + role combination with key = champId + " " + role */
 function makeDayRoleObj(arrObj) {
+	var champObj = {};
+	for (var i = 0; i < arrObj.length; i++) {
+		currchampid = arrObj[i].championId;
+		currchampidStr = currchampid.toString();
+		currChampRoleStr = currchampidStr + " " + arrObj[i].role;
+		currchampname = champs[champids.indexOf(currchampid)];
+		currchampdata = {
+			name: currchampname,
+			winRate: (arrObj[i].winRate*100).toFixed(2),
+			playRate: (arrObj[i].playRate*100).toFixed(2),
+			banRate: (arrObj[i].banRate*100).toFixed(2), 
+			role: arrObj[i].role,
+			percentRolePlayed: (arrObj[i].percentRolePlayed*100).toFixed(2)
+		};
+		champObj[currChampRoleStr] = currchampdata;
+	};
+	return champObj;
+};
+
+
+
+/* Stats (win rate, pick rate, and ban rate) for each champ + role combination with key = champId + " " + role for a patch */
+function makePatchRoleObj(arrObj) {
 	var champObj = {};
 	for (var i = 0; i < arrObj.length; i++) {
 		currchampid = arrObj[i].championId;
@@ -2205,6 +2396,53 @@ function makeGrid() {
 	}
 };
 
+function makeGridMobile() {
+	$('li', window.parent.document).css({"float": "left", fontSize: "200%"});
+	$('#p1').css("width", "100%");
+	$('#separator, #separator1').css('height', "40px");
+	$('.layouttab').css({height: "50px", width: "160px", fontSize: "150%"});
+	$('.tab').css({height: "50px", width: "160px", fontSize: "150%"});
+	$('#champInput').css({height: "50px", width: "360px", fontSize: "150%"});
+	$('.size1').css({fontSize: "200%"});
+	$('.size2').css({fontSize: "160%"});
+	var champnamecurr, champidcurr, champidcurrStr, link, champlink;
+	var champicon, champname, winrate, winpercent, t1, t;
+	var champwincurr = 0.50;
+	for (var i = 0; i <= champs.length - 1; i++) {
+		champnamecurr = champs[i];
+		champidcurr = champids[i];
+		champidcurrStr = champidcurr.toString();
+		link = document.createElement("a");
+
+		if (champmap.hasOwnProperty(champidcurrStr)) {
+			champwincurr = champmap[champidcurrStr].winRate;				
+			link.href = "#!/";
+			link.id = champids[i];
+			link.onclick = makeChampPg;					
+			champicon = document.createElement("div");
+			champicon.className = "champicon2";
+			champicon.id = champs[i];
+			champname = document.createElement("span");
+			var t = document.createTextNode(champnamecurr);					
+			champname.appendChild(t);
+			champicon.appendChild(champname);					
+			winrate = document.createElement("div");
+			winrate.className = "winrate1";
+			winpercent = document.createElement("p");
+			winpercent.id = "winperc_" + champs[i];					
+			var t = document.createTextNode(champwincurr+"%");					
+			winpercent.appendChild(t);
+			winrate.appendChild(winpercent);
+			champicon.appendChild(winrate);
+			link.appendChild(champicon);
+			$("#p1").append(link);
+			document.getElementById(champs[i]).style.backgroundImage
+			 	= "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion
+			 		+ "/img/champion/"+champnamecurr+".png')";
+		};
+	}
+};
+
 function mainFunction() {
 	if (doneReadingFirstData == true) {
 		makeMainPage();
@@ -2213,6 +2451,12 @@ function mainFunction() {
 		function(callback) {				
 			$.getJSON("/fiveDayData", function (data) {
 				fiveDayObj = data;
+				callback();
+			});
+		},
+		function(callback) {				
+			$.getJSON("/fivePatchData", function (data) {
+				fivePatchObj = data;
 				callback();
 			});
 		},
@@ -2242,19 +2486,32 @@ function mainFunction() {
 		});
 	}
 }
+function resizePage() {
+	$('#p1').css("width", "100%");
+	window.parent.document.body.style.height = "12.5%";
+}
 
 function makeMainPage() {
+	if (window.innerWidth < window.innerHeight) {
+		resizePage();
+	
+	$("h1", window.parent.document).css("height", "87.5%");
+	}	
 	makeArrayOfIdsNames();				
 	arrayObject = JSON.parse(fiveDayObj[4].data); // champ stats for the current day
 	champmap = makeDayChampObj(arrayObject);
 	champRoleMap = makeDayRoleObj(arrayObject);
-	makeGrid();				
+	if (window.innerWidth < window.innerHeight) {
+		makeGridMobile();
+	} else {		
+		makeGrid();
+	}
+				
 	p1Show();
 	makeFiveDayArrObj(); //  makes arrayChampFive and arrayRoleFive
+	makeFivePatchArrObj();
 	readingDataForAll();
 }
-
-// mainFunction();
 
 $(document).ready(function() {
 	mainFunction();
