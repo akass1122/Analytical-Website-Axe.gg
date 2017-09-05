@@ -374,8 +374,6 @@ function fillInCurrentRoleInfo () {
 		$('#winSkill_div').append(winSkillOrderTableGen());
 		$('#freqSkill_div').append(skillOrderTableGen());
 	}
-	// $('#winSkill_div1').append(winSkillOrderTableGen());
-	// $('#freqSkill_div1').append(skillOrderTableGen());
 	$('#winTrinket_div').append(winTrinket());
 	$('#freqTrinket_div').append(freqTrinket());
 	$('#winFinalItem_div').append(winFinalItems());
@@ -1099,8 +1097,7 @@ function makeSmallChampTable() {
 		$a[0].onclick = makeChampPg;
 		$td.append($a);
 		$td.css({borderCollapse: "collapse", border: "1px solid white"});				
-		//$td = $('<td>').text(winRate).appendTo($tr);
-		//$td.css({borderCollapse: "collapse", border: "1px solid white"});
+		
 		}		
 	return $table;
 }
@@ -1932,8 +1929,6 @@ function champfilter() {
 	    for (i = 0; i < champs.length; i++) {
 	    	if (champmap.hasOwnProperty(champids[i].toString())) {
 		        if (champs[i].toUpperCase().indexOf(filter) == -1) {
-		        	//console.log(champs[i]);
-		            //document.getElementById('grid_' + champids[i]).style.display = "none";
 		            document.getElementById(champs[i]).style.display = "none";
 		        };
 		    };
@@ -2239,8 +2234,6 @@ function allfunc(){
 		};
 	};
 }
-
-
 
 function makeArrayOfIdsNames() {
 	var ids = Object.keys(champFullObj.keys);
