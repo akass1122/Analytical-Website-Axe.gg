@@ -2390,14 +2390,6 @@ function makeGrid() {
 };
 
 function makeGridMobile() {
-	//$('li', window.parent.document).css({"float": "left", fontSize: "200%"});
-	// $('#p1').css("width", "100%");
-	// $('#separator, #separator1').css('height', "40px");
-	// $('.layouttab').css({height: "50px", width: "160px", fontSize: "150%"});
-	// $('.tab').css({height: "50px", width: "160px", fontSize: "150%"});
-	// $('#champInput').css({height: "50px", width: "360px", fontSize: "150%"});
-	// $('.size1').css({fontSize: "200%"});
-	// $('.size2').css({fontSize: "160%"});
 	var champnamecurr, champidcurr, champidcurrStr, link, champlink;
 	var champicon, champname, winrate, winpercent, t1, t;
 	var champwincurr = 0.50;
@@ -2479,17 +2471,8 @@ function mainFunction() {
 		});
 	}
 }
-// function resizePage() {
-// 	$('#p1').css("width", "100%");
-// 	//window.parent.document.body.style.height = "12.5%";
-// }
 
 function makeMainPage() {
-	// if (window.innerWidth < window.innerHeight) {
-	// 	resizePage();
-	
-	// //$("h1", window.parent.document).css("height", "87.5%");
-	// }	
 	makeArrayOfIdsNames();				
 	arrayObject = JSON.parse(fiveDayObj[4].data); // champ stats for the current day
 	champmap = makeDayChampObj(arrayObject);
