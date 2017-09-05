@@ -215,6 +215,13 @@
 			document.getElementById("champframe").src= "about.htm";
 
 		}
+		$(document).ready(function() {
+			if (window.innerWidth < window.innerHeight) {
+				$('li').css({"float": "left", fontSize: "200%"});
+				$("body").css("height", "12.5%");
+				$("h1").css("height", "87.5%");
+			}			
+		});
 
 		</script>
 		<center><input type="image" src="img/sr5.png" width="50" height="50" onclick="home()" style=""></input></center>
@@ -228,5 +235,6 @@
 				&copy; 2017 RIFT.GG
 			</font></p>
 		</div>
+		
 	</body>
 </html>

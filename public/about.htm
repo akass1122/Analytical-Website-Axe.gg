@@ -125,10 +125,12 @@
 			</center>
 		</div>
 		<script>
-			if (window.innerWidth < window.innerHeight) {
-				$('#p1').css({"width": "100%"});
-				$('#aboutTable').css({"fontSize": "150%", width: "100%"});
-			}
+			$(document).ready(function() {
+				if (window.innerWidth < window.innerHeight) {
+					$('#p1').css({"width": "100%"});
+					$('#aboutTable').css({"fontSize": "150%", width: "100%"});
+				}
+			});
 		</script>
 	</body>
 </html>
