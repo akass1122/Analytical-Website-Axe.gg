@@ -1066,12 +1066,13 @@ function champFilter1() { //WORKING
 		return;
 	}		    	
     $(".smallChampTable").show();
-    for (i = 0; i < champs.length; i++) {		
+    for (i = 0; i < champs.length; i++) {
+    	if (champmap.hasOwnProperty(champids[i].toString())) {		
 	   	$(".smallTable_" + champs[i]).show();
-    };
+    	}
+	}
     for (i = 0; i < champs.length; i++) {
 		if (champmap.hasOwnProperty(champids[i].toString())) {
-	        //if ( == -1) {
 	        if ((champs[i].toUpperCase().indexOf(filter) == -1)) {
 	        	$(".smallTable_" + champs[i]).hide();
 	        };
@@ -1083,22 +1084,24 @@ function makeSmallChampTable() {
 	var $tr, $td, $a, currentName;
 	var $table = $('<table class = "smallChampTable">');
 	for (i = 0; i < champs.length; i++) {
-		$tr = $('<tr>').appendTo($table);
-		$tr[0].className = "smallTable_" + champs[i];		
-		$td = $('<td>').appendTo($tr);
-		currentName = champs[i];		
-		$td.css("backgroundImage", "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/champion/" + currentName + ".png')");
-		$td.css({width: "50px", height: "50px", backgroundSize: "cover"});
-		$td = $('<td>').appendTo($tr);
+		if (champmap.hasOwnProperty(champids[i].toString())) {
+			$tr = $('<tr>').appendTo($table);
+			$tr[0].className = "smallTable_" + champs[i];		
+			$td = $('<td>').appendTo($tr);
+			currentName = champs[i];		
+			$td.css("backgroundImage", "url('http://ddragon.leagueoflegends.com/cdn/" + LOLversion + "/img/champion/" + currentName + ".png')");
+			$td.css({width: "50px", height: "50px", backgroundSize: "cover"});
+			$td = $('<td>').appendTo($tr);
 
-		$a = $('<a href ="#!">' +  currentName + '</a>');
-		$a[0].className = "smallTableLink_" + champids[i];
+			$a = $('<a href ="#!">' +  currentName + '</a>');
+			$a[0].className = "smallTableLink_" + champids[i];
 
-		$a[0].onclick = makeChampPg;
-		$td.append($a);
-		$td.css({borderCollapse: "collapse", border: "1px solid white"});				
+			$a[0].onclick = makeChampPg;
+			$td.append($a);
+			$td.css({borderCollapse: "collapse", border: "1px solid white"});
+		}				
 		
-		}		
+	}		
 	return $table;
 }
 
@@ -1966,6 +1969,7 @@ function makeMainTable() {
     }
 	var champt1 = document.createElement("table");	
 	champt1.setAttribute("id", "champtable");
+	champt1.className = "mainTable";
 	var thead = champt1.createTHead();
 	th = document.createElement("th");
 	th.innerHTML = "<b>Icon<br>&nbsp;</b>";
@@ -2497,6 +2501,7 @@ function resizeIfMobile() {
 		$('#champInput').css({height: "50px", width: "360px", fontSize: "150%"});
 		$('.size1').css({fontSize: "200%"});
 		$('.size2').css({fontSize: "160%"});
+		$('.mainTable').css({fontSize: "160%"});
 	}
 }
 
