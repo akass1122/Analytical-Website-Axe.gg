@@ -1,0 +1,549 @@
+<html>
+  <head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style type="text/css">
+
+body {
+  background: url(https://images5.alphacoders.com/410/thumb-1920-410608.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.chart {
+  margin: auto;
+  /*width: 50%;*/
+  text-align: center;
+}
+
+p {
+  color: black;
+  /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+}
+
+.divStyle {
+  /*width: 50%;*/
+  background: rgba(217, 217, 217, 0.85);
+}
+
+.column {
+  user-select: none;
+  cursor: pointer;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gap1 {
+  padding-bottom: 10px;
+}
+
+table, td {
+  border: 1px solid white ;
+  text-align: center;
+  font-family: beaufortforlol, Verdana, sans-serif;
+  color: #369;
+  background: #d9d9d9;
+}
+
+table th {
+  color: white;
+  background: #005380;
+  border: 1px solid white;
+  text-align: center;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+  </style>
+  
+</head>
+
+<body>
+  <center>
+    <div class = "gap1"></div>
+    <div class = "divStyle">
+      <a href="Volta_Andrei_K.html" id="home">
+        <img src="https://cd5d18774d7298bfb7e7-6fbfcad1d16baf0cbeb53545045feee0.ssl.cf1.rackcdn.com/d320c750c07ae1644b48562e57969d43-320x103.png">
+      </a>
+    </div>
+    <div class = "gap1"></div>
+    <div class = "divStyle">
+      <div class = "gap1"></div>
+      <div class="dropdown" style="display: inline-block;">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">State Map <span class="caret"><span></button>
+        <ul class="dropdown-menu" id="stateUL"></ul>
+        <span id="statePicked"></span>
+        <div class = "gap1"></div>
+      </div>
+
+      <div class="dropdown" style="display: inline-block;">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">City Map <span class="caret"><span></button>
+        <ul class="dropdown-menu" id="cityUL"></ul>
+        <span id="cityPicked"></span>
+      </div>
+    </div>
+
+    <div class = "gap1"></div>
+    <div class = "divStyle">
+      <div id="mapHere" style="height:400px; width:100%; color: black">Loading page...</div>
+    </div>
+    <div class = "gap1"></div>
+
+    <div class = "divStyle">
+      <div class = "gap1"></div>
+	  <P>Contact: akassweb@gmail.com</P>
+      <P> Enter your address to find <i> active </i> Volta charging locations near you</P>
+      <input type="text" id="address" placeholder="Search for stations...">
+      <button id="searchButton" onclick="findLatLong();"> &#128269; </button>
+      <div class = "gap1"></div>
+    </div>
+
+    <div class = "gap1"></div>
+
+    <div class = "divStyle">
+      <div id="nameTable_div" class = "chart" style="display: inline-block;width: 100%"></div>
+    </div>
+
+    <div class = "gap1"></div>
+  </center>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+
+var activeStations = [];
+
+var currentLatitude, currentLongtitude;
+var name, status, address, zip_code;
+
+$("#address").keyup(function(event) {
+  if (event.keyCode == 13) {
+    $("#searchButton").click();
+  }
+});
+
+function getParameterByName(name) {
+  url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+  results = regex.exec(url);
+  if (!results)
+    return '';
+  if (!results[2])
+    return '';
+  return decodeURIComponent(results[2].replace(/\+/g," "));
+}
+
+var currentState=getParameterByName('state');
+var currentCity=getParameterByName('city');
+
+//
+// generateHome() is called from the bottom google map api on page load
+//
+
+function generateHome(){
+  $.get("https://api.voltaapi.com/v1/stations","json")
+    .done(loadData)
+    .fail(function(response) {
+      if (response.responseText)
+        alert(response.responseText);
+      else
+        alert("No response!");
+    });
+    checkDevice();
+}
+
+function checkDevice () {
+  if (window.innerWidth < window.innerHeight) {
+    $('.divStyle').css({width: "100%"});    
+  }
+  else {
+    $('.divStyle').css({width: "50%"});
+  }
+}
+
+function sortList(l) {
+  var list, i, switching, b, shouldSwitch;
+  list = l[0];
+  switching = true;
+  while (switching) {    
+    switching = false;
+    b = list.getElementsByTagName("LI");
+    for (i = 0; i < (b.length - 1); i++) {
+      shouldSwitch = false;
+      if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+        shouldSwitch= true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      b[i].parentNode.insertBefore(b[i + 1], b[i]);
+      switching = true;
+    }
+  }
+}
+
+//
+// loadData is the callback function of generateHome
+//
+
+function loadData(data){
+
+  for (i=1;i<data.length;i++) {
+    if (data[i].status=='active' && data[i].state){
+      activeStations.push(data[i]);
+    }
+  }
+
+  for (i = 0; i < activeStations.length; i++) { 
+    activeStations[i].distance=0;
+    if ($('#stateUL li a:contains("'+activeStations[i].state+'")').length==0)
+      $('#stateUL').append('<li><a href="?state='+encodeURIComponent(activeStations[i].state)+'">'+activeStations[i].state+'</a></li>');
+    if (currentState=='' || currentState==activeStations[i].state) {
+      if ($('#cityUL li a:contains("'+activeStations[i].city+', '+activeStations[i].state+'")').length==0)
+        $('#cityUL').append('<li><a href="?state='
+		+encodeURIComponent(activeStations[i].state)
+		+'&city='+encodeURIComponent(activeStations[i].city+', '+activeStations[i].state)+'">'
+			+activeStations[i].city+', '+activeStations[i].state+'</a></li>');
+    }
+  }
+
+  sortList($('#stateUL'));
+  sortList($('#cityUL'));
+
+  if (currentState!=='') {
+    $("#statePicked").text(currentState);
+    if (currentCity=='')
+      showStateMap(currentState);
+  }
+
+  if (currentCity!=='') {
+    $("#cityPicked").text(currentCity);
+    showCityMap(currentCity);
+  }
+
+  if (currentState=='' && currentCity=='') {
+    $("#mapHere").css("display","none");
+    $('#nameTable_div').append(mainTable());
+  }
+}
+
+//
+// showStateMap is called from loadData if page has state parameter but no city
+//
+function showStateMap(state){
+  var lon=0;
+  var lat=0;
+  var cnt=0;
+  for(i=0;i<activeStations.length;i++){
+    if (state==activeStations[i].state){
+      lat=lat+activeStations[i].location.coordinates[1];
+      lon=lon+activeStations[i].location.coordinates[0];
+      cnt=cnt+1;
+    }
+  }
+  lat=lat/cnt;
+  lon=lon/cnt;
+  currentLatitude = lat;
+  currentLongtitude = lon;
+  calculateDistance();
+  var latlon=new google.maps.LatLng(lat,lon);
+  var myOptions={
+    center:latlon,
+    zoom:6,
+    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    mapTypeControl:true,
+    navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+  };
+  var map=new google.maps.Map($("#mapHere")[0],myOptions);
+
+  for(i=0;i<activeStations.length;i++){
+    if (state==activeStations[i].state){
+      lat=activeStations[i].location.coordinates[1];
+      lon=activeStations[i].location.coordinates[0];
+      latlon=new google.maps.LatLng(lat,lon)
+      var marker=new google.maps.Marker({position:latlon,map:map,title:activeStations[i].street_address+', '+activeStations[i].city});
+      showInfo(map,marker,'<h3>'+activeStations[i].name+'</h3>'+activeStations[i].street_address+', '+activeStations[i].city);
+    }
+  }
+  $("#mapHere").css("display","block");
+  $('#titleLoadingNameTable').remove();
+  $('#nameTable_div').append(mainTable());
+  sortTable($("#loadingNameTable")[0], 5, 1, compareInnerHTMLnumerical, true);
+
+}
+
+//
+//showCityMap is called from loadData if page has city parameter
+//
+function showCityMap(city){
+  var lon=0;
+  var lat=0;
+  var cnt=0;
+  for(i=0;i<activeStations.length;i++){
+    if (activeStations[i].city+', '+activeStations[i].state==city){
+      lat=lat+activeStations[i].location.coordinates[1];
+      lon=lon+activeStations[i].location.coordinates[0];
+      cnt=cnt+1;
+    }
+  }
+  lat=lat/cnt;
+  lon=lon/cnt;
+  currentLatitude = lat;
+  currentLongtitude = lon;
+  calculateDistance();
+
+  var latlon=new google.maps.LatLng(lat,lon);
+
+  var myOptions={
+    center:latlon,
+    zoom:11,
+    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    mapTypeControl:true,
+    navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+  };
+  var map=new google.maps.Map($("#mapHere")[0],myOptions);
+
+  for(i=0;i<activeStations.length;i++){
+    if (city==activeStations[i].city+', '+activeStations[i].state){
+      lat=activeStations[i].location.coordinates[1];
+      lon=activeStations[i].location.coordinates[0];
+      latlon=new google.maps.LatLng(lat,lon)
+      var marker=new google.maps.Marker({position:latlon,map:map,title:activeStations[i].street_address});//
+      showInfo(map,marker,'<h3>'+activeStations[i].name+'</h3>'+activeStations[i].street_address);
+    }
+  }
+  $("#mapHere").css("display","block");
+  $(window).scrollTop(0);
+  $('#titleLoadingNameTable').remove();
+  $('#nameTable_div').append(mainTable());
+  sortTable($("#loadingNameTable")[0], 5, 1, compareInnerHTMLnumerical, true);
+
+}
+
+//
+// Called from search
+//
+function showLocationMap(){
+  var latlon=new google.maps.LatLng(currentLatitude, currentLongtitude);
+
+  var myOptions={
+    center:latlon,
+    zoom:11,
+    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    mapTypeControl:true,
+    navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+  };
+  var map=new google.maps.Map($("#mapHere")[0],myOptions);
+
+  for(i=0;i<activeStations.length;i++){
+    if (activeStations[i].distance<0.1){
+      lat=activeStations[i].location.coordinates[1];
+      lon=activeStations[i].location.coordinates[0];
+      latlon=new google.maps.LatLng(lat,lon)
+      var marker=new google.maps.Marker({position:latlon,map:map,title:activeStations[i].street_address});//
+      showInfo(map,marker,'<h3>'+activeStations[i].name+'</h3>'+activeStations[i].street_address);
+    }
+  }
+  $("#mapHere").css("display","block");
+
+}
+
+//
+// ShowInfo called from the above for each marker
+//
+function showInfo(map,marker,info) {
+  var infoWindow=new google.maps.InfoWindow({content:'<h3>'+info+'</h3>'});
+  marker.addListener('click',function(){infoWindow.open(map,marker);})
+}
+
+function mainTable() {
+  var $th, $td;
+  var $titleNameTable = $('<table id = "titleLoadingNameTable">');
+  var $headRow = $('<tr>').appendTo($titleNameTable);
+  $th = $('<th>' + 'Stations' + '</th>').appendTo($headRow);
+  var $nameTable = $('<table id = "loadingNameTable">').appendTo($titleNameTable);
+  var $titleRow = $('<tr>').appendTo($nameTable)
+
+  $th = $('<th>' + 'Name' + '</th>').appendTo($titleRow);
+  $th[0].className = 'column';
+  $th.click(function () {sortTable($nameTable[0],0, 1, compareInnerHTML, true);});
+
+  $th = $('<th>' + 'Address' + '</th>').appendTo($titleRow);
+  $th[0].className = 'column';
+  $th.click(function () {sortTable($nameTable[0],1, 1, compareInnerHTML, true);});
+
+  $th = $('<th>' + 'City' + '</th>').appendTo($titleRow);
+  $th[0].className = 'column';
+  $th.click(function () {sortTable($nameTable[0],2, 1, compareInnerHTML, true);});
+
+  $th= $('<th>' + 'State' + '</th>').appendTo($titleRow);
+  $th[0].className = 'column';
+  $th.click(function () {sortTable($nameTable[0],3, 1, compareInnerHTML, true);});
+
+  $th = $('<th>' + 'Zip Code' + '</th>').appendTo($titleRow);
+  $th[0].className = 'column';
+  $th.click(function () {sortTable($nameTable[0],4, 1, compareInnerHTML, true);});
+
+  $th = $('<th style="display:none;">' + 'Coordinate Distance' + '</th>').appendTo($titleRow);
+  $th[0].className = 'column';
+  $th.click(function () {sortTable($nameTable[0],5, 1, compareInnerHTMLnumerical, true);});
+
+  for (var i = 0; i < activeStations.length; i++) {
+    name = activeStations[i].name;
+    address = activeStations[i].street_address;
+    city = activeStations[i].city;
+    state = activeStations[i].state;
+    zip_code = activeStations[i].zip_code;
+    distance = activeStations[i].distance;
+    $row1 = $('<tr>').appendTo($nameTable);
+    $td = $('<td></td>').appendTo($row1);
+    $a = $('<a href = "#">' + name + '</a>' ).appendTo($td);
+    $a[0].className = "mainTable_" + name;
+    $row1[0].onclick = showMapClick(city,state,name);
+
+    $td = $('<td>' + address + '</td>').appendTo($row1);
+    $td = $('<td>' + city + '</td>').appendTo($row1);
+    $td = $('<td>' + state + '</td>').appendTo($row1);
+    $td = $('<td>' + zip_code + '</td>').appendTo($row1);
+    $td = $('<td style="display:none;">' + distance + '</td>').appendTo($row1);
+  };
+  return $titleNameTable;
+}
+
+function showMapClick(city, state,name){
+  function helper(){
+    return showMap(city, state,name);
+  }
+  return helper;
+}
+
+function showMap(city, state,name){
+  var lon=0;
+  var lat=0;
+  for(i=0;i<activeStations.length;i++){
+    if (activeStations[i].city == city && activeStations[i].state == state && activeStations[i].name == name){
+      lat=lat+activeStations[i].location.coordinates[1];
+      lon=lon+activeStations[i].location.coordinates[0];
+      break;
+    }
+  }
+  currentLatitude = lat;
+  currentLongtitude = lon;
+  calculateDistance();
+
+  var latlon=new google.maps.LatLng(lat,lon);
+
+  var myOptions={
+    center:latlon,
+    zoom:16,
+    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    mapTypeControl:true,
+    navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+  };
+  var map=new google.maps.Map($("#mapHere")[0],myOptions);
+
+  for(i=0;i<activeStations.length;i++){
+    if (activeStations[i].city == city && activeStations[i].state == state){
+      lat=activeStations[i].location.coordinates[1];
+      lon=activeStations[i].location.coordinates[0];
+      latlon=new google.maps.LatLng(lat,lon)
+      var marker=new google.maps.Marker({position:latlon,map:map,title:activeStations[i].street_address});//
+      showInfo(map,marker,'<h3>'+activeStations[i].name+'</h3>'+activeStations[i].street_address);
+    }
+  }
+  $("#statePicked").text(state);
+  $("#cityPicked").text(city + ', '+ state);
+  $("#mapHere").css("display","block");
+  $(window).scrollTop(0);
+  $('#titleLoadingNameTable').remove();
+  $('#nameTable_div').append(mainTable());
+  sortTable($("#loadingNameTable")[0], 5, 1, compareInnerHTMLnumerical, true);
+
+}
+
+function sortTable(table, sortingColumn, startingRow, comparingFunc, ascending) {
+  var x, y, rows, counter;
+  var counter = 0; 
+  rows = table.rows;
+  for (var i = startingRow; i < table.rows.length-1; i++) {
+    for (var j = i; j >= startingRow; j--) {                    
+      x = rows[j].cells[sortingColumn];
+      y = rows[j + 1].cells[sortingColumn];				
+      if((ascending == true && comparingFunc(x, y) > 0) || (ascending == false && comparingFunc(x, y) < 0)) {
+        rows[j].parentNode.insertBefore(rows[j + 1], rows[j]);
+        counter++; 	                       
+      } else {
+        break;
+      }
+    } 
+  }
+
+  if (counter == 0)
+    reverseTable(table, startingRow);
+  return table;
+}
+
+function reverseTable(table, startingRow) {
+  var rows = table.rows;
+  for ( var i = startingRow; i < rows.length - 1; i++) {
+    rows[i].parentNode.insertBefore(rows[rows.length - 1], rows[i]);
+  }
+  return table;
+}
+
+function findLatLong() {
+  $("#statePicked").text('');
+  $("#cityPicked").text('');
+  address= $("#address").val();
+  var geocoder = new google.maps.Geocoder();
+  geocoder.geocode({'address': address},
+    function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+	currentLatitude = results[0].geometry.location.lat();
+	currentLongtitude = results[0].geometry.location.lng();
+	calculateDistance();
+  showLocationMap();
+  $('#titleLoadingNameTable').remove();
+  $('#nameTable_div').append(mainTable());
+	sortTable($("#loadingNameTable")[0], 5, 1, compareInnerHTMLnumerical, true);
+      }
+    }
+  );
+}
+
+function compareInnerHTML(x, y) {
+  if ((x.innerHTML.toLowerCase()) > (y.innerHTML.toLowerCase())) {
+    return 1;
+  } else {
+    if ((x.innerHTML.toLowerCase()) < (y.innerHTML.toLowerCase()))
+      return -1;
+    else
+      return 0;
+  }
+}
+
+function compareInnerHTMLnumerical (x, y) {
+  return parseFloat(x.innerHTML) - parseFloat(y.innerHTML);
+}
+
+function calculateDistance() {
+  var table =  $("#loadingNameTable")[0];
+  var lat, lon;
+  for (var i = 0; i < activeStations.length; i++) {
+    lat = activeStations[i].location.coordinates[1];
+    lon = activeStations[i].location.coordinates[0];
+      activeStations[i].distance = Math.pow((currentLatitude - lat), 2) + Math.pow((currentLongtitude - lon), 2);
+  }
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtV_b50HN_smS-9xqvwkooOCrCXb8QgM4&callback=generateHome"></script>
+</body>
+</html>
